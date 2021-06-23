@@ -44,7 +44,7 @@ function HomePage() {
     // }, []);
 
     return (
-        <div>
+        <div className="home-page">
             <Header />
             <h1>Home</h1>
         </div>

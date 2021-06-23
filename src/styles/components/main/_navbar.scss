@@ -1,0 +1,36 @@
+.navbar-container { 
+    >nav {
+        position: fixed;
+        top: 0;
+        right: 0;
+        z-index: 1000;
+        height: 100%;
+        width: 85%;
+        background: white;
+        opacity: 1;
+    }
+    .hidden-nav {
+        transition: translateX(-85%) 0.5s;
+    }
+    .visible-nav {
+        transition: translateX(0) 0.5s;
+    }
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    width: 100vw;
+    height: 100%;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.54);
+}
+.hidden-backdrop {
+    opacity: 0;
+    transition: all .5s cubic-bezier(.35,0,.25,1);
+}
+.visible-backdrop {
+    opacity: 1;
+    transition: all .5s cubic-bezier(.35,0,.25,1);
+}
