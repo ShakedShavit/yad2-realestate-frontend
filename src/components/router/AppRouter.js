@@ -15,7 +15,7 @@ function AppRouter() {
                     <Route path="/realestate" exact>
                         <Redirect to="/realestate/forsale" />
                     </Route>
-                    <Route path="/realestate/forsale" component={HomePage} />
+                    <Route path="/realestate/forsale" component={HomePage} exact />
                     <Route path="*" component={NotFoundPage} />
                 </Switch>
             </LoginContextProvider>
