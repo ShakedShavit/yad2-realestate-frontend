@@ -1,5 +1,14 @@
+// export const initialUserDataState = {
+//     user: null,
+//     token: ''
+// };
+
 export const initialUserDataState = {
-    user: null,
+    user: {
+        firstName: 'John',
+        lastName: 'Deer',
+        email: 'a@email.com'
+    },
     token: ''
 };
 

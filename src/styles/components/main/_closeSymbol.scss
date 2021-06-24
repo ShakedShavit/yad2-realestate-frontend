@@ -1,0 +1,23 @@
+.close-button {
+    position: absolute;
+    top: 0;
+    width: 24px;
+    height: 24px;
+
+    >div {
+        width: 1.9px;
+        position: absolute;
+        background: black;
+        height: 18px;
+        top: 0;
+        border-radius: 25px;
+    }
+    >div:first-child {
+        left: 9px;
+        transform: rotateZ(315deg);
+    }
+    >div:last-child {
+        left: 9px;
+        transform: rotate(45deg);
+    }
+}

@@ -1,6 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { logoutAction } from '../../actions/loginActions';
+import { logoutInDB } from '../../api/db/user';
+import { LoginContext } from '../../context/loginContext';
+import userIcon from '../../images/user-icon.png';
+import CloseSymbol from './CloseSymbol';
 
-function Navbar({ isNavbarOpen, setIsNavbarOpen }) {
+function Navbar({ setIsNavbarOpen, setIsLoginModalOpen }) {
+    const { userDataState, dispatchUserData } = useContext(LoginContext);
+
     const [backdropClassList, setBackdropClassList] = useState('hidden-backdrop backdrop');
     const [navClassList, setNavClassList] = useState('hidden-nav');
 
@@ -17,9 +25,51 @@ function Navbar({ isNavbarOpen, setIsNavbarOpen }) {
         }, 500);
     }
 
+    const logoutOnClick = () => {
+        logoutInDB(userDataState.token)
+        .catch((err) => { console.log(err) });
+
+        dispatchUserData(logoutAction());
+
+        closeNavbarOnClick();
+    }
+
+    const goToLoginPageOnClick = () => {
+        //history.push('/login');
+        setIsLoginModalOpen(true);
+        setIsNavbarOpen(false);
+        // closeNavbarOnClick();
+    }
+
     return (
         <div className="navbar-container">
-            <nav className={navClassList}></nav>
+            <nav className={navClassList}>
+                <CloseSymbol classNames={"navbar-close"} closeFunc={closeNavbarOnClick} />
+
+                {
+                    !!userDataState.user ?
+                    <div className="nav-top">
+                        <div className="loggedin-container">
+                            <span className="circle name-tag">{userDataState.user.firstName[0]}</span>
+                            <div className="personal-area-container">
+                                <span className="full-name">{userDataState.user.firstName + " " + userDataState.user.lastName}</span>
+                                <span>לאזור האישי</span>
+                            </div>
+                        </div>
+                        <button onClick={logoutOnClick} className="logout-button">התנתקות</button>
+                    </div>
+                    :
+                    <div className="disconnected-container" onClick={goToLoginPageOnClick}>
+                        <div className="circle user-icon">
+                            <img src={userIcon} alt="user-icon"></img>
+                        </div>
+                        <span>התחברות</span>
+                    </div>
+                }
+
+                <NavLink activeClassName="publish-ad__link" to="/">פרסום מודעה</NavLink>
+            </nav>
+
             <div className={backdropClassList} onClick={closeNavbarOnClick}></div>
         </div>
     );

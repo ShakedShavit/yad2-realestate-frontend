@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import yad2LogoWhite from '../../images/yad2-logo-white.svg';
 import Navbar from './Navbar';
 
-function Header(props) {
+function Header({ setIsLoginModalOpen }) {
     const [scrollY, setScrollY] = useState(0);
     const [headerClassList, setHeaderClassList] = useState('header header-visible');
     const [isNavbarOpen, setIsNavbarOpen] = useState(false);
@@ -50,7 +50,11 @@ function Header(props) {
 
             <div className="header-bottom-spacer"></div>
             
-            { isNavbarOpen && <Navbar isNavbarOpen={isNavbarOpen} setIsNavbarOpen={setIsNavbarOpen} /> }
+            { isNavbarOpen &&
+                <Navbar
+                    setIsNavbarOpen={setIsNavbarOpen}
+                    setIsLoginModalOpen={setIsLoginModalOpen}
+                /> }
         </>
     );
 }

@@ -58,12 +58,7 @@
         font-weight: 400;
         color: white;
         background: transparent;
-        border: none;
-        outline: none;
-
-        &:hover {
-            cursor: pointer;
-        }
+        display: block;
     }
 }
 .header-hidden {

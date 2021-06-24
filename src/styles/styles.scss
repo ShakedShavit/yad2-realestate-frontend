@@ -1,5 +1,9 @@
 @import './base/base';
 @import './base/settings';
+@import './components/main/closeSymbol';
+@import './components/main/modal';
 @import './components/home/homePage';
 @import './components/main/header';
 @import './components/main/navbar';
+@import './components/login/loginPage';
+@import './components/login/welcomeBanner';
