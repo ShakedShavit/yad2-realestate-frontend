@@ -1,4 +1,9 @@
 .home-page {
     margin-top: 110px;
-    height: 200vh;
+}
+
+.no-scroll {
+    overflow: hidden;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }

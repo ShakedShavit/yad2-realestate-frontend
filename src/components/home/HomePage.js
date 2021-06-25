@@ -48,11 +48,11 @@ function HomePage() {
     // }, []);
 
     return (
-        <div className="home-page">
+        <div className={isLoginModalOpen ? "home-page no-scroll" : "home-page"}>
             <Header setIsLoginModalOpen={setIsLoginModalOpen} />
             { isLoginModalOpen &&
                 <Modal setIsModalOpen={setIsLoginModalOpen}>
-                    <LoginPage />
+                    <LoginPage setIsLoginModalOpen={setIsLoginModalOpen} />
                 </Modal>
             }
             <h1>Home</h1>
