@@ -4,13 +4,11 @@ import { loginInDB } from '../../api/db/user';
 import { LoginContext } from '../../context/loginContext';
 import WelcomeBanner from './WelcomeBanner';
 
-function LoginPage({ setIsLoginModalOpen }) {
+function LoginPage({ setIsLoginModalOpen, setIsSignupSecondPage, emailVal, setEmailVal, passwordVal, setPasswordVal }) {
     const { dispatchUserData } = useContext(LoginContext);
 
     const [isSignup, setIsSignup] = useState(false);
 
-    const [emailVal, setEmailVal] = useState('');
-    const [passwordVal, setPasswordVal] = useState('');
     const [passwordRepVal, setPasswordRepVal] = useState('');
 
     const [emailErrMsg, setEmailErrMsg] = useState('');
@@ -111,56 +109,47 @@ function LoginPage({ setIsLoginModalOpen }) {
     const onSubmit = (e) => {
         e.preventDefault();
 
-        if (!isSignup) {
-            loginInDB(emailVal, passwordVal)
-            .then((res) => {
-                dispatchUserData(loginAction(res));
-                setIsLoginModalOpen(false);
-            })
-            .catch((err) => {
-                // TODO Send Message
-            });
-        }
+        if (isSignup) return setIsSignupSecondPage(true);
+
+        loginInDB(emailVal, passwordVal)
+        .then((res) => {
+            dispatchUserData(loginAction(res));
+            setIsLoginModalOpen(false);
+        })
+        .catch((err) => {
+            // TODO Send Message
+        });
     }
 
     return (
-        <div className="login-page">
-            <WelcomeBanner />
+        <form className="login-from">
+            <div className="body-form">
+                <label for="email">כתובת מייל</label>
+                <input className={emailInputClassName} name="email" type="email" onBlur={emailInputOnBlur} onChange={emailInputOnChange} placeholder="your@mail.com"></input>
+                { emailErrMsg.length !== 0 && <span>{emailErrMsg}</span> }
 
-            <div className="header-login">
-                <h3>{ isSignup ? "הרשמה" : "התחברות" }</h3>
-                <p>{ isSignup ? "הזן את הפרטים כדי להירשם" : "הזן את הפרטים כדי להתחבר" }</p>
+                <label for="password">סיסמה</label>
+                <input className={passwordInputClassName} name="password" type="password" onBlur={passwordInputOnBlur} onChange={passwordInputOnChange} placeholder={isSignup ? "6 תווים, אותיות באנגלית וספרה" : "הקלד סיסמה"}></input>
+                { passwordErrMsg.length !== 0 && <span>{passwordErrMsg}</span> }
+            
+                {
+                    isSignup &&
+                    <>
+                        <input className={passwordRepInputClassName} name="password-rep" type="password" onBlur={passwordRepInputOnBlur} onChange={passwordRepInputOnChange} placeholder={"חזור על הסיסמה שהקלדת"}></input>
+                        { passwordRepErrMsg.length !== 0 && <span>{passwordRepErrMsg}</span> }
+                    </>
+                }
             </div>
-
-            <form className="login-from">
-                <div className="body-form">
-                    <label for="email">כתובת מייל</label>
-                    <input className={emailInputClassName} name="email" type="email" onBlur={emailInputOnBlur} onChange={emailInputOnChange} placeholder="your@mail.com"></input>
-                    { emailErrMsg.length !== 0 && <span>{emailErrMsg}</span> }
-
-                    <label for="password">סיסמה</label>
-                    <input className={passwordInputClassName} name="password" type="password" onBlur={passwordInputOnBlur} onChange={passwordInputOnChange} placeholder={isSignup ? "6 תווים, אותיות באנגלית וספרה" : "הקלד סיסמה"}></input>
-                    { passwordErrMsg.length !== 0 && <span>{passwordErrMsg}</span> }
-                
-                    {
-                        isSignup &&
-                        <>
-                            <input className={passwordRepInputClassName} name="password-rep" type="password" onBlur={passwordRepInputOnBlur} onChange={passwordRepInputOnChange} placeholder={"חזור על הסיסמה שהקלדת"}></input>
-                            { passwordRepErrMsg.length !== 0 && <span>{passwordRepErrMsg}</span> }
-                        </>
-                    }
+            
+            <div className="footer-form">
+                <button onClick={onSubmit} disabled={!isEmailValid || !isPasswordValid || (isSignup && !isPasswordRepValid)}>{ isSignup ? "המשך" : "התחבר"}</button>
+                <div>
+                    <span>{isSignup ? "כבר רשום?" : "לא רשום?"}</span>
+                    <span>&nbsp;</span>
+                    <span className="switch-forms-link" onClick={() => { setIsSignup(!isSignup); }}>{isSignup ? "להתחברות" : "להרשמה"}</span>
                 </div>
-                
-                <div className="footer-form">
-                    <button onClick={onSubmit} disabled={!isEmailValid || !isPasswordValid || (isSignup && !isPasswordRepValid)}>{ isSignup ? "המשך" : "התחבר"}</button>
-                    <div>
-                        <span>{isSignup ? "כבר רשום?" : "לא רשום?"}</span>
-                        <span>&nbsp;</span>
-                        <span className="switch-forms-link" onClick={() => { setIsSignup(!isSignup); }}>{isSignup ? "להתחברות" : "להרשמה"}</span>
-                    </div>
-                </div>
-            </form>
-        </div>
+            </div>
+        </form>
     );
 }
 
