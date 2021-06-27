@@ -1,0 +1,19 @@
+.publish-ad__link {
+    display: block;
+    width: 170px;
+    border-radius: 17px;
+    margin: 15px auto;
+
+    background: #0fca80;
+    color: white;
+    text-decoration: none;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 35px;
+    text-align: center;
+
+    &:hover {
+        background: #0e9c64;
+    }
+}

@@ -1,7 +1,9 @@
   
 import React, { useEffect } from 'react'
+import CloseSymbol from './CloseSymbol';
+import checkIcon from '../../images/check.png';
 
-const Notification = ({ text, setIsNotificationOpen }) => {
+const Notification = ({ text, setIsNotificationOpen, isSuccess }) => {
     const closeNotification = () => {
         setIsNotificationOpen(false);
     }
@@ -12,8 +14,16 @@ const Notification = ({ text, setIsNotificationOpen }) => {
 
     return (
         <div className="notification-container">
-            <span>{text}</span>
-            <div className="close-notification-container"><span className="close-notification" onClick={closeNotification}>x</span></div>
+            <div className="notification-body">
+            { isSuccess ?
+                <img src={checkIcon} alt={"success-icon"}></img>
+                :
+                <CloseSymbol closeFunc={() => {}} />
+            }
+                <span>{text}</span>
+            </div>
+
+            <CloseSymbol closeFunc={closeNotification} classNames={"close-notification"} />       
         </div>
     )
 }

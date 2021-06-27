@@ -1,0 +1,50 @@
+.notification-container {
+    position: fixed;
+    z-index: 2000;
+    top: 20px;
+    right: 2.5%;
+    width: 95%;
+    max-width: 636px;
+    min-height: 50px;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 3px 10px 0 rgba(0,0,0,.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    .close-button {
+        position: relative;
+    }
+
+    .notification-body {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        column-gap: 10px;
+
+        img {
+            height: 24px;
+        }
+
+        .close-button {
+            background: rgba(255, 0, 0, 0.212);
+            border-radius: 50%;
+            position: relative;
+
+            div {
+                top: 4px;
+                left: 11px;
+                background: red;
+                height: 16px;
+            }
+        }
+    }
+}

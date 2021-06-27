@@ -2,12 +2,16 @@ import React, { useContext, useEffect, useState } from 'react';
 import { loginAction } from '../../actions/loginActions';
 import { loginInDB } from '../../api/db/user';
 import { LoginContext } from '../../context/loginContext';
-import WelcomeBanner from './WelcomeBanner';
+import { saveUserOnCookie } from '../../cookies/userDataCookies';
+import Loader from '../main/Loader';
+import Notification from '../main/Notification';
 
-function LoginPage({ setIsLoginModalOpen, setIsSignupSecondPage, emailVal, setEmailVal, passwordVal, setPasswordVal }) {
+function LoginPage(props) {
     const { dispatchUserData } = useContext(LoginContext);
 
-    const [isSignup, setIsSignup] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isErrNotification, setIsErrNotification] = useState(false);
+    const [loginErrMsg, setLoginErrMsg] = useState('');
 
     const [passwordRepVal, setPasswordRepVal] = useState('');
 
@@ -29,19 +33,9 @@ function LoginPage({ setIsLoginModalOpen, setIsSignupSecondPage, emailVal, setEm
     
     const isInputEmpty = e => e.target.value.length === 0;
 
-    const emailInputOnBlur = (e) => {
-        if (isInputEmpty(e)) setEmailErrMsg(emptyFieldErrMsg);
-    }
-    const passwordInputOnBlur = (e) => {
-        if (isInputEmpty(e)) setPasswordErrMsg(emptyFieldErrMsg);
-    }
-    const passwordRepInputOnBlur = (e) => {
-        if (isInputEmpty(e)) setPasswordRepErrMsg(emptyFieldErrMsg);
-    }
-
     const emailInputOnChange = (e) => {
         const email = e.target.value;
-        setEmailVal(email);
+        props.setEmailVal(email);
 
         if (isInputEmpty(e)) return setEmailErrMsg(emptyFieldErrMsg);
         const emailPattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
@@ -52,10 +46,10 @@ function LoginPage({ setIsLoginModalOpen, setIsSignupSecondPage, emailVal, setEm
     }
     const passwordInputOnChange = (e) => {
         const password = e.target.value;
-        setPasswordVal(password);
+        props.setPasswordVal(password);
 
         if (isInputEmpty(e)) return setPasswordErrMsg(emptyFieldErrMsg);
-        if (isSignup) {
+        if (props.isSignup) {
             if (password.length < 6) return setPasswordErrMsg(' מינימום 6 תווים');
             if (!(/.*[a-z].*/.test(password))) return setPasswordErrMsg('לפחות אות קטנה אחת ');
             if (!(/.*[A-Z].*/.test(password))) return setPasswordErrMsg('לפחות אות גדולה אחת ');
@@ -70,7 +64,7 @@ function LoginPage({ setIsLoginModalOpen, setIsSignupSecondPage, emailVal, setEm
         setPasswordRepVal(repPassword);
 
         if (isInputEmpty(e)) return setPasswordRepErrMsg(emptyFieldErrMsg);
-        if (repPassword !== passwordVal) return;
+        if (repPassword !== props.passwordVal) return;
 
         setIsPasswordRepValid(true);
         setPasswordRepErrMsg('');
@@ -78,10 +72,10 @@ function LoginPage({ setIsLoginModalOpen, setIsSignupSecondPage, emailVal, setEm
 
     useEffect(() => {
         if (!passwordRepVal) return;
-        if (passwordVal !== passwordRepVal) return setPasswordRepErrMsg('סיסמה לא תואמת ');
+        if (props.passwordVal !== passwordRepVal) return setPasswordRepErrMsg('סיסמה לא תואמת ');
         setPasswordRepErrMsg('');
         setIsPasswordRepValid(true);
-    }, [passwordVal, passwordRepVal, passwordRepInputClassName]);
+    }, [props.passwordVal, passwordRepVal, passwordRepInputClassName]);
 
     useEffect(() => {
         if (!!emailErrMsg) setIsEmailValid(false);
@@ -109,47 +103,71 @@ function LoginPage({ setIsLoginModalOpen, setIsSignupSecondPage, emailVal, setEm
     const onSubmit = (e) => {
         e.preventDefault();
 
-        if (isSignup) return setIsSignupSecondPage(true);
+        if (props.isSignup) return props.setIsSignupSecondPage(true);
 
-        loginInDB(emailVal, passwordVal)
+        loginInDB(props.emailVal, props.passwordVal)
         .then((res) => {
             dispatchUserData(loginAction(res));
-            setIsLoginModalOpen(false);
+            setIsLoading(false);
+            props.setIsLoginNotification(true);
+            saveUserOnCookie(res);
+            props.setIsLoginModalOpen(false);
         })
         .catch((err) => {
-            // TODO Send Message
+            setIsLoading(false);
+            setIsErrNotification(true);
+            setLoginErrMsg(err.message);
         });
     }
-
+    
     return (
+        <>
         <form className="login-from">
             <div className="body-form">
                 <label for="email">כתובת מייל</label>
-                <input className={emailInputClassName} name="email" type="email" onBlur={emailInputOnBlur} onChange={emailInputOnChange} placeholder="your@mail.com"></input>
+                <input className={emailInputClassName} name="email" type="email" onBlur={emailInputOnChange} onChange={emailInputOnChange} placeholder="your@mail.com"></input>
                 { emailErrMsg.length !== 0 && <span>{emailErrMsg}</span> }
 
                 <label for="password">סיסמה</label>
-                <input className={passwordInputClassName} name="password" type="password" onBlur={passwordInputOnBlur} onChange={passwordInputOnChange} placeholder={isSignup ? "6 תווים, אותיות באנגלית וספרה" : "הקלד סיסמה"}></input>
+                <input className={passwordInputClassName} name="password" type="password" onBlur={passwordInputOnChange} onChange={passwordInputOnChange} placeholder={props.isSignup ? "6 תווים, אותיות באנגלית וספרה" : "הקלד סיסמה"}></input>
                 { passwordErrMsg.length !== 0 && <span>{passwordErrMsg}</span> }
             
                 {
-                    isSignup &&
+                    props.isSignup &&
                     <>
-                        <input className={passwordRepInputClassName} name="password-rep" type="password" onBlur={passwordRepInputOnBlur} onChange={passwordRepInputOnChange} placeholder={"חזור על הסיסמה שהקלדת"}></input>
+                        <input className={passwordRepInputClassName} name="password-rep" type="password" onBlur={passwordRepInputOnChange} onChange={passwordRepInputOnChange} placeholder={"חזור על הסיסמה שהקלדת"}></input>
                         { passwordRepErrMsg.length !== 0 && <span>{passwordRepErrMsg}</span> }
                     </>
                 }
             </div>
             
             <div className="footer-form">
-                <button onClick={onSubmit} disabled={!isEmailValid || !isPasswordValid || (isSignup && !isPasswordRepValid)}>{ isSignup ? "המשך" : "התחבר"}</button>
+                <button onClick={onSubmit} disabled={!isEmailValid || !isPasswordValid || (props.isSignup && !isPasswordRepValid)}>
+                { props.isSignup ?
+                    "המשך"
+                    :
+                    <>
+                    { isLoading ?
+                        <Loader />
+                        :
+                        "התחבר"
+                    }
+                    </>
+                }
+                </button>
+
                 <div>
-                    <span>{isSignup ? "כבר רשום?" : "לא רשום?"}</span>
+                    <span>{props.isSignup ? "כבר רשום?" : "לא רשום?"}</span>
                     <span>&nbsp;</span>
-                    <span className="switch-forms-link" onClick={() => { setIsSignup(!isSignup); }}>{isSignup ? "להתחברות" : "להרשמה"}</span>
+                    <span className="link-span" onClick={() => { props.setIsSignup(!props.isSignup); }}>{props.isSignup ? "להתחברות" : "להרשמה"}</span>
                 </div>
             </div>
         </form>
+        
+        { isErrNotification &&
+            <Notification isSuccess={false} setIsNotificationOpen={setIsErrNotification} text={loginErrMsg}  />
+        }
+        </>
     );
 }
 

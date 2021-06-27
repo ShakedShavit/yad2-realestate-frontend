@@ -10,8 +10,8 @@ const LoginRoute = ({ component: Component, ...rest }) => {
             { ...rest }
             component={(props) => (
                 !!userDataState.user ?
-                <Redirect to='/' />:
-                <Component { ...props } />
+                <Component { ...props } /> :
+                <Redirect to='/' />
             )}
         />
     );

@@ -5,6 +5,7 @@ import { logoutInDB } from '../../api/db/user';
 import { LoginContext } from '../../context/loginContext';
 import userIcon from '../../images/user-icon.png';
 import CloseSymbol from './CloseSymbol';
+import PublishButton from './PublishButton';
 
 function Navbar({ setIsNavbarOpen, setIsLoginModalOpen }) {
     const { userDataState, dispatchUserData } = useContext(LoginContext);
@@ -67,7 +68,7 @@ function Navbar({ setIsNavbarOpen, setIsLoginModalOpen }) {
                     </div>
                 }
 
-                <NavLink activeClassName="publish-ad__link" to="/">פרסום מודעה</NavLink>
+                <PublishButton />
             </nav>
 
             <div className={backdropClassList} onClick={closeNavbarOnClick}></div>

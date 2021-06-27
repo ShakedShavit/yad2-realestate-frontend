@@ -10,6 +10,7 @@ import SignupSecondPage from '../login/SignupSecondPage';
 import WelcomeBanner from '../login/WelcomeBanner';
 import Header from '../main/Header';
 import Modal from '../main/Modal';
+import Notification from '../main/Notification';
 
 function HomePage() {
     const cookiesSearchQueryParamsData = getSearchParamsFromCookie(); // !! Check if this works
@@ -17,6 +18,7 @@ function HomePage() {
     const [apartmentsState, dispatchApartmentsData] = useReducer(apartmentsReducer, initialApartmentsState);
 
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+    const [isLoginNotification, setIsLoginNotification] = useState(false);
     const [isSignup, setIsSignup] = useState(false);
     const [isSignupSecondPage, setIsSignupSecondPage] = useState(false);
     const [emailVal, setEmailVal] = useState('');
@@ -57,13 +59,14 @@ function HomePage() {
     }, [isLoginModalOpen, isSignupSecondPage]);
 
     return (
+        <>
         <div className={isLoginModalOpen ? "home-page no-scroll" : "home-page"}>
             <Header setIsLoginModalOpen={setIsLoginModalOpen} />
             
             { isLoginModalOpen &&
                 <Modal setIsModalOpen={setIsLoginModalOpen}>
                     <div className="login-page">
-                        <WelcomeBanner />
+                        <WelcomeBanner isSignup={isSignup} />
 
                         <div className="header-login">
                             <h3>{ isSignup ? "הרשמה" : "התחברות" }</h3>
@@ -71,7 +74,7 @@ function HomePage() {
                         </div>
 
                         {
-                        !isSignup && !isSignupSecondPage ?
+                        !isSignupSecondPage ?
                         <LoginPage
                             isSignup={isSignup}
                             setIsSignup={setIsSignup}
@@ -81,6 +84,7 @@ function HomePage() {
                             setEmailVal={setEmailVal}
                             passwordVal={passwordVal}
                             setPasswordVal={setPasswordVal}
+                            setIsLoginNotification={setIsLoginNotification}
                         />
                         :
                         <SignupSecondPage
@@ -90,6 +94,7 @@ function HomePage() {
                             setEmailVal={setEmailVal}
                             passwordVal={passwordVal}
                             setPasswordVal={setPasswordVal}
+                            setIsLoginNotification={setIsLoginNotification}
                         />
                         }
                     </div>
@@ -98,6 +103,9 @@ function HomePage() {
 
             <h1>Home</h1>
         </div>
+
+        { isLoginNotification && <Notification text="התחברת בהצלחה" isSuccess={true} setIsNotificationOpen={setIsLoginNotification}  /> }
+        </>
     );
 }
 
