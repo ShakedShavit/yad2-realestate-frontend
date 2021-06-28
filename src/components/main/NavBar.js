@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { logoutAction } from '../../actions/loginActions';
-import { logoutInDB } from '../../api/db/user';
+import { logoutInDB } from '../../server/api/user';
 import { LoginContext } from '../../context/loginContext';
 import userIcon from '../../images/user-icon.png';
 import CloseSymbol from './CloseSymbol';

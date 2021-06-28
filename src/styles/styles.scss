@@ -5,10 +5,15 @@
 @import './components/main/modal';
 @import './components/main/notification';
 @import './components/main/publishButton';
+@import './components/main/form';
 @import './components/home/homePage';
 @import './components/main/header';
 @import './components/main/navbar';
 @import './components/login/loginPage';
 @import './components/login/welcomeBanner';
 @import './components/apartments/publish/header';
+@import './components/apartments/publish/card';
+@import './components/apartments/publish/pages/basePage';
 @import './components/apartments/publish/publishApartment';
+@import './components/apartments/publish/pages/pageFooter';
+@import './components/apartments/publish/pages/addressPage';

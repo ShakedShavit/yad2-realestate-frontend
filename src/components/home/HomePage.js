@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import { addApartmentsAction, newApartmentsAction } from '../../actions/apartmentsActions';
 import { newSearchParamsAction } from '../../actions/searchParamsActions';
-import { fetchApartmentsFromDB } from '../../api/db/apartment';
+import { fetchApartmentsFromDB } from '../../server/api/apartment';
 import { getSearchParamsFromCookie, saveSearchParamsOnCookie } from '../../cookies/searchParamsCookies';
 import apartmentsReducer, { initialApartmentsState } from '../../reducers/apartmentsReducer';
 import searchParamsReducer, { initialSearchParamsState } from '../../reducers/searchParamsReducer';

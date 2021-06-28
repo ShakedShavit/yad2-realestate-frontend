@@ -1,0 +1,19 @@
+.publish-page-content {
+    font-size: 16px;
+    font-weight: 400;
+    color: #363636;
+    padding: 1% 5%;
+    // margin-top: 135px;
+    margin-top: 20px;
+
+    >form {
+        margin: 50px 0;
+        font-size: 16px;
+        font-weight: 400;
+        color: #363636;
+
+        label {
+            cursor: pointer;
+        }
+    }
+}

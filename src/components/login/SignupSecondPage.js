@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { loginAction } from '../../actions/loginActions';
-import { signupInDB } from '../../api/db/user';
+import { signupInDB } from '../../server/api/user';
 import { LoginContext } from '../../context/loginContext';
 import { saveUserOnCookie } from '../../cookies/userDataCookies';
 import Loader from '../main/Loader';
@@ -134,7 +134,7 @@ function SignupSecondPage(props) {
     return (
         <>
         <form onSubmit={signupOnSubmit} className="login-from second-signup-form">
-            <div className="body-form">
+            <div className="form-body">
                 <label for="first-name">שם פרטי</label>
                 <input name="first-name" type="text" placeholder="הקלד שם פרטי" className={firstNameClassName} onChange={firstNameOnChange} onBlur={firstNameOnChange}></input>
                 { firstNameErrMsg.length !== 0 && <span>{firstNameErrMsg}</span> }

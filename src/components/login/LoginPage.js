@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { loginAction } from '../../actions/loginActions';
-import { loginInDB } from '../../api/db/user';
+import { loginInDB } from '../../server/api/user';
 import { LoginContext } from '../../context/loginContext';
 import { saveUserOnCookie } from '../../cookies/userDataCookies';
 import Loader from '../main/Loader';
@@ -123,7 +123,7 @@ function LoginPage(props) {
     return (
         <>
         <form className="login-from">
-            <div className="body-form">
+            <div className="form-body">
                 <label for="email">כתובת מייל</label>
                 <input className={emailInputClassName} name="email" type="email" onBlur={emailInputOnChange} onChange={emailInputOnChange} placeholder="your@mail.com"></input>
                 { emailErrMsg.length !== 0 && <span>{emailErrMsg}</span> }

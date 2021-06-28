@@ -1,13 +1,13 @@
-export const addApartmentPropsAction = (propertiesObj) => ({
-    type: "ADD_APARTMENT_PROPERTY",
-    newProperties: propertiesObj
+// export const addApartmentPropsAction = (propertiesObj = {}) => ({
+//     type: "ADD_APARTMENT_PROPERTIES",
+//     newProperties: propertiesObj
+// });
+
+export const goToNextPublishPageAction = (propertiesObj = {}) => ({
+    type: "GO_TO_NEXT_PAGE"
 });
 
-export const nextPublishPageAction = () => ({
-    type: "NEXT_PAGE"
-});
-
-export const goToPrevPublishPageAction = (prevPage) => ({
+export const goToPrevPublishPageAction = (prevPage = 0) => ({
     type: "RETURN_TO_PREV_PAGE",
     prevPage
 });
