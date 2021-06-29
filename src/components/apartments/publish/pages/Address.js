@@ -3,30 +3,67 @@ import PageFooter from './PageFooter';
 import videoIcon from '../../../../images/video-icon.png';
 import { PublishApartmentContext } from '../../../../context/apartmentPublishContext';
 import axios from 'axios';
+import AutoCompleteInput from '../AutoCompleteInput';
+import SelectOption from '../SelectOption';
 
 function Address(props) {
     const { apartmentPublishState, dispatchApartmentPublishData } = useContext(PublishApartmentContext);
 
-    const [citiesInputList, setCitiesInputList] = useState([]);
-    const [cityInputClassList, setCitiesInputClassListList] = useState('');
     const [chosenCity, setChosenCity] = useState('');
-    const [cityStreets, setCityStreets] = useState([]); 
+    const [chosenStreet, setChosenStreet] = useState(''); 
+    const [allStreetsListState, setAllStreetsListState] = useState([]);
 
-    const citiesList = useRef([]);
-    const cityInput = useRef(null);
+    const allCitiesListRef = useRef([]);
+    const allStreetsListRef = useRef([]);
+
+    const [apartmentType, setApartmentType] = useState('');
+    const [apartmentCondition, setApartmentCondition] = useState('');
+    const [houseNum, setHouseNum] = useState('');
+    const [floorNum, setFloorNum] = useState('');
+    const [maxFloors, setMaxFloors] = useState('');
+    const [isOnPolls, setIsOnPolls] = useState(false);
+
+    const [cityErrMsg, setCityErrMsg] = useState('');
+    const [streetErrMsg, setStreetErrMsg] = useState('');
+    const [apartmentTypeErrMsg, setApartmentTypeErrMsg] = useState('');
+    const [apartmentConditionErrMsg, setApartmentConditionErrMsg] = useState('');
+    const [houseNumErrMsg, setHouseNumErrMsg] = useState('');
+    const [floorNumErrMsg, setFloorNumErrMsg] = useState('');
+    const [maxFloorsErrMsg, setMaxFloorsErrMsg] = useState('');
+
+    const emptyFieldErrMsg = "שדה חובה";
+    const apartmentTypesHebrew = [
+        "דירה",
+        "דירת גן",
+        "בית פרטי/קוטג'",
+        "גג/פנטהאוז",
+        "מגרשים",
+        "דופלקס",
+        "דירת נופש",
+        "דו משפחתי",
+        "מרתף/פרטר",
+        "טריפלקס",
+        "יחידת דיור",
+        "משק חקלאי/נחלה",
+        "משק עזר",
+        "דיור מוגן",
+        "בניין מגורים",
+        "סטודיו/לופט",
+        "מחסן",
+        "קב' רכישה/זכות לנכס",
+        "חניה",
+        "כללי"
+    ];
+    const apartmentConditionsHebrew = [
+        "חדש מקבלן (לא גרו בו בכלל)",
+        "חדש (נכס בן עד 5 שנים)",
+        "משופץ (שופץ ב5 השנים האחרונות)",
+        "במצב שמור (במצב טוב, לא שופץ)",
+        "דרוש שיפוץ (זקוק לעבודת שיפוץ)"
+    ];
 
     useEffect(() => {
         props.setTitle('כתובת הנכס');
-
-        // axios.get('citiesSearchGraph.json', {
-        //     headers : { 
-        //         'Content-Type': 'application/json',
-        //         'Accept': 'application/json'
-        //         }
-        //     })
-        //     .then((response) => {
-        //         citiesSearchGraph.current = response.data;
-        //     });
 
         axios.get('citiesArray.json', {
             headers : { 
@@ -35,52 +72,13 @@ function Address(props) {
                 }
             })
             .then((response) => {
-                citiesList.current = response.data;
+                allCitiesListRef.current = response.data;
             });
-
-        const resetCitiesInputList = () => setCitiesInputList([]);
-
-        window.addEventListener('click', resetCitiesInputList);
-        return (() => {
-            window.removeEventListener('click', resetCitiesInputList);
-        });
     });
 
-    const cityInputOnChange = async (e) => {
-        setCityStreets([]);
-        setChosenCity('');
-
-        const cityInput = e.target.value;
-        const inputLength = cityInput.length;
-        if (inputLength < 2) return setCitiesInputList([]);;
-        
-        let possibleCities = [];
-        citiesList.current.forEach((city) => {
-            if (city.substring(0, inputLength) === cityInput) possibleCities.push(city);
-        });
-        setCitiesInputList(possibleCities);
-    }
-    const chooseCityOnClick = (value) => {
-        cityInput.current.value = value;
-        setChosenCity(value);
-    }
-
-    const cityInputOnFocus = () => {
-        setCitiesInputClassListList('blue-border-input');
-    }
-    const cityInputOnBlur = () => {
-        setCitiesInputClassListList('');
-    }
-
     useEffect(() => {
-        if (citiesInputList.length > 0) return setCitiesInputClassListList('blue-border-input blue-border-input__with-options');
-        setCitiesInputClassListList('blue-border-input');
-    }, [citiesInputList.length]);
+        if (!chosenCity) return setAllStreetsListState([]);
 
-
-    useEffect(() => {
-        if (!chosenCity || chosenCity !== cityInput.current?.value) return;
-        
         axios.get('streetsGraph.json', {
             headers : { 
                 'Content-Type': 'application/json',
@@ -88,19 +86,69 @@ function Address(props) {
                 }
             })
             .then((response) => {
-                setCityStreets(response.data[chosenCity] || []);
-                console.log(response.data[chosenCity]);
-            });
+                const newOptions = response.data[chosenCity] || [];
+                allStreetsListRef.current = newOptions;
+                setAllStreetsListState(newOptions);
+            })
+            .catch((err) => { setAllStreetsListState([]); });
     }, [chosenCity]);
 
     useEffect(() => {
-        console.log(cityStreets);
-    }, [cityStreets])
-
-
+        setCityErrMsg('');
+    }, [chosenCity]);
+    useEffect(() => {
+        setStreetErrMsg('');
+    }, [chosenStreet]);
+    useEffect(() => {
+        console.log(apartmentType);
+        setApartmentTypeErrMsg('');
+    }, [apartmentType]);
+    useEffect(() => {
+        setApartmentConditionErrMsg('');
+    }, [apartmentCondition]);
+    useEffect(() => {
+        setHouseNumErrMsg('');
+    }, [houseNum]);
+    useEffect(() => {
+        setFloorNumErrMsg('');
+    }, [floorNum]);
+    useEffect(() => {
+        setMaxFloorsErrMsg('');
+    }, [maxFloors]);
 
     const validateFormOnClick = () => {
-        // Check if city is in list
+        let isFormValid = true;
+
+        if (chosenCity === '') {
+            setCityErrMsg('יש לבחור ישוב מתוך הרשימה');
+            isFormValid = false;
+        }
+        if (chosenStreet === '' && allStreetsListState.length !== 0) {
+            setStreetErrMsg('יש לבחור רחוב מתוך הרשימה');
+            isFormValid = false;
+        }
+        if (apartmentType === '') {
+            setApartmentTypeErrMsg('שדה חובה סוג הנכס');
+            isFormValid = false;
+        }
+        if (apartmentCondition === '') {
+            setApartmentConditionErrMsg('שדה חובה מצב הנכס');
+            isFormValid = false;
+        }
+        if (houseNum === '') {
+            setHouseNumErrMsg(emptyFieldErrMsg);
+            isFormValid = false;
+        }
+        if (floorNum === '') {
+            setFloorNumErrMsg(emptyFieldErrMsg);
+            isFormValid = false;
+        }
+        if (maxFloors === '') {
+            setMaxFloorsErrMsg(emptyFieldErrMsg);
+            isFormValid = false;
+        }
+
+        if (!isFormValid) return { isFormValid, newProperties: {} };
     }
 
     return (
@@ -117,67 +165,71 @@ function Address(props) {
 
                 <form className="form-body address-form">
                     <label>סוג הנכס<b>*</b></label>
-                    <select selected={apartmentPublishState.apartment.type || "דירה"}>
-                        <option value="דירה">דירה</option>
-                        <option value="דירת גן">דירת גן</option>
-                        <option value="בית פרטי\קוטג'">בית פרטי\קוטג'</option>
-                        <option value="גג\פנטהאוז">גג\פנטהאוז</option>
-                        <option value="מגרשים">מגרשים</option>
-                        <option value="דופלקס">דופלקס</option>
-                        <option value="דירת נופש">דירת נופש</option>
-                        <option value="דו משפחתי">דו משפחתי</option>
-                        <option value="מרתף\פרטר">מרתף\פרטר</option>
-                        <option value="טריפלקס">טריפלקס</option>
-                        <option value="יחידת דיור">יחידת דיור</option>
-                        <option value="משק חקלאי\נחלה">משק חקלאי\נחלה</option>
-                        <option value="משק עזר">משק עזר</option>
-                        <option value="דיור מוגן">דיור מוגן</option>
-                        <option value="בניין מגורים">בניין מגורים</option>
-                        <option value="סטודיו\לופט">סטודיו\לופט</option>
-                        <option value="מחסן">מחסן</option>
-                        <option value="קב' רכישה\זכות לנכס">קב' רכישה\זכות לנכס</option>
-                        <option value="חניה">חניה</option>
-                        <option value="כללי">כללי</option>
+                    <select onChange={(e) => { setApartmentType(e.target.value); }}>
+                    { ["דירה או אולי פנטהאוז?", ...apartmentTypesHebrew].map((typeStr, index) => {
+                        return (
+                            <SelectOption
+                                value={typeStr}
+                                isDefaultValue={index === 0}
+                                key={index}
+                            />
+                        );
+                    })}
                     </select>
+                    { apartmentTypeErrMsg.length !== 0 && <span className="input-err-msg">{apartmentTypeErrMsg}</span> }
 
                     <label>מצב הנכס<b>*</b></label>
-                    <select selected={apartmentPublishState.apartment.type || "דירה"}>
-                        <option value="דירה">חדש מקבלן (לא גרו בו בכלל)</option>
-                        <option value="חדש (נכס בן עד 5 שנים)">חדש (נכס בן עד 5 שנים)</option>
-                        <option value="משופץ (שופץ ב5 השנים האחרונות)">משופץ (שופץ ב5 השנים האחרונות)</option>
-                        <option value="במצב שמור (במצב טוב, לא שופץ)">במצב שמור (במצב טוב, לא שופץ)</option>
-                        <option value="דרוש שיפוץ (דקוק לעבודת שיפוץ)">דרוש שיפוץ (זקוק לעבודת שיפוץ)</option>
+                    <select onChange={(e) => { setApartmentCondition(e.target.value); }}>
+                    { ["משופץ? חדש מקבלן?", ...apartmentConditionsHebrew].map((conditionStr, index) => {
+                        return (
+                            <SelectOption
+                                value={conditionStr}
+                                isDefaultValue={index === 0}
+                                key={index}
+                            />
+                        );
+                    })}
                     </select>
+                    { apartmentConditionErrMsg.length !== 0 && <span className="input-err-msg">{apartmentConditionErrMsg}</span> }
 
                     <label>ישוב<b>*</b></label>
-                    <input
-                        className={cityInputClassList}
-                        ref={cityInput}
-                        type="text"
-                        onFocus={cityInputOnFocus}
-                        onBlur={cityInputOnBlur}
-                        onChange={cityInputOnChange} />
-                    { citiesInputList.length > 0 &&
-                        <div className="city-input-options">
-                        { citiesInputList.map((city, index) => {
-                            return (
-                            <div
-                                key={index}
-                                onClick={() => { chooseCityOnClick(citiesInputList[index]); }}
-                                className="location-input-option"
-                            >
-                                <b>{city.substring(0, cityInput.current.value.length)}</b>
-                                { (city[cityInput.current.value.length - 1] === ' ' || city[cityInput.current.value.length] === ' ')
-                                    && <span>&#160;</span>
-                                }
-                                <span>{city.substring(cityInput.current.value.length)}</span>
-                            </div>)
-                        })}
-                        </div>
-                    }
+                    <AutoCompleteInput
+                        allOptionsListRef={allCitiesListRef}
+                        setChosenOption={setChosenCity}
+                        chosenOption={chosenCity}
+                        isDisabled={false}
+                        placeHolder={"איפה נמצא הנכס?"}
+                    />
+                    { cityErrMsg.length !== 0 && <span className="input-err-msg">{cityErrMsg}</span> }
 
-                    <label>רחוב{cityStreets.length > 0 && <b>*</b>}</label>
-                    <input />
+                    <label>רחוב{allStreetsListState.length > 0 && <b>*</b>}</label>
+                    <AutoCompleteInput
+                        allOptionsListRef={allStreetsListRef}
+                        setChosenOption={setChosenStreet}
+                        chosenOption={chosenStreet}
+                        isDisabled={allStreetsListState.length === 0}
+                        placeHolder={"הכנסת שם הרחוב"}
+                    />
+                    <span className="street-input-disclaimer">המידע הזה מגיע מגוף ממשלתי, אם הרחוב שלך לא מופיע, מומלץ לבחור רחוב קרוב אליך</span>
+                    { streetErrMsg.length !== 0 && <span className="input-err-msg"><br></br>{streetErrMsg}</span> }
+
+                    <label>מספר בית<b>*</b></label>
+                    <input onChange={(e) => { setHouseNum(e.target.value) }} type="number" min="0" />
+                    { houseNumErrMsg.length !== 0 && <span className="input-err-msg">{houseNumErrMsg}</span> }
+
+                    <div className="building-details-container">
+                        <label>קומה<b>*</b></label>
+                        <label>סה"כ קומות בבניין<b>*</b></label>
+                        <input onChange={(e) => { setFloorNum(e.target.value) }} type="number" />
+                        <input onChange={(e) => { setMaxFloors(e.target.value) }} type="number" />
+                        { floorNumErrMsg.length !== 0 ? <span className="input-err-msg">{floorNumErrMsg}</span> : <div></div> }
+                        { maxFloorsErrMsg.length !== 0 && <span className="input-err-msg">{maxFloorsErrMsg}</span> }
+                    </div>
+
+                    <div class="checkbox-container">
+                        <input type="checkbox" onChange={(e) => { setIsOnPolls(e.target.checked); }}/>
+                        <label>על עמודים</label>
+                    </div>
                 </form>
 
                 <PageFooter

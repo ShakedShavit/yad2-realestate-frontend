@@ -1,0 +1,30 @@
+.auto-complete-wrapper {
+    .blue-border-input {
+        border: 2px solid rgb(25, 106, 172);
+    }
+    .blue-border-input__with-options {
+        border-bottom: none;
+    }
+    
+    .input-options-container {
+        width: 100%;
+        border: 1px solid rgb(209, 209, 209);
+    
+        div {
+            padding: 15px 5px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            font-size: 17px;
+    
+            &:hover {
+                background: rgb(228, 228, 228);
+                cursor: pointer;
+            }
+            
+            b {
+                font-weight: 700;
+            }
+        }
+    }
+}

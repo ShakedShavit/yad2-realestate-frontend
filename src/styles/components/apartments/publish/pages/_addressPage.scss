@@ -28,32 +28,38 @@
 }
 
 .address-form {
-    .blue-border-input {
-        border: 2px solid rgb(25, 106, 172);
-    }
-    .blue-border-input__with-options {
-        border-bottom: none;
+    select {
+        font-size: 16px;
     }
 
-    .city-input-options {
-        width: 100%;
-        border: 1px solid rgb(209, 209, 209);
+    .street-input-disclaimer {
+        font-size: 12px;
+    }
 
-        div {
-            padding: 10px 5px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            font-size: 17px;
+    .building-details-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        column-gap: 15px;
 
-            &:hover {
-                background: rgb(228, 228, 228);
-                cursor: pointer;
-            }
-            
-            b {
-                font-weight: 700;
-            }
+        >* {
+            width: calc((100% - 15px) / 2);
+
+        }
+    }
+
+    .input-err-msg {
+        color: red;
+    }
+
+    .checkbox-container {
+        display: flex;
+        flex-direction: row;
+        margin: 30px 0;
+
+        input {
+            width: 17px;
+            height: 17px;      
         }
     }
 }
