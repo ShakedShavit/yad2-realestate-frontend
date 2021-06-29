@@ -8,6 +8,9 @@ function Address(props) {
     const { apartmentPublishState, dispatchApartmentPublishData } = useContext(PublishApartmentContext);
 
     const [citiesInputList, setCitiesInputList] = useState([]);
+    const [cityInputClassList, setCitiesInputClassListList] = useState('');
+    const [chosenCity, setChosenCity] = useState('');
+    const [cityStreets, setCityStreets] = useState([]); 
 
     const citiesList = useRef([]);
     const cityInput = useRef(null);
@@ -34,9 +37,19 @@ function Address(props) {
             .then((response) => {
                 citiesList.current = response.data;
             });
+
+        const resetCitiesInputList = () => setCitiesInputList([]);
+
+        window.addEventListener('click', resetCitiesInputList);
+        return (() => {
+            window.removeEventListener('click', resetCitiesInputList);
+        });
     });
 
     const cityInputOnChange = async (e) => {
+        setCityStreets([]);
+        setChosenCity('');
+
         const cityInput = e.target.value;
         const inputLength = cityInput.length;
         if (inputLength < 2) return setCitiesInputList([]);;
@@ -47,10 +60,44 @@ function Address(props) {
         });
         setCitiesInputList(possibleCities);
     }
-
     const chooseCityOnClick = (value) => {
         cityInput.current.value = value;
+        setChosenCity(value);
     }
+
+    const cityInputOnFocus = () => {
+        setCitiesInputClassListList('blue-border-input');
+    }
+    const cityInputOnBlur = () => {
+        setCitiesInputClassListList('');
+    }
+
+    useEffect(() => {
+        if (citiesInputList.length > 0) return setCitiesInputClassListList('blue-border-input blue-border-input__with-options');
+        setCitiesInputClassListList('blue-border-input');
+    }, [citiesInputList.length]);
+
+
+    useEffect(() => {
+        if (!chosenCity || chosenCity !== cityInput.current?.value) return;
+        
+        axios.get('streetsGraph.json', {
+            headers : { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+                }
+            })
+            .then((response) => {
+                setCityStreets(response.data[chosenCity] || []);
+                console.log(response.data[chosenCity]);
+            });
+    }, [chosenCity]);
+
+    useEffect(() => {
+        console.log(cityStreets);
+    }, [cityStreets])
+
+
 
     const validateFormOnClick = () => {
         // Check if city is in list
@@ -68,7 +115,7 @@ function Address(props) {
                     </div>
                 </div>
 
-                <form className="form-body">
+                <form className="form-body address-form">
                     <label>סוג הנכס<b>*</b></label>
                     <select selected={apartmentPublishState.apartment.type || "דירה"}>
                         <option value="דירה">דירה</option>
@@ -103,12 +150,34 @@ function Address(props) {
                     </select>
 
                     <label>ישוב<b>*</b></label>
-                    <input ref={cityInput} type="text" onChange={cityInputOnChange} />
-                    <div class="options">
+                    <input
+                        className={cityInputClassList}
+                        ref={cityInput}
+                        type="text"
+                        onFocus={cityInputOnFocus}
+                        onBlur={cityInputOnBlur}
+                        onChange={cityInputOnChange} />
+                    { citiesInputList.length > 0 &&
+                        <div className="city-input-options">
                         { citiesInputList.map((city, index) => {
-                            return <div key={index} onClick={() => { chooseCityOnClick(citiesInputList[index]); }} className="location-input-option">{city}</div>
+                            return (
+                            <div
+                                key={index}
+                                onClick={() => { chooseCityOnClick(citiesInputList[index]); }}
+                                className="location-input-option"
+                            >
+                                <b>{city.substring(0, cityInput.current.value.length)}</b>
+                                { (city[cityInput.current.value.length - 1] === ' ' || city[cityInput.current.value.length] === ' ')
+                                    && <span>&#160;</span>
+                                }
+                                <span>{city.substring(cityInput.current.value.length)}</span>
+                            </div>)
                         })}
-                    </div>
+                        </div>
+                    }
+
+                    <label>רחוב{cityStreets.length > 0 && <b>*</b>}</label>
+                    <input />
                 </form>
 
                 <PageFooter

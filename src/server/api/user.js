@@ -14,7 +14,7 @@ export const loginInDB = async (email, password) => {
             token: res.data.token
         };
     } catch (err) {
-        if (err.response.status === 400) throw new Error('זה לא מה ששמור אצלנו, נסו שנית');
+        if (err.response?.status === 400) throw new Error('זה לא מה ששמור אצלנו, נסו שנית');
         throw new Error('שגיאה כללית אירעה');
     }
 };

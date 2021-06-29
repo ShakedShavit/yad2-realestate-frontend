@@ -102,6 +102,7 @@ function LoginPage(props) {
 
     const onSubmit = (e) => {
         e.preventDefault();
+        setIsLoading(true);
 
         if (props.isSignup) return props.setIsSignupSecondPage(true);
 
