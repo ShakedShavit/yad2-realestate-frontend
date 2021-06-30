@@ -14,8 +14,14 @@
 @import './components/apartments/publish/header';
 @import './components/apartments/publish/card';
 @import './components/apartments/publish/autoCompleteInput';
+@import './components/apartments/publish/publishPropertyOption';
 @import './components/apartments/publish/selectOption';
+@import './components/apartments/publish/switcher';
+@import './components/apartments/publish/propertyWrapper';
+@import './components/apartments/publish/adviceMessage';
 @import './components/apartments/publish/pages/basePage';
 @import './components/apartments/publish/publishApartment';
 @import './components/apartments/publish/pages/pageFooter';
 @import './components/apartments/publish/pages/addressPage';
+@import './components/apartments/publish/pages/propertiesPage';
+@import './components/apartments/publish/pages/paymentAndDatesPage';

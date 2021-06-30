@@ -137,11 +137,11 @@ function SignupSecondPage(props) {
             <div className="form-body">
                 <label for="first-name">שם פרטי</label>
                 <input name="first-name" type="text" placeholder="הקלד שם פרטי" className={firstNameClassName} onChange={firstNameOnChange} onBlur={firstNameOnChange}></input>
-                { firstNameErrMsg.length !== 0 && <span>{firstNameErrMsg}</span> }
+                { firstNameErrMsg.length !== 0 && <span className="input-err-msg">{firstNameErrMsg}</span> }
 
                 <label for="last-name">שם משפחה</label>
                 <input name="last-name" type="text" placeholder="הקלד שם משפחה" className={lastNameClassName} onChange={lastNameOnChange} onBlur={lastNameOnChange}></input>
-                { lastNameErrMsg.length !== 0 && <span>{lastNameErrMsg}</span> }
+                { lastNameErrMsg.length !== 0 && <span className="input-err-msg">{lastNameErrMsg}</span> }
                 
                 <label for="telephone-number">מספר טלפון</label>
                 <div>
@@ -157,7 +157,7 @@ function SignupSecondPage(props) {
                         <option value="058">058</option>
                     </select>
                 </div>
-                { telNumErrMsg.length !== 0 && <span>{telNumErrMsg}</span> }
+                { telNumErrMsg.length !== 0 && <span className="input-err-msg">{telNumErrMsg}</span> }
 
                 <label>תאריך לידה</label>
                 <input type="date" max="2003-12-31" onChange={dateOnChange} placeholder="בחר תאריך לידה"></input>

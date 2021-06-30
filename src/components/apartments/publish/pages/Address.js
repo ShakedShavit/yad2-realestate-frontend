@@ -5,6 +5,8 @@ import { PublishApartmentContext } from '../../../../context/apartmentPublishCon
 import axios from 'axios';
 import AutoCompleteInput from '../AutoCompleteInput';
 import SelectOption from '../SelectOption';
+import PublishInputErrMsg from '../PublishInputErrMsg';
+import AdviceMessage from '../AdviceMessage';
 
 function Address(props) {
     const { apartmentPublishState, dispatchApartmentPublishData } = useContext(PublishApartmentContext);
@@ -61,6 +63,34 @@ function Address(props) {
         "במצב שמור (במצב טוב, לא שופץ)",
         "דרוש שיפוץ (זקוק לעבודת שיפוץ)"
     ];
+    const apartmentTypesEn = [
+        'apartment',
+        'garden-apartment',
+        'private-house/cottage',
+        'rooftop/penthouse',
+        'lots',
+        'duplex',
+        'vacation-apartment',
+        'two-family-dwelling',
+        'basement/parterre',
+        'triplex',
+        'residential-unit',
+        'farm/estate',
+        'auxiliary-farm',
+        'protected-accommodation',
+        'residential-building',
+        'studio/loft',
+        'garage',
+        'parking',
+        'general'
+    ];
+    const apartmentConditionEn = [
+        'brand-new',
+        'new',
+        'renovated',
+        'good',
+        'in-need-of-renovation'
+    ];
 
     useEffect(() => {
         props.setTitle('כתובת הנכס');
@@ -77,6 +107,7 @@ function Address(props) {
     });
 
     useEffect(() => {
+        setStreetErrMsg('');
         if (!chosenCity) return setAllStreetsListState([]);
 
         axios.get('streetsGraph.json', {
@@ -92,29 +123,6 @@ function Address(props) {
             })
             .catch((err) => { setAllStreetsListState([]); });
     }, [chosenCity]);
-
-    useEffect(() => {
-        setCityErrMsg('');
-    }, [chosenCity]);
-    useEffect(() => {
-        setStreetErrMsg('');
-    }, [chosenStreet]);
-    useEffect(() => {
-        console.log(apartmentType);
-        setApartmentTypeErrMsg('');
-    }, [apartmentType]);
-    useEffect(() => {
-        setApartmentConditionErrMsg('');
-    }, [apartmentCondition]);
-    useEffect(() => {
-        setHouseNumErrMsg('');
-    }, [houseNum]);
-    useEffect(() => {
-        setFloorNumErrMsg('');
-    }, [floorNum]);
-    useEffect(() => {
-        setMaxFloorsErrMsg('');
-    }, [maxFloors]);
 
     const validateFormOnClick = () => {
         let isFormValid = true;
@@ -148,20 +156,28 @@ function Address(props) {
             isFormValid = false;
         }
 
-        if (!isFormValid) return { isFormValid, newProperties: {} };
+        return { isFormValid, newProperties: isFormValid ? {
+            'town': chosenCity,
+            'streetName': chosenStreet,
+            'houseNum': houseNum,
+            'floor': floorNum,
+            'buildingMaxFloor': maxFloors,
+            'isStandingOnPolls': isOnPolls,
+            'type': apartmentTypesEn[apartmentTypesHebrew.indexOf(apartmentType)],
+            'condition': apartmentConditionEn[apartmentConditionsHebrew.indexOf(apartmentCondition)]
+        } : {} };
     }
 
     return (
         <>
         { props.isCurrPage &&
             <div className="publish-page-content publish-address-page">
-                <div className="advice-wrapper">
-                    <div className="video-icon-container"><img src={videoIcon} alt="video-icon"></img></div>
-                    <div>
-                        <h4>המלצה שלנו</h4>
-                        <span>העלאת וידאו של הנכס תמשוך יותר מתעניינים למודעה שלך</span>
-                    </div>
-                </div>
+                <AdviceMessage
+                    img={videoIcon}
+                    imgAlt={"video-icon"}
+                    title={"המלצה שלנו"}
+                    message={"העלאת וידאו של הנכס תמשוך יותר מתעניינים למודעה שלך"}
+                />
 
                 <form className="form-body address-form">
                     <label>סוג הנכס<b>*</b></label>
@@ -176,7 +192,7 @@ function Address(props) {
                         );
                     })}
                     </select>
-                    { apartmentTypeErrMsg.length !== 0 && <span className="input-err-msg">{apartmentTypeErrMsg}</span> }
+                    <PublishInputErrMsg errMsg={apartmentTypeErrMsg} setErrMsg={setApartmentTypeErrMsg} inputValue={apartmentType} />
 
                     <label>מצב הנכס<b>*</b></label>
                     <select onChange={(e) => { setApartmentCondition(e.target.value); }}>
@@ -190,7 +206,7 @@ function Address(props) {
                         );
                     })}
                     </select>
-                    { apartmentConditionErrMsg.length !== 0 && <span className="input-err-msg">{apartmentConditionErrMsg}</span> }
+                    <PublishInputErrMsg errMsg={apartmentConditionErrMsg} setErrMsg={setApartmentConditionErrMsg} inputValue={apartmentCondition} />
 
                     <label>ישוב<b>*</b></label>
                     <AutoCompleteInput
@@ -200,7 +216,7 @@ function Address(props) {
                         isDisabled={false}
                         placeHolder={"איפה נמצא הנכס?"}
                     />
-                    { cityErrMsg.length !== 0 && <span className="input-err-msg">{cityErrMsg}</span> }
+                    <PublishInputErrMsg errMsg={cityErrMsg} setErrMsg={setCityErrMsg} inputValue={chosenCity} />
 
                     <label>רחוב{allStreetsListState.length > 0 && <b>*</b>}</label>
                     <AutoCompleteInput
@@ -211,22 +227,24 @@ function Address(props) {
                         placeHolder={"הכנסת שם הרחוב"}
                     />
                     <span className="street-input-disclaimer">המידע הזה מגיע מגוף ממשלתי, אם הרחוב שלך לא מופיע, מומלץ לבחור רחוב קרוב אליך</span>
-                    { streetErrMsg.length !== 0 && <span className="input-err-msg"><br></br>{streetErrMsg}</span> }
+                    <br></br>
+                    <PublishInputErrMsg errMsg={streetErrMsg} setErrMsg={setStreetErrMsg} inputValue={chosenStreet} />
 
                     <label>מספר בית<b>*</b></label>
                     <input onChange={(e) => { setHouseNum(e.target.value) }} type="number" min="0" />
                     { houseNumErrMsg.length !== 0 && <span className="input-err-msg">{houseNumErrMsg}</span> }
+                    <PublishInputErrMsg errMsg={houseNumErrMsg} setErrMsg={setHouseNumErrMsg} inputValue={houseNum} />
 
                     <div className="building-details-container">
                         <label>קומה<b>*</b></label>
                         <label>סה"כ קומות בבניין<b>*</b></label>
                         <input onChange={(e) => { setFloorNum(e.target.value) }} type="number" />
                         <input onChange={(e) => { setMaxFloors(e.target.value) }} type="number" />
-                        { floorNumErrMsg.length !== 0 ? <span className="input-err-msg">{floorNumErrMsg}</span> : <div></div> }
-                        { maxFloorsErrMsg.length !== 0 && <span className="input-err-msg">{maxFloorsErrMsg}</span> }
+                        { floorNumErrMsg.length !== 0 ? <PublishInputErrMsg errMsg={floorNumErrMsg} setErrMsg={setFloorNumErrMsg} inputValue={floorNum} /> : <div></div> }
+                        <PublishInputErrMsg errMsg={maxFloorsErrMsg} setErrMsg={setMaxFloorsErrMsg} inputValue={maxFloors} />
                     </div>
 
-                    <div class="checkbox-container">
+                    <div className="checkbox-container">
                         <input type="checkbox" onChange={(e) => { setIsOnPolls(e.target.checked); }}/>
                         <label>על עמודים</label>
                     </div>

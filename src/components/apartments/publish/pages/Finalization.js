@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PageFooter from './PageFooter';
 
 function Finalization(props) {
     console.log(props);
@@ -6,9 +7,24 @@ function Finalization(props) {
         props.setTitle('סיום פרסום');
     });
 
+    const validateFormOnClick = () => {
+        return { isFormValid: false, newProperties: {} }
+    }
+
     return (
-        <div>
+        <>
+        { props.isCurrPage &&
+        <div className="publish-page-content">
+
+            <PageFooter
+                isCurrPage={props.isCurrPage}
+                pageNum={props.pageNum}
+                goToPrevPageOnClick={props.goToPrevPageOnClick}
+                validateForm={validateFormOnClick}
+            />
         </div>
+        }
+        </>
     );
 }
 

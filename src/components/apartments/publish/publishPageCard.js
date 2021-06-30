@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { goToPrevPublishPageAction } from '../../../actions/apartmentPublishActions';
 import { PublishApartmentContext } from '../../../context/apartmentPublishContext';
 import checkSymbol from '../../../images/check.png';
+import penIcon from '../../../images/pen-icon.png';
 
 function PublishPageCard({ children, pageNum }) {
     const baseClassName = 'publish-card';
@@ -49,6 +50,13 @@ function PublishPageCard({ children, pageNum }) {
                 }
                 <h2>{title}</h2>
             </div>
+
+            { isFinishedPage &&
+                <div className="edit-page-container">
+                    <img src={penIcon} alt="pen-icon"></img>
+                    <span>עריכה</span>
+                </div>
+            }
 
             {React.cloneElement(children, {
                 pageNum,

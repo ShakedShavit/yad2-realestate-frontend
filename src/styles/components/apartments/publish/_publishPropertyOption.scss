@@ -1,0 +1,16 @@
+.publish-property-option {
+    display: flex;
+    cursor: pointer;
+
+    &:hover {
+        color: #ff7100;
+    }
+}
+.chosen-property-option {
+    background: rgb(230, 230, 230);
+    
+    &:hover {
+        background: rgb(192, 192, 192);
+        color: #363636;
+    }
+}

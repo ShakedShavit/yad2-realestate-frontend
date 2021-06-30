@@ -16,6 +16,7 @@ function PageFooter(props) {
             deletePublishApartmentFromCookie();
             return;
         }
+
         dispatchApartmentPublishData(goToNextPublishPageAction(newProperties));
     }
 

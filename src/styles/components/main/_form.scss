@@ -21,4 +21,21 @@
             opacity: 0.4;
         }
     }
+
+    input:focus {
+        border: 2px solid rgb(24, 89, 143);
+    }
+
+    .input-err-msg {
+        display: block;
+        margin-top: 5px;
+        color: red;
+    }
+
+    .invalid-input {
+        border: 1px solid red !important;
+    }
+    .valid-input {
+        border: 1px solid green !important;
+    }
 }

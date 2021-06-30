@@ -1,0 +1,20 @@
+.properties-form {
+    h2 {
+        margin-top: 35px;
+    }
+
+    textarea {
+        width: 100%;
+        margin-top: 5px;
+        resize: none;
+        outline: none;
+        border: 1px solid #a5a5a5;
+        border-radius: 10px;
+        padding: 16px 10px 20px 70px;
+        height: 118px;
+    }
+
+    select {
+        margin-bottom: 5px;
+    }
+}

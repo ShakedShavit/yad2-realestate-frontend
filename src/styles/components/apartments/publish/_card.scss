@@ -34,12 +34,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-        }
-        h2 {
-            font-weight: 300;
-            font-size: 24px;
-        }
-    }   
+        }  
+    }
+
+    h2 {
+        font-weight: 600;
+        font-size: 21px;
+    }
 }
 
 .curr-page {
@@ -48,18 +49,40 @@
     color: #0d0d0d;
 }
 .finished-page {
-    height: 63px;
     box-shadow: 0 2px 4px 0 rgba(12,0,51,.1);
     color: #acacac;
     margin-right: .5%;
     font-weight: 300;
+    position: relative;
 
     &:hover {
         cursor: pointer;
     }
+
+    .edit-page-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        column-gap: 5px;
+        position: absolute;
+        width: 87px;
+        height: 30px;
+        border-radius: 20px;
+        background-color: #eee;
+        color: #999;
+        font-weight: 500;
+        left: 3%;
+        top: .6rem;
+
+        img {
+            opacity: 0.5;
+            width: 17px;
+            height: 17px;
+        }
+    }
 }
 .later-page {
-    height: 63px;
     color: #b9b9b9;
     font-weight: 400;
     border: 1px solid #e6e6e6;

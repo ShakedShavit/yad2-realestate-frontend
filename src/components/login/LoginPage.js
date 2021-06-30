@@ -125,19 +125,19 @@ function LoginPage(props) {
         <>
         <form className="login-from">
             <div className="form-body">
-                <label for="email">כתובת מייל</label>
+                <label>כתובת מייל</label>
                 <input className={emailInputClassName} name="email" type="email" onBlur={emailInputOnChange} onChange={emailInputOnChange} placeholder="your@mail.com"></input>
-                { emailErrMsg.length !== 0 && <span>{emailErrMsg}</span> }
+                { emailErrMsg.length !== 0 && <span className="input-err-msg">{emailErrMsg}</span> }
 
-                <label for="password">סיסמה</label>
+                <label>סיסמה</label>
                 <input className={passwordInputClassName} name="password" type="password" onBlur={passwordInputOnChange} onChange={passwordInputOnChange} placeholder={props.isSignup ? "6 תווים, אותיות באנגלית וספרה" : "הקלד סיסמה"}></input>
-                { passwordErrMsg.length !== 0 && <span>{passwordErrMsg}</span> }
+                { passwordErrMsg.length !== 0 && <span className="input-err-msg">{passwordErrMsg}</span> }
             
                 {
                     props.isSignup &&
                     <>
                         <input className={passwordRepInputClassName} name="password-rep" type="password" onBlur={passwordRepInputOnChange} onChange={passwordRepInputOnChange} placeholder={"חזור על הסיסמה שהקלדת"}></input>
-                        { passwordRepErrMsg.length !== 0 && <span>{passwordRepErrMsg}</span> }
+                        { passwordRepErrMsg.length !== 0 && <span className="input-err-msg">{passwordRepErrMsg}</span> }
                     </>
                 }
             </div>
