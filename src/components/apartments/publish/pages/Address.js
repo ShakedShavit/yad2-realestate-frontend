@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PageFooter from './PageFooter';
 import videoIcon from '../../../../images/video-icon.png';
-import { PublishApartmentContext } from '../../../../context/apartmentPublishContext';
 import axios from 'axios';
 import AutoCompleteInput from '../AutoCompleteInput';
 import SelectOption from '../SelectOption';
@@ -9,8 +8,6 @@ import PublishInputErrMsg from '../PublishInputErrMsg';
 import AdviceMessage from '../AdviceMessage';
 
 function Address(props) {
-    const { apartmentPublishState, dispatchApartmentPublishData } = useContext(PublishApartmentContext);
-
     const [chosenCity, setChosenCity] = useState('');
     const [chosenStreet, setChosenStreet] = useState(''); 
     const [allStreetsListState, setAllStreetsListState] = useState([]);
@@ -104,7 +101,7 @@ function Address(props) {
             .then((response) => {
                 allCitiesListRef.current = response.data;
             });
-    });
+    }, []);
 
     useEffect(() => {
         setStreetErrMsg('');

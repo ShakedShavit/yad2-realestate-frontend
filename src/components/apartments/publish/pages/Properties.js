@@ -37,7 +37,7 @@ function Properties(props) {
 
     useEffect(() => {
         props.setTitle('על הנכס');
-    });
+    }, []);
 
     const validateFormOnClick = () => {
         let isFormValid = true;

@@ -38,4 +38,11 @@
     .valid-input {
         border: 1px solid green !important;
     }
+
+    .link-span {
+        color: #ff7100;
+        &:hover {
+            cursor: pointer;
+        }
+    }
 }

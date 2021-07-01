@@ -5,7 +5,7 @@ function Finalization(props) {
     console.log(props);
     useEffect(() => {
         props.setTitle('סיום פרסום');
-    });
+    }, []);
 
     const validateFormOnClick = () => {
         return { isFormValid: false, newProperties: {} }

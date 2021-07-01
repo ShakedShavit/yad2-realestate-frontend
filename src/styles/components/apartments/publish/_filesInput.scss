@@ -1,0 +1,137 @@
+.file-input-container {
+    position: relative;
+    width: 100%;
+    border: 2px dashed #9d9d9d;
+    border-radius: 5px;
+    color: #9d9d9d;
+    padding: 7.5px;
+    margin: auto;
+
+    .icon-container {
+        background: #9d9d9d;
+        position: absolute;
+        top: 7.5px;
+        z-index: 10;
+        width: 37px;
+        height: 37px;
+        padding: 5px 2px 5px 3px;
+        background-color: #e8e9e8;
+        color: #363636;
+        border-radius: 100%;
+        opacity: .75;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .file-input-icon {
+            width: 100%;
+        }
+    }
+    .icon-container:first-of-type {
+        left: 7.5px;
+    }
+
+    .input-container {
+        width: 100%;
+        
+        * {
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
+        .chose-file-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            row-gap: 5px;
+            position: relative;
+            margin: 30% 0;
+            
+            .chose-file-icon {
+               width: 100%;
+            }
+
+            span {
+                width: 100%;
+                white-space: nowrap;
+                text-align: center;
+            }
+
+            .video-upload-message {
+                margin: 10px 0;
+                white-space: normal;
+            }
+        }
+
+        >input {
+            margin: 0;
+            padding: 0;
+            border: 0;
+
+            width: 100%;
+            height: calc(100% - (7.5px + 37px));
+            position: absolute;
+            top: calc(7.5px + 37px);
+            right: 0;
+            opacity: 0;
+        }
+
+        >img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 5;
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+
+            &:hover {
+                visibility: hidden;
+            }
+        }
+    }
+}
+
+.main-file-input__container {
+    border: none;
+    padding: 0;
+    border: 5px solid #e8e9e8be;
+    display: flex;
+    flex-direction: column;
+
+    .main-image-title {
+        background: #e8e9e8be;
+        width: 100%;
+        height: 26px;
+        color: #363636;
+        display: block;
+        text-align: center;
+        padding: 5px;
+        font-size: 14px;
+        position: relative;
+    }
+
+    .icon-container {
+        top: 35px;
+    }
+    .delete-icon {
+        right: 7.5px;
+    }
+
+    .input-container {
+        .chose-file-container {
+            margin: 25% 0;
+        }
+
+        >img {
+            height: calc(100% - (26px));
+            position: absolute;
+            bottom: 0;
+            top: auto;
+        }
+    }
+}

@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { goToPrevPublishPageAction } from '../../../actions/apartmentPublishActions';
 import { PublishApartmentContext } from '../../../context/apartmentPublishContext';
 import checkSymbol from '../../../images/check.png';
-import penIcon from '../../../images/pen-icon.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
 
 function PublishPageCard({ children, pageNum }) {
     const baseClassName = 'publish-card';
@@ -53,7 +54,7 @@ function PublishPageCard({ children, pageNum }) {
 
             { isFinishedPage &&
                 <div className="edit-page-container">
-                    <img src={penIcon} alt="pen-icon"></img>
+                    <FontAwesomeIcon icon={faPen} />
                     <span>עריכה</span>
                 </div>
             }

@@ -21,7 +21,7 @@ function PaymentAndDates(props) {
 
     useEffect(() => {
         props.setTitle('תשלומים, תאריכים ועוד ');
-    });
+    }, []);
 
     useEffect(() => {
         const date = new Date();
@@ -61,7 +61,6 @@ function PaymentAndDates(props) {
             setDateErrMsg('שדה חובה תאריך כניסה');
             isFormValid = false;
         }
-        
 
         const date = new Date();
         let entranceDateVal = entranceDate;
