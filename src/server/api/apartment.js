@@ -18,3 +18,36 @@ export const fetchApartmentsFromDB = async (queries = {}, apartmentIds = []) => 
         throw new Error('Unable to signup. Please try again');
     }
 }
+
+export const publishApartmentOnDB = async (token, properties = {}) => {
+    try {
+        const res = await Axios.post(process.env.REACT_APP_ROOT_URL + subRoute + 'publish', properties, {
+            header: {
+                Authorization: 'Bearer ' + token
+            },
+            params: { token }
+        });
+
+        return res.data;
+    } catch (err) {
+        throw new Error(err.message);
+    }
+}
+
+export const uploadApartmentFilesOnDB = async (token, apartmentId, fd) => {
+    try {
+        const res = await Axios.post(process.env.REACT_APP_ROOT_URL + subRoute + 'publish/upload-files', fd, {
+            params: {
+                token,
+                apartmentId
+            },
+            headers: {
+            'content-type': 'multipart/form-data',
+            'Authorization': 'Bearer ' + token
+            }
+        });
+        return res.data;
+    } catch (err) {
+        throw new Error(err.message);
+    }
+}

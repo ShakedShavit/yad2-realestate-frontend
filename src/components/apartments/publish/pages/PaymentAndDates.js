@@ -69,6 +69,9 @@ function PaymentAndDates(props) {
             const month = (`${date.getMonth() + 1}`).length === 1 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1);
             entranceDateVal = `${month}-${day}-${date.getFullYear()}`;
         }
+
+        if (isFormValid) props.setFinishedInfo(`${totalSqm} מ"ר נטו - ${cost}	₪`);
+        else props.setFinishedInfo('');
         
         return { isFormValid, newProperties: isFormValid ? {
             'builtSqm': builtSqm,

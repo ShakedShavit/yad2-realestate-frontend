@@ -37,9 +37,14 @@
         }  
     }
 
-    h2 {
-        font-weight: 600;
-        font-size: 21px;
+    .page-title-wrapper {
+        margin: 20px 0;
+
+        h2 {
+            font-weight: 600;
+            font-size: 21px;
+            margin: 0;
+        }
     }
 }
 
@@ -59,6 +64,11 @@
         cursor: pointer;
     }
 
+    .finished-page-info {
+        text-decoration: underline;
+        font-size: 14px;
+    }
+
     .edit-page-container {
         display: flex;
         flex-direction: row;
@@ -73,7 +83,7 @@
         color: #999;
         font-weight: 500;
         left: 3%;
-        top: .6rem;
+        top: 30%;
 
         img {
             opacity: 0.5;

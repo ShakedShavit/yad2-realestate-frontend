@@ -17,6 +17,7 @@ function PublishPageCard({ children, pageNum }) {
     const [isCurrPage, setIsCurrPage] = useState(false);
     const [isFinishedPage, setIsFinishedPage] = useState(false);
     const [title, setTitle] = useState('');
+    const [finishedInfo, setFinishedInfo] = useState('');
 
     useEffect(() => {
         if (pageNum < apartmentPublishState.currPage) {
@@ -49,7 +50,12 @@ function PublishPageCard({ children, pageNum }) {
                     <img src={checkSymbol} alt="check-symbol"></img> :
                     <div className="page-num-circle">{pageNum + 1}</div>
                 }
-                <h2>{title}</h2>
+                <div className="page-title-wrapper">
+                    <h2>{title}</h2>
+                    { isFinishedPage &&
+                        <span className="finished-page-info">{finishedInfo}</span>
+                    }
+                </div>
             </div>
 
             { isFinishedPage &&
@@ -64,7 +70,8 @@ function PublishPageCard({ children, pageNum }) {
                 isCurrPage,
                 isFinishedPage,
                 setTitle,
-                goToPrevPageOnClick
+                goToPrevPageOnClick,
+                setFinishedInfo
             })}
 
             

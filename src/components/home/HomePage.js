@@ -11,11 +11,11 @@ import WelcomeBanner from '../login/WelcomeBanner';
 import Header from '../main/Header';
 import Modal from '../main/Modal';
 import Notification from '../main/Notification';
+import ApartmentsList from './ApartmentsList';
 
 function HomePage() {
-    const cookiesSearchQueryParamsData = getSearchParamsFromCookie(); // !! Check if this works
+    const cookiesSearchQueryParamsData = getSearchParamsFromCookie();
     const [searchParamsState, dispatchSearchParamsData] = useReducer(searchParamsReducer, cookiesSearchQueryParamsData || initialSearchParamsState);
-    const [apartmentsState, dispatchApartmentsData] = useReducer(apartmentsReducer, initialApartmentsState);
 
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [isLoginNotification, setIsLoginNotification] = useState(false);
@@ -34,18 +34,8 @@ function HomePage() {
     //     });
     // }, []);
 
-    // When search query params change, fetch new apartments and remove the old ones
     useEffect(() => {
-        // fetch apartments
-        fetchApartmentsFromDB(searchParamsState)
-        .then((newApartments) => {
-            console.log(searchParamsState, newApartments);
-            dispatchApartmentsData(newApartmentsAction(newApartments));
-            saveSearchParamsOnCookie(searchParamsState);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+        saveSearchParamsOnCookie(searchParamsState);
     }, [searchParamsState]);
 
     // useEffect(() => {
@@ -102,6 +92,10 @@ function HomePage() {
             }
 
             <h1>Home</h1>
+
+            <ApartmentsList
+                searchParamsState={searchParamsState}
+            />
         </div>
 
         { isLoginNotification && <Notification text="התחברת בהצלחה" isSuccess={true} setIsNotificationOpen={setIsLoginNotification}  /> }

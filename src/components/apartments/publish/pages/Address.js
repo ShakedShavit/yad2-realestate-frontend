@@ -153,6 +153,9 @@ function Address(props) {
             isFormValid = false;
         }
 
+        if (isFormValid) props.setFinishedInfo(`${apartmentType} - ${chosenCity}` + (!!chosenStreet ? ` - ${chosenStreet}` : ''));
+        else props.setFinishedInfo('');
+
         return { isFormValid, newProperties: isFormValid ? {
             'town': chosenCity,
             'streetName': chosenStreet,

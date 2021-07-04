@@ -1,0 +1,22 @@
+.file-display-container {
+    position: relative;
+
+    .image-count-container {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 30px;
+        background-color: rgba(0,0,0,.6);
+        color: white;
+        top: calc(50% - 15px);
+        left: 30%;
+        padding: 0 8px;
+        border-radius: 16px;
+
+        span {
+            margin-right: 5px;
+            font-size: 14px;
+        }
+    }
+}

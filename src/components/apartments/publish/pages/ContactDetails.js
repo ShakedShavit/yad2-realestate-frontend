@@ -10,7 +10,7 @@ function ContactDetails(props) {
 
     const [publisherName, setPublisherName] = useState(userDataState.user.firstName + " " + userDataState.user.lastName);
     const [telNum, setTelNum] = useState(userDataState.user.phoneNumber.substring(3));
-    const [startTelNum, setStartTelNum] = useState('');
+    const [startTelNum, setStartTelNum] = useState(userDataState.user.phoneNumber.substring(0, 3));
     const [email, setEmail] = useState(userDataState.user.email);
     const [checkboxVal, setCheckboxVal] = useState(false);
     const [canBeInContactOnWeekends, setCanBeInContactOnWeekends] = useState(false);
@@ -89,21 +89,24 @@ function ContactDetails(props) {
             isFormValid = false;
         }
 
+        if (isFormValid) props.setFinishedInfo(`${telNum} - ${startTelNum} - ${publisherName}`);
+        else props.setFinishedInfo('');
+
+        const publishers = [{
+            publisherName,
+            phoneNumber: startTelNum + telNum,
+            canBeInContactOnWeekends
+        }];
+        if (isNewContactInputOpen) publishers.push({
+            publisherName: newContactName,
+            phoneNumber: newContactStartTelNum + newContactTelNum,
+            canBeInContactOnWeekends: false
+        });
+
         return { isFormValid, newProperties: isFormValid ? {
             publisher: userDataState.user._id,
             contactEmail: email,
-            publishers: [
-                {
-                    publisherName,
-                    phoneNumber: startTelNum + telNum,
-                    canBeInContactOnWeekends
-                },
-                {
-                    publisherName: newContactName,
-                    phoneNumber: newContactStartTelNum + newContactTelNum,
-                    canBeInContactOnWeekends: false
-                }
-            ]
+            publishers
         } : {} };
     }
 

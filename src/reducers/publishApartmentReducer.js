@@ -1,6 +1,6 @@
 export const initialApartmentPublishState = {
     apartment: {},
-    currPage: 2,
+    currPage: 0,
     maxPage: 5
 };
 

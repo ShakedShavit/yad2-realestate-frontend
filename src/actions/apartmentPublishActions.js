@@ -4,7 +4,8 @@
 // });
 
 export const goToNextPublishPageAction = (propertiesObj = {}) => ({
-    type: "GO_TO_NEXT_PAGE"
+    type: "GO_TO_NEXT_PAGE",
+    newProperties: propertiesObj
 });
 
 export const goToPrevPublishPageAction = (prevPage = 0) => ({
