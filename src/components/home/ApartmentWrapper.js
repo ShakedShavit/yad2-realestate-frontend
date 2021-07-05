@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import imagePlaceholder from '../../images/image-placeholder-icon.png';
 import FileDisplay from './FileDisplay';
 import commaNumber from 'comma-number';
+import ApartmentExpanded from './ApartmentExpanded';
 
 function ApartmentWrapper({ details, files }) {
     const [isExpanded, setIsExpended] = useState(false);
@@ -80,6 +81,7 @@ function ApartmentWrapper({ details, files }) {
     }
 
     return (
+        <>
         <div onClick={expandOnClick} className="apartment-wrapper">
             {
                 !!displayFile ?
@@ -103,10 +105,28 @@ function ApartmentWrapper({ details, files }) {
                 <div className="divide-line"></div>
 
                 <div className="info-columns">
-                    
+                    <div>
+                        <span>{details.properties.numberOfRooms}</span>
+                        <span>חדרים</span>
+                    </div>
+                    <div>
+                        <span>{details.location.floor}</span>
+                        <span>קומה</span>
+                    </div>
+                    <div>
+                        <span>{details.size.totalSqm}</span>
+                        <span>מ"ר</span>
+                    </div>
                 </div>
             </div>
         </div>
+
+        { isExpanded &&
+            <ApartmentExpanded
+                details={details}
+            />
+        }
+        </>
     );
 }
 
