@@ -12,3 +12,7 @@ export const goToPrevPublishPageAction = (prevPage = 0) => ({
     type: "RETURN_TO_PREV_PAGE",
     prevPage
 });
+
+export const resetAction = () => ({
+    type: "RESET"
+});

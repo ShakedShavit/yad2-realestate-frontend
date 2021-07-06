@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import imagePlaceholder from '../../images/image-placeholder-icon.png';
-import FileDisplay from './FileDisplay';
+import imagePlaceholder from '../../../images/image-placeholder-icon.png';
+import MainFile from './MainFile';
 import commaNumber from 'comma-number';
 import ApartmentExpanded from './ApartmentExpanded';
+import FilesModal from './FilesModal';
 
 function ApartmentWrapper({ details, files }) {
     const [isExpanded, setIsExpended] = useState(false);
     const [displayFile, setDisplayFile] = useState(null);
+    const [isDisplayFilesModalOpen, setIsDisplayFilesModalOpen] = useState(false);
 
     const apartmentTypesHebrew = [
         "דירה",
@@ -85,11 +87,13 @@ function ApartmentWrapper({ details, files }) {
         <div onClick={expandOnClick} className="apartment-wrapper">
             {
                 !!displayFile ?
-                <FileDisplay
+                <MainFile
                     file={displayFile}
                     className={"image-small"}
                     filesLen={files.length}
                     isApartmentExpanded={isExpanded}
+                    isExpanded={isExpanded}
+                    setIsDisplayFilesModalOpen={setIsDisplayFilesModalOpen}
                 />
                 :
                 <div className="image-small"><img src={imagePlaceholder} alt="file-placeholder"></img></div>
@@ -124,6 +128,13 @@ function ApartmentWrapper({ details, files }) {
         { isExpanded &&
             <ApartmentExpanded
                 details={details}
+            />
+        }
+
+        { isDisplayFilesModalOpen && files.length > 0 &&
+            <FilesModal
+                files={files}
+                setIsDisplayFilesModalOpen={setIsDisplayFilesModalOpen}
             />
         }
         </>

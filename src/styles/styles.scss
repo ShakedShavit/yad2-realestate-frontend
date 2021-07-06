@@ -28,9 +28,11 @@
 @import './components/apartments/publish/pages/paymentAndDatesPage';
 @import './components/apartments/publish/pages/filesPage';
 @import './components/apartments/publish/pages/contactPage';
-@import './components/apartments/publish/pages/finalozation';
+@import './components/apartments/publish/pages/finalzation';
 @import './components/home/fileDisplay';
 @import './components/home/apartmentsList';
-@import './components/home/apartmentWrapper';
-@import './components/home/apartmentExpanded';
-@import './components/home/propertyWrapper';
+@import './components/home/apartment_display/apartmentWrapper';
+@import './components/home/apartment_display/apartmentExpanded';
+@import './components/home/apartment_display/propertyWrapper';
+@import './components/home/apartment_display/filesModal';
+@import './components/home/apartment_display/mainFile';

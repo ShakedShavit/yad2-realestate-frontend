@@ -7,6 +7,7 @@ import { publishApartmentOnDB, uploadApartmentFilesOnDB } from '../../../../serv
 import { useHistory } from 'react-router-dom';
 import Notification from '../../../main/Notification';
 import Loader from '../../../main/Loader';
+import { resetAction } from '../../../../actions/apartmentPublishActions';
 
 function Finalization(props) {
     const { userDataState } = useContext(LoginContext);
@@ -32,6 +33,7 @@ function Finalization(props) {
             setIsLoading(true);
             uploadApartmentFilesOnDB(userDataState.token, res, apartmentPublishState.apartment.filesFd)
             .then((result) => {
+                dispatchApartmentPublishData(resetAction());
                 history.push('/');
             })
             .catch((error) => {

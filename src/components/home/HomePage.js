@@ -1,7 +1,4 @@
 import React, { useEffect, useReducer, useState } from 'react';
-import { addApartmentsAction, newApartmentsAction } from '../../actions/apartmentsActions';
-import { newSearchParamsAction } from '../../actions/searchParamsActions';
-import { fetchApartmentsFromDB } from '../../server/api/apartment';
 import { getSearchParamsFromCookie, saveSearchParamsOnCookie } from '../../cookies/searchParamsCookies';
 import apartmentsReducer, { initialApartmentsState } from '../../reducers/apartmentsReducer';
 import searchParamsReducer, { initialSearchParamsState } from '../../reducers/searchParamsReducer';
@@ -14,6 +11,8 @@ import Notification from '../main/Notification';
 import ApartmentsList from './ApartmentsList';
 
 function HomePage() {
+    const [apartmentsState, dispatchApartmentsData] = useReducer(apartmentsReducer, initialApartmentsState);
+
     const cookiesSearchQueryParamsData = getSearchParamsFromCookie();
     const [searchParamsState, dispatchSearchParamsData] = useReducer(searchParamsReducer, cookiesSearchQueryParamsData || initialSearchParamsState);
 
@@ -23,26 +22,10 @@ function HomePage() {
     const [isSignupSecondPage, setIsSignupSecondPage] = useState(false);
     const [emailVal, setEmailVal] = useState('');
     const [passwordVal, setPasswordVal] = useState('');
-    // useEffect(() => {
-    //     // fetch apartments
-    //     fetchApartmentsFromDB(searchParamsState, apartmentsState.apartmentIds)
-    //     .then((newApartments) => {
-    //         dispatchApartmentsData(addApartmentsAction(newApartments));
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //     });
-    // }, []);
 
     useEffect(() => {
         saveSearchParamsOnCookie(searchParamsState);
     }, [searchParamsState]);
-
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         dispatchSearchParamsData(newSearchParamsAction({ "town": "Tel-Aviv" }))
-    //     }, 1000);
-    // }, []);
 
     useEffect(() => {
         if (!isLoginModalOpen && isSignupSecondPage) setIsSignupSecondPage(false);
@@ -91,10 +74,23 @@ function HomePage() {
                 </Modal>
             }
 
-            <h1>Home</h1>
+            <div className="headline first-headline">
+                <span>ראשי</span>
+                &nbsp;&nbsp;&nbsp;
+                <span>/ &nbsp;&nbsp;נדל"ן למכירה</span>
+            </div>
+
+            
+
+            <div className="headline second-headline">
+                <span>נדל״ן למכירה </span>
+                <span>{`מציג ${apartmentsState.apartments.length} מודעות`}</span>
+            </div>
 
             <ApartmentsList
                 searchParamsState={searchParamsState}
+                apartmentsState={apartmentsState}
+                dispatchApartmentsData={dispatchApartmentsData}
             />
         </div>
 

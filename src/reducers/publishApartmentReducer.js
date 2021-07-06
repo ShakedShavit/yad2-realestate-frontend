@@ -24,6 +24,11 @@ const apartmentPublishReducer = (apartmentPublishData, action) => {
                 apartment: { ...apartmentPublishData.apartment },
                 currPage: prevPage
             };
+        case "RESET":
+            return {
+                apartment: {},
+                currPage: 0
+            };
         default:
             return {
                 ...apartmentPublishData

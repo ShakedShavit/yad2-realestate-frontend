@@ -20,10 +20,10 @@
             background-image: linear-gradient(180deg,hsla(0,0%,100%,.001) 0,#fff);
         }
         .opened {
-            max-height: 4.5em;
+            max-height: auto;
         }
         .closed {
-            max-height: auto;
+            max-height: 4.5em;
         }
         
         .gradient-cover {
@@ -66,5 +66,7 @@
     .properties-container {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
+        row-gap: 20px;
     }
 }

@@ -1,23 +1,16 @@
-import React, { useContext, useState } from 'react';
-import { LoginContext } from '../../context/loginContext';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faImages } from '@fortawesome/free-solid-svg-icons';
+import React from 'react';
 
-function FileDisplay({ file, className, filesLen, isApartmentExpanded }) {
-    const { userDataState } = useContext(LoginContext);
-
-    const [showFilesLen, setShowFilesLen] = useState(false);
-
+function FileDisplay({ file }) {
     return (
-        <div onMouseEnter={() => { setShowFilesLen(true); }} onMouseLeave={() => { setShowFilesLen(false); }} className={"file-display-container " + className}>
-            <img src={process.env.REACT_APP_ROOT_URL + `apartments/get-file?key=${file.key}&token=${userDataState.token}`} alt={file.originalName}></img>
-            { ((showFilesLen || isApartmentExpanded) && filesLen > 1 ) &&
-                <div className="image-count-container">
-                    <FontAwesomeIcon className="icon" icon={faImages} />
-                    <span>{filesLen - 1}+</span>
-                </div>
-            }
-        </div>
+        <>
+        { file.type.includes('video') ?
+            <video controls muted>
+                <source src={process.env.REACT_APP_ROOT_URL + `apartments/get-file?key=${file.key}`} type={file.type} />
+            </video>
+            :
+            <img src={process.env.REACT_APP_ROOT_URL + `apartments/get-file?key=${file.key}`} alt={file.originalName}></img>
+        }
+        </>
     );
 }
 

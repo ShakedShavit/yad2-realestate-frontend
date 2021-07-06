@@ -1,7 +1,6 @@
 .finalization-page-content {
     * {
         line-height: 1.2rem;
-
     }
 
     >p {
@@ -72,6 +71,11 @@
             font-size: 1em;
             font-weight: 700;
             cursor: pointer;
+            max-height: 40px;
+
+            .loader {
+                color: rgb(218, 218, 218) !important;
+            }
         }
     }
 }

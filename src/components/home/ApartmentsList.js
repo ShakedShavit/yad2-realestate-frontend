@@ -2,23 +2,21 @@ import React, { useEffect, useReducer } from 'react';
 import { newApartmentsAction } from '../../actions/apartmentsActions';
 import apartmentsReducer, { initialApartmentsState } from '../../reducers/apartmentsReducer';
 import { fetchApartmentsFromDB } from '../../server/api/apartment';
-import ApartmentWrapper from './ApartmentWrapper';
+import ApartmentWrapper from './apartment_display/ApartmentWrapper';
 
-function ApartmentsList(props) {
-    const [apartmentsState, dispatchApartmentsData] = useReducer(apartmentsReducer, initialApartmentsState);
-
+function ApartmentsList({ searchParamsState, apartmentsState, dispatchApartmentsData }) {
     // When search query params change, fetch new apartments and remove the old ones
     useEffect(() => {
         // fetch apartments
-        fetchApartmentsFromDB(props.searchParamsState)
+        fetchApartmentsFromDB(searchParamsState)
         .then((newApartments) => {
-            console.log(props.searchParamsState, newApartments);
+            console.log(searchParamsState, newApartments);
             dispatchApartmentsData(newApartmentsAction(newApartments));
         })
         .catch((err) => {
             console.log(err);
         });
-    }, [props.searchParamsState]);
+    }, [searchParamsState]);
 
     // useEffect(() => {
     //     setTimeout(() => {

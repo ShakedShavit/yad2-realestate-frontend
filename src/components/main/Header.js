@@ -48,13 +48,14 @@ function Header({ setIsLoginModalOpen }) {
                 }                
             </div>
 
-            <div className="header-bottom-spacer"></div>
+            {/* <div className="header-bottom-spacer"></div> */}
             
             { isNavbarOpen &&
                 <Navbar
                     setIsNavbarOpen={setIsNavbarOpen}
                     setIsLoginModalOpen={setIsLoginModalOpen}
-                /> }
+                />
+            }
         </>
     );
 }
