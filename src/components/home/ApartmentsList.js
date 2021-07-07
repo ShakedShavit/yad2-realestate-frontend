@@ -1,6 +1,5 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect } from 'react';
 import { newApartmentsAction } from '../../actions/apartmentsActions';
-import apartmentsReducer, { initialApartmentsState } from '../../reducers/apartmentsReducer';
 import { fetchApartmentsFromDB } from '../../server/api/apartment';
 import ApartmentWrapper from './apartment_display/ApartmentWrapper';
 

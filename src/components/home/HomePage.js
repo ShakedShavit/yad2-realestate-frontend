@@ -8,6 +8,7 @@ import WelcomeBanner from '../login/WelcomeBanner';
 import Header from '../main/Header';
 import Modal from '../main/Modal';
 import Notification from '../main/Notification';
+import AdvancedSearch from './advanced_search/AdvancedSearch';
 import ApartmentsList from './ApartmentsList';
 
 function HomePage() {
@@ -80,7 +81,9 @@ function HomePage() {
                 <span>/ &nbsp;&nbsp;נדל"ן למכירה</span>
             </div>
 
-            
+            <AdvancedSearch
+                
+            />
 
             <div className="headline second-headline">
                 <span>נדל״ן למכירה </span>

@@ -65,7 +65,7 @@ function FilesModal({ files, setIsDisplayFilesModalOpen }) {
                 :
                 <>
                 { !files[currFileIndex].type.includes('video') &&
-                    <div className="enlarged-image" setIsModalOpen={setIsImageEnlarged}>
+                    <div className="enlarged-image">
                         <div className="close-full-display" onClick={() => { setIsImageEnlarged(false); }}>
                             <FontAwesomeIcon className="icon" icon={faTimes} />
                         </div>

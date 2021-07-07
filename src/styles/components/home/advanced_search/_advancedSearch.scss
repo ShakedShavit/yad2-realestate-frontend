@@ -1,0 +1,112 @@
+.advanced-search {
+    background-color: #fff;
+    width: 100%;
+    box-shadow: 0 2px 6px 0 rgba(0,0,0,.1);
+    padding: 20px;
+    border-radius: 4px;
+    position: relative;
+
+    >h3 {
+        margin: 0;
+        .link-span {
+            text-decoration: underline dotted;
+        }
+    }
+
+    .search-btn {
+        color: white;
+        background-color: #ff7100;
+        margin: 20px auto 0 auto;
+
+        &:hover {
+            background-color: #da6200;
+        }
+    }
+
+    >form {
+        margin-top: 20px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        * {
+            font-size: .875rem;
+        }
+
+        label {
+            margin: 10px 0 5px 0;
+        }
+
+        input, .div-input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+
+        .div-input {
+            width: 25%;
+            min-width: 170px;
+            position: relative;
+            display: flex;
+
+            .placeholder {
+                color: grey;
+            }
+            .fake-input {
+                padding: 0;
+                border: none;
+            }
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
+        .select-container {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 1px);
+            background-color: #fff;
+            box-shadow: 0 2px 6px 0 rgba(0,0,0,.1);
+        }
+        
+        .room-num-selects__container {
+            padding: 15px;
+            min-width: 180px;
+            min-height: 80px;
+        }
+    }
+
+    .checkbox {
+        border-radius: 2px;
+        width: 16px;
+        height: 16px;
+        padding-right: 1px;
+        overflow: hidden;
+        margin-left: 5px;
+
+        svg {
+            font-size: 12px;
+        }
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+    .checkbox-checked {
+        background: #ff7100;
+        color: white;
+
+        &:hover {
+            background: #d86000;
+        }
+    }
+    .checkbox-unchecked {
+        background: #fff;
+        border: 1px solid black;
+
+        &:hover {
+            border: 1px solid #ff7100;
+        }
+    }
+}

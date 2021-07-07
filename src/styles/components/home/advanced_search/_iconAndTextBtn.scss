@@ -1,0 +1,16 @@
+.icon-and-text-btn {
+    border-radius: 2px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    column-gap: 5px;
+    padding: 11px 5px;
+    min-width: 138px;
+    font-size: 1rem;
+
+    .icon {
+        display: block;
+        padding: 2px;
+    }
+}

@@ -1,0 +1,18 @@
+.expand-button {
+    background-color: #eee;
+    margin: 20px auto 0 auto;
+    
+    &:hover {
+        background-color: rgb(219, 219, 219);
+    }
+
+    .icon {
+        border: 1px solid black;
+        border-radius: 50%;
+        width: 15px;
+        height: 15px;
+    }
+    .closed-icon {
+        transform: rotate(45deg);
+    }
+}
