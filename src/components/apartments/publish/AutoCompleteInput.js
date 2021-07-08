@@ -24,7 +24,7 @@ function AutoCompleteInput({ allOptionsListRef, setChosenOption, chosenOption, i
         if (inputLen < 2) return setOptionsList([]);;
         
         let possibleOptions = [];
-        allOptionsListRef.current.forEach((option) => {
+        allOptionsListRef.current?.forEach((option) => {
             if (option.substring(0, inputLen) === inputVal) possibleOptions.push(option);
         });
         setOptionsList(possibleOptions);
@@ -74,7 +74,8 @@ function AutoCompleteInput({ allOptionsListRef, setChosenOption, chosenOption, i
                     className="location-input-option"
                 >
                     <b>{option.substring(0, inputRef.current.value.length)}</b>
-                    { (option[inputRef.current.value.length - 1] === ' ' || option[inputRef.current.value.length] === ' ')
+                    {
+                        (option[inputRef.current.value.length - 1] === ' ' || option[inputRef.current.value.length] === ' ')
                         && <span>&#160;</span>
                     }
                     <span>{option.substring(inputRef.current.value.length)}</span>

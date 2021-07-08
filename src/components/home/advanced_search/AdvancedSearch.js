@@ -1,17 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
 import ExpandButton from './ExpandButton';
 import IconAndTextBtn from './IconAndTextBtn';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import ExpandArrow from './ExpandArrow';
-import SelectInput from './SelectInput';
+import Select from './types_selector/Select';
+import AutoCompleteInput from '../../apartments/publish/AutoCompleteInput';
+import AdvancedFeatures from './advanced_features/AdvanedFeatures';
+import NumRangeInputs from './NumRangeInputs';
+import NumSelections from './NumSelections';
 
 function AdvancedSearch(props) {
     const [isBasicSearchOpen, setIsBasicSearchOpen] = useState(true); //!CHANGE TO FALSE
+    const [areAdvancedFeaturesOpen, setAreAdvancedFeaturesOpen] = useState(false);
 
-    const apartmentTypes = ['דירה', 'דירת גן', 'גג\פנטהאוז', 'דופלקס', 'דירת נופש', 'מרתף\פרטר', 'טריפלקס', 'יחידת דיור', 'סטודיו\לופט'];
-    const houseTypes = ['בית פרטי\קוטג,', 'דו משפחתי', 'משק חקלאי\נחלה', 'משק עזר'];
-    const extraTypes = ['מגרשים', 'דיור מוגן', 'בניין מגורים', 'מחסן', 'חניה', 'קב, רכישה\ זכות לנכס', 'כללי'];
+    const apartmentTypes = ['דירה', 'דירת גן', 'גג/פנטהאוז', 'דופלקס', 'דירת נופש', 'מרתף/פרטר', 'טריפלקס', 'יחידת דיור', 'סטודיו/לופט'];
+    const houseTypes = ['בית פרטי/קוטג,', 'דו משפחתי', 'משק חקלאי/נחלה', 'משק עזר'];
+    const extraTypes = ['מגרשים', 'דיור מוגן', 'בניין מגורים', 'מחסן', 'חניה', 'קב, רכישה/ זכות לנכס', 'כללי'];
     const initRoomsNumOptions = [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12];
+
+    const [chosenLocation, setChosenLocation] = useState('');
 
     const [isTypeSelectOpen, setIsTypeSelectOpen] = useState(false);
     const [chosenApartmentTypes, setChosenApartmentTypes] = useState([]);
@@ -23,8 +31,8 @@ function AdvancedSearch(props) {
     const [maxRoomsOptions, setMaxRoomsOptions] = useState(initRoomsNumOptions);
     const [minRoomsVal, setMinRoomsVal] = useState(0);
     const [maxRoomsVal, setMaxRoomsVal] = useState(0);
-    const [isMinRoomSelectOpen, setIsMinRoomSelectOpen] = useState(false);
-    const [isMaxRoomSelectOpen, setIsMaxRoomSelectOpen] = useState(false);
+
+    const locationRef = useRef(null);
 
     const typeRef = useRef(null);
 
@@ -35,36 +43,30 @@ function AdvancedSearch(props) {
     const maxPriceRef = useRef(null);
 
     useEffect(() => {
+        axios.get('../../allLocals.json', {
+            headers : { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+                }
+            })
+            .then((response) => {
+                locationRef.current = response.data;
+            });
+    }, []);
+
+    useEffect(() => {
         if (!isBasicSearchOpen) setIsRoomNumSelectOpen(false);
     }, [isBasicSearchOpen]);
 
     useEffect(() => {
-        if (!isRoomNumSelectOpen || !minRoomsNumRef.current || !maxRoomsNumRef.current || minRoomsVal === 0) return;
+        if (!typeRef.current) return;
 
-        if (minRoomsVal === 'הכל') {
-            minRoomsNumRef.current.value = '';
-            return setMaxRoomsOptions([...initRoomsNumOptions]);
-        }
-        
-        const optionIndex = initRoomsNumOptions.indexOf(Number(minRoomsVal));
-        setMaxRoomsOptions(initRoomsNumOptions.slice(optionIndex));
-
-        minRoomsNumRef.current.value = minRoomsVal;
-    }, [minRoomsVal, isRoomNumSelectOpen]);
-
-    useEffect(() => {
-        if (!isRoomNumSelectOpen || !minRoomsNumRef.current || !maxRoomsNumRef.current || maxRoomsVal === 0) return;
-
-        if (maxRoomsVal === 'הכל') {
-            maxRoomsNumRef.current.value = '';
-            return setMinRoomsOptions([...initRoomsNumOptions]);
-        }
-        
-        const optionIndex = initRoomsNumOptions.indexOf(Number(maxRoomsVal));
-        setMinRoomsOptions(initRoomsNumOptions.slice(0, optionIndex + 1));
-
-        maxRoomsNumRef.current.value = maxRoomsVal;
-    }, [maxRoomsVal, isRoomNumSelectOpen]);
+        const chosenTypes = [...chosenApartmentTypes, ...chosenHouseTypes, ...chosenExtraTypes];
+        const chosenTypesLen = chosenTypes.length;
+        if (chosenTypesLen === 0) return typeRef.current.value = '';
+        if (chosenTypesLen === 1) return typeRef.current.value = chosenTypes[0];
+        typeRef.current.value = `${chosenTypesLen} סוגי נכסים`;
+    }, [chosenApartmentTypes, chosenHouseTypes, chosenExtraTypes]);
 
     useEffect(() => {
         if (!minRoomsNumRef.current || !maxRoomsNumRef.current || !roomsNumRef.current) return;
@@ -82,11 +84,8 @@ function AdvancedSearch(props) {
     }, [minRoomsVal, maxRoomsVal]);
 
     const closeOpenDropdown = () => {
+        setIsTypeSelectOpen(false);
         setIsRoomNumSelectOpen(false);
-    }
-
-    const numInputOnChange = (ref) => {
-        ref.current.value = ref.current.value.replace(/[^0-9]+/g, '');
     }
 
     const searchOnSubmit = (e) => {
@@ -104,20 +103,51 @@ function AdvancedSearch(props) {
             />
         
             { isBasicSearchOpen &&
-                <form>
+                <form onSubmit={searchOnSubmit}>
                     <label>חפשו עיר או רחוב </label>
-                    <input
-                        placeholder="לדוגמה: הרצליה"
+     
+                    <AutoCompleteInput
+                        allOptionsListRef={locationRef}
+                        setChosenOption={setChosenLocation}
+                        chosenOption={chosenLocation}
+                        isDisabled={false}
+                        placeHolder={"לדוגמה: הרצליה"}
                     />
 
                     <label>סוג נכס </label>
-                    <div className="div-input" onClick={(e) => {  e.stopPropagation(); setIsTypeSelectOpen(!isRoomNumSelectOpen); }}>
+                    <div className="div-input" onClick={(e) => {  e.stopPropagation(); setIsTypeSelectOpen(!isTypeSelectOpen); }}>
                         <input className="fake-input" ref={typeRef} placeholder="בחרו סוגי נכסים" />
                         
                         <ExpandArrow isExpanded={isTypeSelectOpen} />
 
                         { isTypeSelectOpen &&
-                            <></>
+                            <div
+                                className="select-container types-select-container"
+                                onClick={(e) => {  e.stopPropagation(); }}
+                            >
+                                <Select
+                                    options={apartmentTypes}
+                                    chosenOptions={chosenApartmentTypes}
+                                    setChosenOptions={setChosenApartmentTypes}
+                                    value={"דירות"}
+                                />
+                                <Select
+                                    options={houseTypes}
+                                    chosenOptions={chosenHouseTypes}
+                                    setChosenOptions={setChosenHouseTypes}
+                                    value={"בתים"}
+                                />
+                                <Select
+                                    options={extraTypes}
+                                    chosenOptions={chosenExtraTypes}
+                                    setChosenOptions={setChosenExtraTypes}
+                                    value={"סוגים נוספים"}
+                                />
+
+                                <div className="types-select-footer">
+                                    <span className="link-span" onClick={() => { setIsTypeSelectOpen(false); }}>בחירה</span>
+                                </div>
+                            </div>
                         }
                     </div>
 
@@ -128,44 +158,38 @@ function AdvancedSearch(props) {
                         <ExpandArrow isExpanded={isRoomNumSelectOpen} />
 
                         { isRoomNumSelectOpen &&
-                            <div className="select-container room-num-selects__container" onClick={(e) => { e.stopPropagation(); }}>
-                                <SelectInput
-                                    inputRef={minRoomsNumRef}
-                                    placeholder={"מ-"}
-                                    options={minRoomsOptions}
-                                    setChosenOption={setMinRoomsVal}
-                                    selectClassName={"min-price-select"}
-                                    isSelectOpen={isMinRoomSelectOpen}
-                                    setIsSelectOpen={setIsMinRoomSelectOpen}
-                                />
-                                <SelectInput
-                                    inputRef={maxRoomsNumRef}
-                                    placeholder={"עד-"}
-                                    options={maxRoomsOptions}
-                                    setChosenOption={setMaxRoomsVal}
-                                    selectClassName={"max-price-select"}
-                                    isSelectOpen={isMaxRoomSelectOpen}
-                                    setIsSelectOpen={setIsMaxRoomSelectOpen}
-                                />
-                            </div>
+                            <NumSelections
+                                minRef={minRoomsNumRef}
+                                maxRef={maxRoomsNumRef}
+                                minVal={minRoomsVal}
+                                maxVal={maxRoomsVal}
+                                setMinVal={setMinRoomsVal}
+                                setMaxVal={setMaxRoomsVal}
+                                minOptions={minRoomsOptions}
+                                setMinOptions={setMinRoomsOptions}
+                                maxOptions={maxRoomsOptions}
+                                setMaxOptions={setMaxRoomsOptions}
+                                initOptions={initRoomsNumOptions}
+                            />
                         }
                     </div>
 
                     <label>מחיר</label>
-                    <div>
-                        <input
-                            placeholder="ממחיר"
-                            ref={minPriceRef}
-                            onChange={() => { numInputOnChange(minPriceRef); }}
-                        />
-                        <input
-                            placeholder="עד מחיר"
-                            ref={maxPriceRef}
-                            onChange={() => { numInputOnChange(maxPriceRef); }}
-                        />
-                    </div>
-
-
+                    <NumRangeInputs
+                        firstPlaceholder={"ממחיר"}
+                        firstRef={minPriceRef}
+                        secondPlaceholder={"עד מחיר"}
+                        secondRef={maxPriceRef}
+                    />
+                    
+                    <ExpandButton
+                        isExpanded={areAdvancedFeaturesOpen}
+                        setIsExpand={setAreAdvancedFeaturesOpen}
+                        text={"מתקדם חיפוש"}
+                    />
+                    { areAdvancedFeaturesOpen && 
+                        <AdvancedFeatures />
+                    }
 
                     <IconAndTextBtn
                         onCLickFunc={searchOnSubmit}

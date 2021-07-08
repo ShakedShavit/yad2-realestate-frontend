@@ -1,0 +1,32 @@
+.apartment-type-select {
+    width: 100%;
+    padding: 0 20px;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: 30% 40% 30%;
+    align-items: center;
+    
+    >span {
+        color: grey;
+        font-size: 14px;
+    }
+
+    .select-open-container {
+        height: 100%;
+        position: relative;
+
+        .arrow {
+            top: calc(50% - 8px);
+        }
+    }
+}
+
+.options-container {
+    padding: 0 20px;
+    margin-bottom: 10px;
+
+    .select-option {
+        margin: 0 20px;
+    }
+}

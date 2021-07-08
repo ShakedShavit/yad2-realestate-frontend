@@ -1,0 +1,16 @@
+.num-range-inputs__container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 5px;
+
+    input {
+        max-width: 170px;
+    }
+
+    .separation-line {
+        width: 15px;
+        height: 1.5px;
+        background-color: #ccc;
+    }
+}

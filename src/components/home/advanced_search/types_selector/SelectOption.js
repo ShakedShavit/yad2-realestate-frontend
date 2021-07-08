@@ -1,13 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CheckBox from '../CheckBox';
 
 function SelectOption(props) {
-    const isOptionChosen = () => props.chosenOptions.include(props.value);
+    const [isHoveredOver, setIsHoveredOver] = useState(false);
+
+    const optionOnClick = () => {
+        const valueIndex = props.chosenOptions.indexOf(props.value);
+
+        if (valueIndex === -1)
+            return props.setChosenOptions([ ...props.chosenOptions, props.value ]);
+
+        let newChosenOptions = [...props.chosenOptions];
+        newChosenOptions.splice(valueIndex, 1);
+        props.setChosenOptions(newChosenOptions);
+    }
 
     return (
-        <div onClick={() => { if (!isOptionChosen) props.setChosenOptions([ ...props.chosenOptions, props.value ]) }}>
-            <CheckBox isChecked={isOptionChosen} />
-            <b>{props.value}</b>
+        <div
+            onClick={optionOnClick}
+            onMouseEnter={() => { setIsHoveredOver(true); }}
+            onMouseLeave={() => { setIsHoveredOver(false); }}
+            className="select-option"
+        >
+            <CheckBox
+                isChecked={props.chosenOptions.includes(props.value)}
+                isHovered={isHoveredOver}
+            />
+            <span>{props.value}</span>
         </div>
     );
 }
