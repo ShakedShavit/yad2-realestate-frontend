@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CheckBox from '../CheckBox';
+import CheckBox from '../../../main/CheckBox';
 
 function SelectOption(props) {
     const [isHoveredOver, setIsHoveredOver] = useState(false);

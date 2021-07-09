@@ -1,13 +1,13 @@
 .header {
-    top: 0;
-    position: fixed;
-    z-index: 800;
     width: 100%;
-    height: $navbar-mobile-height;
-    background-color: #ff7100;
+    height: 70px;
+    background-color: white;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    border-bottom: 1px solid #eee;
+    padding: 0 20px;
+    margin-bottom: 40px;
 
     .navbar-toggle-container {
         width: 64px;
@@ -26,7 +26,7 @@
         $menu-toggle-container-length: 20px;
         >div {
             line-height: 1;
-            background-color: #fff;
+            background-color: #606060;
             border-radius: 20px;
             width: $menu-toggle-container-length;
             height: calc(#{$menu-toggle-container-length} / 3 - 3.5px);
@@ -34,15 +34,12 @@
     }
 
     .logo-wrapper {
-        $logo-height: 25px;
-
-        width: 100px;
         height: 100%;
-        padding: calc(#{$navbar-mobile-height - $logo-height} / 2) 0;
+        display: flex;
+        align-items: center;
 
         >img {
             width: 90px;
-            height: $logo-height;
 
             &:hover {
                 cursor: pointer;
@@ -50,34 +47,34 @@
         }
     }
 
-    .header__go-back-button {
-        width: 34px;
-        height: 100%;
-        font-size: 1.3rem;
-        line-height: 1.75rem;
-        font-weight: 400;
-        color: white;
-        background: transparent;
-        display: block;
-    }
+    // .header__go-back-button {
+    //     width: 34px;
+    //     height: 100%;
+    //     font-size: 1.3rem;
+    //     line-height: 1.75rem;
+    //     font-weight: 400;
+    //     color: white;
+    //     background: transparent;
+    //     display: block;
+    // }
 }
-.header-hidden {
-    transform: translateY(-45px);
-    transition: all .2s ease;
-}
-.header-visible {
-    transform: translateY(0);
-    transition: all .2s ease;
-}
+// .header-hidden {
+//     transform: translateY(-45px);
+//     transition: all .2s ease;
+// }
+// .header-visible {
+//     transform: translateY(0);
+//     transition: all .2s ease;
+// }
 
-.header-bottom-spacer {
-    margin: 0 auto;
-    position: fixed;
-    top: 45px;
-    z-index: 400;
-    overflow: hidden;
-    text-align: center;
-    width: 100%;
-    background-color: #f9f9f9;
-    padding: 10px 0;
-}
+// .header-bottom-spacer {
+//     margin: 0 auto;
+//     position: fixed;
+//     top: 45px;
+//     z-index: 400;
+//     overflow: hidden;
+//     text-align: center;
+//     width: 100%;
+//     background-color: #f9f9f9;
+//     padding: 10px 0;
+// }

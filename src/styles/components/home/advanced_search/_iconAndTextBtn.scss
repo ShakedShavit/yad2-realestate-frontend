@@ -1,4 +1,5 @@
 .icon-and-text-btn {
+    position: relative;
     border-radius: 2px;
     display: flex;
     flex-direction: row;
@@ -8,6 +9,17 @@
     padding: 11px 5px;
     min-width: 138px;
     font-size: 1rem;
+
+    .orange-circle {
+        position: absolute;
+        top: -7px;
+        right: -7px;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        border: 3px solid white;
+        background: #ff7100;
+    }
 
     .icon {
         display: block;

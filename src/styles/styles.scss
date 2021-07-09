@@ -2,9 +2,11 @@
 @import './base/settings';
 @import './components/main/loader';
 @import './components/main/closeSymbol';
+@import './components/main/checkBox';
 @import './components/main/modal';
 @import './components/main/notification';
 @import './components/main/publishButton';
+@import './components/main/entryDateInput';
 @import './components/main/form';
 @import './components/home/homePage';
 @import './components/main/header';
@@ -42,6 +44,7 @@
 @import './components/home/advanced_search/hiddenSelect';
 @import './components/home/advanced_search/selectInput';
 @import './components/home/advanced_search/numRangeInputs';
+@import './components/home/advanced_search/numSelections';
 @import './components/home/advanced_search/advancedSearch';
 @import './components/home/advanced_search/types_selectors/dividerLine';
 @import './components/home/advanced_search/types_selectors/selectOption';

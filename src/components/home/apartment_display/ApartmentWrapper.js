@@ -96,7 +96,7 @@ function ApartmentWrapper({ details, files }) {
                     setIsDisplayFilesModalOpen={setIsDisplayFilesModalOpen}
                 />
                 :
-                <div className="image-small"><img src={imagePlaceholder} alt="file-placeholder"></img></div>
+                <div className="image-small"></div>
             }
 
             <div className="details-wrapper-closed">

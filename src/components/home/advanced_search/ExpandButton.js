@@ -2,7 +2,7 @@ import React from 'react';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import IconAndTextBtn from './IconAndTextBtn';
 
-function ExpandButton({ isExpanded, setIsExpand, text }) {
+function ExpandButton({ isExpanded, setIsExpand, text, chosenFeaturesCounter = 0 }) {
     return (
         <IconAndTextBtn
             onCLickFunc={() => { setIsExpand(!isExpanded); }}
@@ -10,6 +10,7 @@ function ExpandButton({ isExpanded, setIsExpand, text }) {
             iconClassName={isExpanded ? "" : "closed-icon"}
             icon={faTimes}
             text={text}
+            chosenFeaturesCounter={chosenFeaturesCounter}
         />
     );
 }

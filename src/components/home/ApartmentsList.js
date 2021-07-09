@@ -1,28 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { newApartmentsAction } from '../../actions/apartmentsActions';
 import { fetchApartmentsFromDB } from '../../server/api/apartment';
+import Loader from '../main/Loader';
 import ApartmentWrapper from './apartment_display/ApartmentWrapper';
 
-function ApartmentsList({ searchParamsState, apartmentsState, dispatchApartmentsData }) {
-    // When search query params change, fetch new apartments and remove the old ones
-    useEffect(() => {
-        // fetch apartments
-        fetchApartmentsFromDB(searchParamsState)
-        .then((newApartments) => {
-            console.log(searchParamsState, newApartments);
-            dispatchApartmentsData(newApartmentsAction(newApartments));
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-    }, [searchParamsState]);
-
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         dispatchSearchParamsData(newSearchParamsAction({ "town": "Tel-Aviv" }))
-    //     }, 1000);
-    // }, []);
-
+function ApartmentsList({ isLoadingNewApartment, apartmentsState, dispatchApartmentsData }) {
     return (
         <div className="apartments-list">
             { apartmentsState.apartments.map(({ apartment, files }, index) => {
@@ -34,6 +16,12 @@ function ApartmentsList({ searchParamsState, apartmentsState, dispatchApartments
                     />
                 )
             })}
+
+            <div className="footer-loader-container">
+            { isLoadingNewApartment &&
+                <Loader />                
+            }
+            </div>
         </div>
     );
 }

@@ -5,9 +5,12 @@ import { LoginContext } from '../../context/loginContext';
 import { saveUserOnCookie } from '../../cookies/userDataCookies';
 import Loader from '../main/Loader';
 import Notification from '../main/Notification';
+import { useHistory } from 'react-router-dom';
 
 function SignupSecondPage(props) {
     const { dispatchUserData } = useContext(LoginContext);
+
+    const history = useHistory();
 
     const [isErrNotification, setIsErrNotification] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -124,6 +127,8 @@ function SignupSecondPage(props) {
             props.setIsLoginNotification(true);
             saveUserOnCookie(res);
             props.setIsLoginModalOpen(false);
+
+            if (props.isGoToPublish) history.push('/publish');
         })
         .catch((err) => {
             setIsLoading(false);
@@ -135,15 +140,15 @@ function SignupSecondPage(props) {
         <>
         <form onSubmit={signupOnSubmit} className="login-from second-signup-form">
             <div className="form-body">
-                <label for="first-name">שם פרטי</label>
+                <label>שם פרטי</label>
                 <input name="first-name" type="text" placeholder="הקלד שם פרטי" className={firstNameClassName} onChange={firstNameOnChange} onBlur={firstNameOnChange}></input>
                 { firstNameErrMsg.length !== 0 && <span className="input-err-msg">{firstNameErrMsg}</span> }
 
-                <label for="last-name">שם משפחה</label>
+                <label>שם משפחה</label>
                 <input name="last-name" type="text" placeholder="הקלד שם משפחה" className={lastNameClassName} onChange={lastNameOnChange} onBlur={lastNameOnChange}></input>
                 { lastNameErrMsg.length !== 0 && <span className="input-err-msg">{lastNameErrMsg}</span> }
                 
-                <label for="telephone-number">מספר טלפון</label>
+                <label>מספר טלפון</label>
                 <div>
                     <input type="tel" maxLength="7" placeholder="טלפון" className={telNameClassName} onChange={telNumOnChange} onBlur={telNumOnChange}></input>
 

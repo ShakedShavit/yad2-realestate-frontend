@@ -11,7 +11,7 @@ import { PublishApartmentContext } from '../../../context/apartmentPublishContex
 import { savePublishApartmentOnCookie } from '../../../cookies/publishApartmentCookies';
 
 function PublishApartment() {
-    const { apartmentPublishState, dispatchApartmentPublishData } = useContext(PublishApartmentContext);
+    const { apartmentPublishState } = useContext(PublishApartmentContext);
 
     useEffect(() => {
         savePublishApartmentOnCookie(apartmentPublishState);

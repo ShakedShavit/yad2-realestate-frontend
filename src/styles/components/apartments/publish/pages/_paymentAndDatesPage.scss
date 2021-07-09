@@ -1,15 +1,3 @@
 .payment-and-dates__page-content {
-    .date-properties-container {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        column-gap: 10px;
-    }
-
-    input[type="date"]{
-        width: 44%;
-        &:disabled {
-            opacity: 0.5;
-        }
-    }
+    
 }

@@ -3,25 +3,29 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 
-function CheckBox(props) {
+function CheckBox({
+    isChecked,
+    isHovered,
+    icon
+}) {
     const defaultClassName = "checkbox";
     const [checkBoxClassName, setCheckBoxClassName] = useState(defaultClassName);
 
     useEffect(() => {
         let newClassName = defaultClassName;
 
-        if (props.isChecked) newClassName += " checkbox-checked";
+        if (isChecked) newClassName += " checkbox-checked";
         else newClassName += " checkbox-unchecked";
 
-        if (props.isHovered && props.isChecked) newClassName += " checkbox-checked-hovered";
-        else if (props.isHovered && !props.isChecked) newClassName += " checkbox-unchecked-hovered";
+        if (isHovered && isChecked) newClassName += " checkbox-checked-hovered";
+        else if (isHovered && !isChecked) newClassName += " checkbox-unchecked-hovered";
 
         setCheckBoxClassName(newClassName);
-    }, [props.isChecked, props.isHovered]);
+    }, [isChecked, isHovered]);
 
     return (
         <div className={checkBoxClassName}>
-            { props.isChecked && <FontAwesomeIcon className="icon" icon={props.icon || faCheck} /> }
+            { isChecked && <FontAwesomeIcon className="icon" icon={icon || faCheck} /> }
         </div>
     );
 }

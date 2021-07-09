@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import SelectInput from './SelectInput';
+import DividerLine from './types_selector/DividerLine';
 
 function NumSelections({
     minRef,
@@ -18,9 +19,9 @@ function NumSelections({
     const [isMaxSelectOpen, setIsMaxSelectOpen] = useState(false);
 
     useEffect(() => {
-        if (!minRef.current || !maxRef.current || minVal === 0) return;
+        if (!minRef.current || !maxRef.current) return;
 
-        if (minVal === 'הכל') {
+        if (minVal === 'הכל' || minVal === '') {
             minRef.current.value = '';
             return setMaxOptions([...initOptions]);
         }
@@ -32,11 +33,9 @@ function NumSelections({
     }, [minVal]);
 
     useEffect(() => {
-        console.log(maxVal);
+        if (!minRef.current || !maxRef.current) return;
 
-        if (!minRef.current || !maxRef.current || maxVal === 0) return;
-
-        if (maxVal === 'הכל') {
+        if (maxVal === 'הכל'|| maxVal === '') {
             maxRef.current.value = '';
             return setMinOptions([...initOptions]);
         }
@@ -48,7 +47,7 @@ function NumSelections({
     }, [maxVal]);
 
     return (
-        <div className="select-container room-num-selects__container" onClick={(e) => { e.stopPropagation(); }}>
+        <div className="double-select__container" onClick={(e) => { e.stopPropagation(); }}>
             <SelectInput
                 inputRef={minRef}
                 placeholder={"מ-"}
@@ -58,6 +57,7 @@ function NumSelections({
                 isSelectOpen={isMinSelectOpen}
                 setIsSelectOpen={setIsMinSelectOpen}
             />
+            <DividerLine />
             <SelectInput
                 inputRef={maxRef}
                 placeholder={"עד-"}

@@ -3,4 +3,18 @@
     flex-direction: column;
     width: 100%;
     padding: 10px;
+
+    .footer-loader-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50px;
+        width: 100%;
+        background: #f9f9f9;
+        margin-top: 10px;
+
+        .loader {
+            color: #ccc;
+        }
+    }
 }

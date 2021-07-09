@@ -1,7 +1,9 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useRef, useState } from 'react';
+import { addApartmentsAction, newApartmentsAction } from '../../actions/apartmentsActions';
 import { getSearchParamsFromCookie, saveSearchParamsOnCookie } from '../../cookies/searchParamsCookies';
 import apartmentsReducer, { initialApartmentsState } from '../../reducers/apartmentsReducer';
 import searchParamsReducer, { initialSearchParamsState } from '../../reducers/searchParamsReducer';
+import { fetchApartmentsFromDB } from '../../server/api/apartment';
 import LoginPage from '../login/LoginPage';
 import SignupSecondPage from '../login/SignupSecondPage';
 import WelcomeBanner from '../login/WelcomeBanner';
@@ -17,12 +19,17 @@ function HomePage() {
     const cookiesSearchQueryParamsData = getSearchParamsFromCookie();
     const [searchParamsState, dispatchSearchParamsData] = useReducer(searchParamsReducer, cookiesSearchQueryParamsData || initialSearchParamsState);
 
+    const [isLoadingNewApartment, setIsLoadingNewApartments] = useState(false);
+
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+    const [isGoToPublish, setIsGoToPublish] = useState(false);
     const [isLoginNotification, setIsLoginNotification] = useState(false);
     const [isSignup, setIsSignup] = useState(false);
     const [isSignupSecondPage, setIsSignupSecondPage] = useState(false);
     const [emailVal, setEmailVal] = useState('');
     const [passwordVal, setPasswordVal] = useState('');
+
+    const homePageRef = useRef(null);
 
     useEffect(() => {
         saveSearchParamsOnCookie(searchParamsState);
@@ -32,13 +39,53 @@ function HomePage() {
         if (!isLoginModalOpen && isSignupSecondPage) setIsSignupSecondPage(false);
     }, [isLoginModalOpen, isSignupSecondPage]);
 
+    // When search query params change, fetch new apartments and remove the old ones
+    useEffect(() => {
+         // fetch apartments
+         fetchApartmentsFromDB(searchParamsState, apartmentsState.apartmentIds || [])
+         .then((newApartments) => {
+             console.log(searchParamsState, newApartments);
+             dispatchApartmentsData(newApartmentsAction(newApartments));
+             setIsLoadingNewApartments(false);
+         })
+         .catch((err) => {
+             console.log(err);
+             setIsLoadingNewApartments(false);
+         });
+    }, [searchParamsState]);
+
+    const pageOnScroll = () => {
+        if (!homePageRef.current || isLoginModalOpen || isLoadingNewApartment) return;
+
+        const { scrollTop, scrollHeight, clientHeight } = homePageRef.current;
+        if (Math.abs(scrollTop + clientHeight - scrollHeight) > 1) return;
+        
+        setIsLoadingNewApartments(true);
+
+        // fetch apartments
+        fetchApartmentsFromDB(searchParamsState, apartmentsState.apartmentIds || [])
+        .then((newApartments) => {
+            console.log(searchParamsState, newApartments);
+            dispatchApartmentsData(addApartmentsAction(newApartments));
+            setIsLoadingNewApartments(false);
+        })
+        .catch((err) => {
+            console.log(err);
+            setIsLoadingNewApartments(false);
+        });
+    };
+
     return (
         <>
-        <div className={isLoginModalOpen ? "home-page no-scroll" : "home-page"}>
-            <Header setIsLoginModalOpen={setIsLoginModalOpen} />
+        <div
+            className={isLoginModalOpen ? "home-page no-scroll" : "home-page"}
+            ref={homePageRef}
+            onScroll={pageOnScroll}
+        >
+            <Header setIsLoginModalOpen={setIsLoginModalOpen} setIsGoToPublish={setIsGoToPublish} />
             
             { isLoginModalOpen &&
-                <Modal setIsModalOpen={setIsLoginModalOpen}>
+                <Modal setIsModalOpen={setIsLoginModalOpen} setIsGoToPublish={setIsGoToPublish}>
                     <div className="login-page">
                         <WelcomeBanner isSignup={isSignup} />
 
@@ -59,6 +106,7 @@ function HomePage() {
                             passwordVal={passwordVal}
                             setPasswordVal={setPasswordVal}
                             setIsLoginNotification={setIsLoginNotification}
+                            isGoToPublish={isGoToPublish}
                         />
                         :
                         <SignupSecondPage
@@ -69,6 +117,7 @@ function HomePage() {
                             passwordVal={passwordVal}
                             setPasswordVal={setPasswordVal}
                             setIsLoginNotification={setIsLoginNotification}
+                            isGoToPublish={isGoToPublish}
                         />
                         }
                     </div>
@@ -82,7 +131,7 @@ function HomePage() {
             </div>
 
             <AdvancedSearch
-                
+                dispatchSearchParamsData={dispatchSearchParamsData}
             />
 
             <div className="headline second-headline">
@@ -91,7 +140,7 @@ function HomePage() {
             </div>
 
             <ApartmentsList
-                searchParamsState={searchParamsState}
+                isLoadingNewApartment={isLoadingNewApartment}
                 apartmentsState={apartmentsState}
                 dispatchApartmentsData={dispatchApartmentsData}
             />

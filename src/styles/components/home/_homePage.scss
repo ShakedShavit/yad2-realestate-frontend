@@ -1,6 +1,7 @@
 .home-page {
-    padding-top: 110px;
     background-color: #f9f9f9;
+    height: 100vh;
+    overflow-y: scroll;
 
     .headline {
         padding: 0 10px;

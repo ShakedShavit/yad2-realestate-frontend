@@ -22,11 +22,7 @@ function Finalization(props) {
     }, []);
 
     const publishApartmentOnClick = () => {
-        // let filesFd = new FormData();
-        // for (let [key, value] of Object.entries(apartmentPublishState.apartment.filesFd)) {
-            //filesFd.append(key, value);
-        // }
-        // delete apartmentPublishState.apartment.filesFd;
+        if (isLoading) return;
 
         publishApartmentOnDB(userDataState.token, apartmentPublishState.apartment)
         .then((res) => {

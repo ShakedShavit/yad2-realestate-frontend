@@ -1,0 +1,32 @@
+
+    .checkbox {
+        border-radius: 2px;
+        width: 16px;
+        height: 16px;
+        padding-right: 1px;
+        overflow: hidden;
+        margin-left: 5px;
+
+        svg {
+            font-size: 12px;
+        }
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+    .checkbox-checked {
+        background: #ff7100;
+        color: white;
+    }
+    .checkbox-unchecked {
+        background: #fff;
+        border: 1px solid black;
+    }
+
+    .checkbox-checked-hovered {
+        background: #d86000;
+    }
+    .checkbox-unchecked-hovered {
+        border: 1px solid #ff7100;
+    }

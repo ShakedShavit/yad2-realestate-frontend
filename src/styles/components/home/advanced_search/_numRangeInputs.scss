@@ -5,7 +5,7 @@
     column-gap: 5px;
 
     input {
-        max-width: 170px;
+        max-width: calc((100% - 5px) / 2);
     }
 
     .separation-line {

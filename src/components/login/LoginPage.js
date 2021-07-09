@@ -5,9 +5,12 @@ import { LoginContext } from '../../context/loginContext';
 import { saveUserOnCookie } from '../../cookies/userDataCookies';
 import Loader from '../main/Loader';
 import Notification from '../main/Notification';
+import { useHistory } from 'react-router-dom';
 
 function LoginPage(props) {
     const { dispatchUserData } = useContext(LoginContext);
+
+    const history = useHistory();
 
     const [isLoading, setIsLoading] = useState(false);
     const [isErrNotification, setIsErrNotification] = useState(false);
@@ -113,6 +116,8 @@ function LoginPage(props) {
             props.setIsLoginNotification(true);
             saveUserOnCookie(res);
             props.setIsLoginModalOpen(false);
+            
+            if (props.isGoToPublish) history.push('/publish');
         })
         .catch((err) => {
             setIsLoading(false);

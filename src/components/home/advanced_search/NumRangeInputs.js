@@ -1,6 +1,6 @@
 import React from 'react';
 
-function NumRangeInputs({ firstPlaceholder, firstRef, secondPlaceholder, secondRef }) {
+function NumRangeInputs({ minRef, maxRef, setMinVal = () => {}, setMaxVal = () => {} }) {
     const numInputOnChange = (ref) => {
         ref.current.value = ref.current.value.replace(/[^0-9]+/g, '');
     }
@@ -9,14 +9,14 @@ function NumRangeInputs({ firstPlaceholder, firstRef, secondPlaceholder, secondR
         <div className="num-range-inputs__container">
             <input
                 placeholder={"מ-"}
-                ref={firstRef}
-                onChange={() => { numInputOnChange(firstRef); }}
+                ref={minRef}
+                onChange={() => { numInputOnChange(minRef); setMinVal(minRef.current.value); }}
             />
             <div className="separation-line"></div>
             <input
                 placeholder={"עד-"}
-                ref={secondRef}
-                onChange={() => { numInputOnChange(secondRef); }}
+                ref={maxRef}
+                onChange={() => { numInputOnChange(maxRef); setMaxVal(maxRef.current.value); }}
             />
         </div>
     );

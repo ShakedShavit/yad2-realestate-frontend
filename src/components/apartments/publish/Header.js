@@ -11,12 +11,16 @@ function Header() {
     const { userDataState } = useContext(LoginContext);
 
     const closePublishPage = () => {
-        history.push('/');
+        history.push('/fdsf');
     }
 
     return (
         <div className="publish-header">
-            <img src={yad2LogoOrange} alt="yad2-logo" className="logo"></img>
+            <div className="right-side">
+                <img src={yad2LogoOrange} alt="yad2-logo" className="logo"></img>
+                <span className="headline">פרסום מודעה חדשה</span>
+            </div>
+
             <div className="header-info">
                 <img src={userIcon} alt="user-icon" className="user-icon"></img>
                 <span>{userDataState.user.firstName + " " + userDataState.user.lastName}</span>

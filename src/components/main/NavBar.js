@@ -7,7 +7,7 @@ import userIcon from '../../images/user-icon.png';
 import CloseSymbol from './CloseSymbol';
 import PublishButton from './PublishButton';
 
-function Navbar({ setIsNavbarOpen, setIsLoginModalOpen }) {
+function Navbar({ setIsNavbarOpen, setIsLoginModalOpen, publishNewApartmentOnClick }) {
     const { userDataState, dispatchUserData } = useContext(LoginContext);
 
     const [backdropClassList, setBackdropClassList] = useState('hidden-backdrop backdrop');
@@ -36,10 +36,8 @@ function Navbar({ setIsNavbarOpen, setIsLoginModalOpen }) {
     }
 
     const goToLoginPageOnClick = () => {
-        //history.push('/login');
         setIsLoginModalOpen(true);
         setIsNavbarOpen(false);
-        // closeNavbarOnClick();
     }
 
     return (
@@ -68,7 +66,9 @@ function Navbar({ setIsNavbarOpen, setIsLoginModalOpen }) {
                     </div>
                 }
 
-                <PublishButton />
+                <div className="publish-ad__link" onClick={publishNewApartmentOnClick}>
+                    <span>פרסום מודעה</span>
+                </div>
             </nav>
 
             <div className={backdropClassList} onClick={closeNavbarOnClick}></div>

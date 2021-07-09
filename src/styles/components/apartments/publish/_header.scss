@@ -10,6 +10,21 @@
     column-gap: 8px;
     padding: 0 14px;
 
+    .right-side {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .headline {
+            display: none;
+            font-size: 1.2rem;
+        }
+    }
+
+    .logo {
+        width: 70px;
+    }
+
     img:hover {
         cursor: pointer;
     }
@@ -45,6 +60,20 @@
             top: 4px;
             right: 10px;
             height: 15px;
+        }
+    }
+}
+
+@media (min-width: 880px) {
+    .publish-header {
+        .right-side {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+    
+            .headline {
+                display: block;
+            }
         }
     }
 }

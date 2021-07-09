@@ -6,6 +6,7 @@ export const initialApartmentsState = {
 const apartmentsReducer = (apartmentsData, action) => {
     switch (action.type) {
         case "ADD_APARTMENTS":
+            console.log(apartmentsData.apartmentIds, action.newApartmentIds);
             return {
                 apartments: [...apartmentsData.apartments, ...action.newApartments], apartmentIds: [...apartmentsData.apartmentIds, ...action.newApartmentIds]
             };

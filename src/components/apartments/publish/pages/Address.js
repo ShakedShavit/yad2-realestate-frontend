@@ -232,7 +232,7 @@ function Address(props) {
 
                     <label>מספר בית<b>*</b></label>
                     <input onChange={(e) => { setHouseNum(e.target.value) }} type="number" min="0" />
-                    { houseNumErrMsg.length !== 0 && <span className="input-err-msg">{houseNumErrMsg}</span> }
+                    {/* { houseNumErrMsg.length !== 0 && <span className="input-err-msg">{houseNumErrMsg}</span> } */}
                     <PublishInputErrMsg errMsg={houseNumErrMsg} setErrMsg={setHouseNumErrMsg} inputValue={houseNum} />
 
                     <div className="building-details-container">
@@ -240,7 +240,8 @@ function Address(props) {
                         <label>סה"כ קומות בבניין<b>*</b></label>
                         <input onChange={(e) => { setFloorNum(e.target.value) }} type="number" />
                         <input onChange={(e) => { setMaxFloors(e.target.value) }} type="number" />
-                        { floorNumErrMsg.length !== 0 ? <PublishInputErrMsg errMsg={floorNumErrMsg} setErrMsg={setFloorNumErrMsg} inputValue={floorNum} /> : <div></div> }
+                        <PublishInputErrMsg errMsg={floorNumErrMsg} setErrMsg={setFloorNumErrMsg} inputValue={floorNum} />
+                        { floorNumErrMsg.length === 0 && <div></div> }
                         <PublishInputErrMsg errMsg={maxFloorsErrMsg} setErrMsg={setMaxFloorsErrMsg} inputValue={maxFloors} />
                     </div>
 

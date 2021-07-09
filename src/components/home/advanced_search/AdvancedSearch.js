@@ -9,15 +9,28 @@ import AutoCompleteInput from '../../apartments/publish/AutoCompleteInput';
 import AdvancedFeatures from './advanced_features/AdvanedFeatures';
 import NumRangeInputs from './NumRangeInputs';
 import NumSelections from './NumSelections';
+import { newSearchParamsAction } from '../../../actions/searchParamsActions';
 
-function AdvancedSearch(props) {
-    const [isBasicSearchOpen, setIsBasicSearchOpen] = useState(true); //!CHANGE TO FALSE
+const addRangeQueryToObject = (object, key, minValue, maxValue) => {
+    if (!!minValue) object[`min-${key}`] = minValue;
+    if (!!maxValue) object[`max-${key}`] = maxValue;
+}
+
+function AdvancedSearch({ dispatchSearchParamsData }) {
+    const [isBasicSearchOpen, setIsBasicSearchOpen] = useState(false);
     const [areAdvancedFeaturesOpen, setAreAdvancedFeaturesOpen] = useState(false);
+    const [extraFeaturesBtnTxt, setExtraFeaturesBtnTxt] = useState("חיפוש מתקדם");
+    const [chosenFeaturesCounter, setChosenFeaturesCounter] = useState(0);
 
     const apartmentTypes = ['דירה', 'דירת גן', 'גג/פנטהאוז', 'דופלקס', 'דירת נופש', 'מרתף/פרטר', 'טריפלקס', 'יחידת דיור', 'סטודיו/לופט'];
     const houseTypes = ['בית פרטי/קוטג,', 'דו משפחתי', 'משק חקלאי/נחלה', 'משק עזר'];
-    const extraTypes = ['מגרשים', 'דיור מוגן', 'בניין מגורים', 'מחסן', 'חניה', 'קב, רכישה/ זכות לנכס', 'כללי'];
+    const extraTypes = ['מגרשים', 'דיור מוגן', 'בניין מגורים', 'מחסן', 'חניה', 'כללי'];
+    const apartmentTypesEn = ['apartment', 'garden-apartment', 'rooftop/penthouse', 'duplex', 'vacation-apartment', 'basement/parterre', 'triplex', 'residential-unit', 'studio/loft'];
+    const houseTypesEn = ['private-house/cottage', 'two-family-dwelling', 'farm/estate', 'auxiliary-farm'];
+    const extraTypesEn = ['lots', 'protected-accommodation', 'residential-building', 'garage', 'parking', 'general'];
     const initRoomsNumOptions = [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12];
+    const properties = ['דלתות פנדור', 'חניה', 'מעלית', 'מיזוג', 'מרפסת', 'ממ"ד', 'סורגים', 'מחסן', 'גישה לנכים', 'משופצת', 'מרוהטת', 'בבלעדיות'];
+    const propertiesEn = ['hasPandorDoors', 'numberOfParkingSpots', 'hasLift', 'hasAirConditioning', 'numberOfBalconies', 'hasSafeRoom', 'hasWindowBars', 'hasShed', 'isAccessible', 'isRenovated', 'hasFurniture'];
 
     const [chosenLocation, setChosenLocation] = useState('');
 
@@ -29,13 +42,20 @@ function AdvancedSearch(props) {
     const [isRoomNumSelectOpen, setIsRoomNumSelectOpen] = useState(false);
     const [minRoomsOptions, setMinRoomsOptions] = useState(initRoomsNumOptions);
     const [maxRoomsOptions, setMaxRoomsOptions] = useState(initRoomsNumOptions);
-    const [minRoomsVal, setMinRoomsVal] = useState(0);
-    const [maxRoomsVal, setMaxRoomsVal] = useState(0);
+    const [minRoomsVal, setMinRoomsVal] = useState('');
+    const [maxRoomsVal, setMaxRoomsVal] = useState('');
+
+    const [chosenProperties, setChosenProperties] = useState([]);
+    const [minFloorsVal, setMinFloorsVal] = useState('');
+    const [maxFloorsVal, setMaxFloorsVal] = useState('');
+    const [minSizeVal, setMinSizeVal] = useState('');
+    const [maxSizeVal, setMaxSizeVal] = useState('');
+    const [isEntranceImmediate, setIsEntranceImmediate] = useState(false);
+    const [entranceDate, setEntranceDate] = useState('');
+    const [freeSearchVal, setFreeSearchVal] = useState('');
 
     const locationRef = useRef(null);
-
     const typeRef = useRef(null);
-
     const roomsNumRef = useRef(null);
     const minRoomsNumRef = useRef(null);
     const maxRoomsNumRef = useRef(null);
@@ -57,6 +77,11 @@ function AdvancedSearch(props) {
     useEffect(() => {
         if (!isBasicSearchOpen) setIsRoomNumSelectOpen(false);
     }, [isBasicSearchOpen]);
+
+    useEffect(() => {
+        if (chosenFeaturesCounter === 0) return setExtraFeaturesBtnTxt("חיפוש מתקדם");
+        setExtraFeaturesBtnTxt(`חיפוש מתקדם (${chosenFeaturesCounter})`);
+    }, [chosenFeaturesCounter]);
 
     useEffect(() => {
         if (!typeRef.current) return;
@@ -83,13 +108,97 @@ function AdvancedSearch(props) {
         roomsNumRef.current.value = `${minRoomsVal} - ${maxRoomsVal}`;
     }, [minRoomsVal, maxRoomsVal]);
 
+    useEffect(() => {
+        let counter = chosenProperties.length;
+        if ((!!minFloorsVal && minFloorsVal !== 'הכל') || (!!maxFloorsVal && maxFloorsVal !== 'הכל')) counter++;
+        if ((!!minSizeVal && minSizeVal !== 'הכל') || (!!maxSizeVal && maxSizeVal !== 'הכל')) counter++;
+        if (isEntranceImmediate || !!entranceDate) counter++;
+        if (!!freeSearchVal) counter++;
+        setChosenFeaturesCounter(counter);
+    }, [chosenProperties, minFloorsVal, maxFloorsVal, minSizeVal, maxSizeVal, isEntranceImmediate, entranceDate, freeSearchVal]);
+
     const closeOpenDropdown = () => {
         setIsTypeSelectOpen(false);
         setIsRoomNumSelectOpen(false);
     }
 
-    const searchOnSubmit = (e) => {
+    const resetSearchOnClick = () => {
+        setChosenFeaturesCounter(0);
+        setChosenLocation('');
+        setChosenApartmentTypes([]);
+        setChosenHouseTypes([]);
+        setChosenExtraTypes([]);
+        setMinRoomsVal('');
+        setMaxRoomsVal('');
+        setChosenProperties([]);
+        setMinFloorsVal('');
+        setMaxFloorsVal('');
+        setMinSizeVal('');
+        setMaxSizeVal('');
+        setIsEntranceImmediate(false);
+        setEntranceDate('');
+        setFreeSearchVal('');
+    }
+
+    const searchOnSubmit = async (e) => {
         e.preventDefault();
+
+        const newQueryParams = {};
+
+        // Location
+        if (chosenLocation) {
+            let response;
+            try {
+                response = await axios.get('../../citiesArray.json', {
+                    headers : { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                        }
+                    });
+            } catch (err) {}
+
+            if (!!response) {
+                if (response.data.includes(chosenLocation)) newQueryParams.town = chosenLocation;
+                else newQueryParams.streetName = chosenLocation;
+            }
+        }
+
+        // Properties
+        const propertiesLen = properties.length;
+        for (let i = 0; i < chosenProperties.length; i++) {
+            const propertyIndex = properties.indexOf(chosenProperties[i]);
+            if (propertyIndex === propertiesLen - 1) continue;
+            if (propertyIndex === 1 || propertyIndex === 4) {
+                newQueryParams[`min-${propertiesEn[propertyIndex]}`] = 1;
+                continue;
+            }
+            newQueryParams[propertiesEn[propertyIndex]] = true;
+        }
+
+        // Types
+        newQueryParams.types = [];
+        for (let i = 0; i < chosenApartmentTypes.length; i++)
+            newQueryParams.types.push(apartmentTypesEn[apartmentTypes.indexOf(chosenApartmentTypes[i])]);
+        for (let i = 0; i < chosenHouseTypes.length; i++)
+            newQueryParams.types.push(houseTypesEn[houseTypes.indexOf(chosenHouseTypes[i])]);
+        for (let i = 0; i < chosenExtraTypes.length; i++)
+            newQueryParams.types.push(extraTypesEn[extraTypes.indexOf(chosenExtraTypes[i])]);
+
+        // Number of rooms
+        addRangeQueryToObject(newQueryParams, 'numberOfRooms', minRoomsVal, maxRoomsVal);
+        // Floor number
+        addRangeQueryToObject(newQueryParams, 'floor', minFloorsVal, maxFloorsVal);
+        // Size
+        addRangeQueryToObject(newQueryParams, 'totalSqm', minSizeVal, maxSizeVal);
+        // Price
+        addRangeQueryToObject(newQueryParams, 'price', minPriceRef.current?.value, maxPriceRef.current?.value);
+        // Entry date
+        if (isEntranceImmediate) newQueryParams.isImmediate = true;
+        addRangeQueryToObject(newQueryParams, 'date', null, entranceDate);
+        // Description
+        if (!!freeSearchVal) newQueryParams.description = freeSearchVal;
+
+        dispatchSearchParamsData(newSearchParamsAction(newQueryParams));
     }
 
     return (
@@ -158,6 +267,7 @@ function AdvancedSearch(props) {
                         <ExpandArrow isExpanded={isRoomNumSelectOpen} />
 
                         { isRoomNumSelectOpen &&
+                            <div className="select-container">
                             <NumSelections
                                 minRef={minRoomsNumRef}
                                 maxRef={maxRoomsNumRef}
@@ -171,24 +281,38 @@ function AdvancedSearch(props) {
                                 setMaxOptions={setMaxRoomsOptions}
                                 initOptions={initRoomsNumOptions}
                             />
+                            </div>
                         }
                     </div>
 
                     <label>מחיר</label>
                     <NumRangeInputs
-                        firstPlaceholder={"ממחיר"}
-                        firstRef={minPriceRef}
-                        secondPlaceholder={"עד מחיר"}
-                        secondRef={maxPriceRef}
+                        minRef={minPriceRef}
+                        maxRef={maxPriceRef}
                     />
                     
                     <ExpandButton
                         isExpanded={areAdvancedFeaturesOpen}
                         setIsExpand={setAreAdvancedFeaturesOpen}
-                        text={"מתקדם חיפוש"}
+                        text={extraFeaturesBtnTxt}
+                        chosenFeaturesCounter={chosenFeaturesCounter}
                     />
                     { areAdvancedFeaturesOpen && 
-                        <AdvancedFeatures />
+                        <AdvancedFeatures
+                            properties={properties}
+                            chosenProperties={chosenProperties}
+                            setChosenProperties={setChosenProperties}
+                            minFloorsVal={minFloorsVal}
+                            setMinFloorsVal={setMinFloorsVal}
+                            maxFloorsVal={maxFloorsVal}
+                            setMaxFloorsVal={setMaxFloorsVal}
+                            setMinSizeVal={setMinSizeVal}
+                            setMaxSizeVal={setMaxSizeVal}
+                            isEntranceImmediate={isEntranceImmediate}
+                            setIsEntranceImmediate={setIsEntranceImmediate}
+                            setEntranceDate={setEntranceDate}
+                            setFreeSearchVal={setFreeSearchVal}
+                        />
                     }
 
                     <IconAndTextBtn
@@ -198,6 +322,8 @@ function AdvancedSearch(props) {
                         icon={faSearch}
                         text={"חיפוש"}
                     />
+                    
+                    <span className="reset-search-btn" onClick={resetSearchOnClick}>נקה</span>
                 </form>
             }
         </div>

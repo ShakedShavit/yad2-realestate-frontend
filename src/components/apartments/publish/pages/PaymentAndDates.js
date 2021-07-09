@@ -4,6 +4,7 @@ import AdviceMessage from '../AdviceMessage';
 import lightBulbIcon from '../../../../images/light-bulb-on.png';
 import commaNumber from 'comma-number';
 import PublishInputErrMsg from '../PublishInputErrMsg';
+import EntryDateInput from '../../../main/EntryDateInput';
 
 function PaymentAndDates(props) {
     const [builtSqm, setBuiltSqm] = useState('');
@@ -11,7 +12,7 @@ function PaymentAndDates(props) {
     const [cost, setCost] = useState('');
     const [entranceDate, setEntranceDate] = useState('');
     const [isEntranceImmediate, setIsEntranceImmediate] = useState(false);
-    const [minDate, setMinDate] = useState('');
+    // const [minDate, setMinDate] = useState('');
 
     const [totalSqmErrMsg, setTotalSqmErrMsg] = useState('');
     const [priceErrMsg, setPriceErrMsg] = useState('');
@@ -23,12 +24,12 @@ function PaymentAndDates(props) {
         props.setTitle('תשלומים, תאריכים ועוד ');
     }, []);
 
-    useEffect(() => {
-        const date = new Date();
-        const day = date.getDate().length === 1 ? "0" + date.getDate() : date.getDate();
-        const month = (`${date.getMonth() + 1}`).length === 1 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1);
-        setMinDate(`${date.getFullYear()}-${month}-${day}`);
-    }, []);
+    // useEffect(() => {
+    //     const date = new Date();
+    //     const day = date.getDate().length === 1 ? "0" + date.getDate() : date.getDate();
+    //     const month = (`${date.getMonth() + 1}`).length === 1 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1);
+    //     setMinDate(`${date.getFullYear()}-${month}-${day}`);
+    // }, []);
 
     const costInputOnChange = (e) => {
         setCost(e.target.value.replace(/,/g, ''));
@@ -106,13 +107,18 @@ function PaymentAndDates(props) {
                 <PublishInputErrMsg errMsg={priceErrMsg} setErrMsg={setPriceErrMsg} inputValue={cost} />
 
                 <label>תאריך כניסה<b>*</b></label>
-                <div className="date-properties-container">
+                {/* <div className="date-properties-container">
                     <input type="date" min={minDate} disabled={isEntranceImmediate} onChange={(e) => { setEntranceDate(e.target.value) }}></input>
                     <div className="checkbox-container">
                         <input type="checkbox" onChange={(e) => { setIsEntranceImmediate(e.target.checked); }}></input>
                         <span>מיידי</span>
                     </div>
-                </div>
+                </div> */}
+                <EntryDateInput
+                    isEntranceImmediate={isEntranceImmediate}
+                    setIsEntranceImmediate={setIsEntranceImmediate}
+                    setEntranceDate={setEntranceDate}
+                />
                 <PublishInputErrMsg errMsg={dateErrMsg} setErrMsg={setDateErrMsg} inputValue={entranceDate} />
             </form>
 
