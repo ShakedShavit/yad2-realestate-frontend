@@ -18,3 +18,19 @@
         margin-bottom: 5px;
     }
 }
+
+@media (min-width: 880px) {
+    .properties-form {
+        h2 {
+            font-size: 18px;
+        }
+    
+        textarea {
+            width: 50%;
+        }
+    
+        select {
+           width: 25% !important;
+        }
+    }
+}

@@ -14,7 +14,30 @@
         }
     }
 
+    .house-num-input {
+        width: 50%;
+    }
+
     .checkbox-container {
         margin: 30px 0;
+    }
+}
+
+@media (min-width: 880px) {
+    .address-form {
+        .house-num-input {
+            width: calc(33% / 2);
+        }
+
+        .desktop-fields-wrapper {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+            column-gap: 10px;
+
+            .building-details-container {
+                width: 50%;
+            }
+        }
     }
 }

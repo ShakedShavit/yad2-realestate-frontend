@@ -231,10 +231,10 @@ function Address(props) {
                     <PublishInputErrMsg errMsg={streetErrMsg} setErrMsg={setStreetErrMsg} inputValue={chosenStreet} />
 
                     <label>מספר בית<b>*</b></label>
-                    <input onChange={(e) => { setHouseNum(e.target.value) }} type="number" min="0" />
-                    {/* { houseNumErrMsg.length !== 0 && <span className="input-err-msg">{houseNumErrMsg}</span> } */}
+                    <input className="house-num-input" onChange={(e) => { setHouseNum(e.target.value) }} type="number" min="0" />
                     <PublishInputErrMsg errMsg={houseNumErrMsg} setErrMsg={setHouseNumErrMsg} inputValue={houseNum} />
 
+                    <div className="desktop-fields-wrapper">
                     <div className="building-details-container">
                         <label>קומה<b>*</b></label>
                         <label>סה"כ קומות בבניין<b>*</b></label>
@@ -248,6 +248,7 @@ function Address(props) {
                     <div className="checkbox-container">
                         <input type="checkbox" onChange={(e) => { setIsOnPolls(e.target.checked); }}/>
                         <label>על עמודים</label>
+                    </div>
                     </div>
                 </form>
 

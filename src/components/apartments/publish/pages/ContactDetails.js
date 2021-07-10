@@ -114,50 +114,22 @@ function ContactDetails(props) {
         <>
         { props.isCurrPage &&
         <div className="publish-page-content contact-page-content">
+            <span>רגע לפני שמפרסמים את המודעה, נבדוק שפרטי הקשר נכונים</span>
+
             <form className="form-body">
-                <label>שם איש קשר<b>*</b></label>
-                <input type="text" onChange={(e) => { setPublisherName(e.target.value); }} defaultValue={userDataState.user.firstName + " " + userDataState.user.lastName}></input>
-                <PublishInputErrMsg errMsg={publisherNameErrMsg} setErrMsg={setPublisherNameErrMsg} inputValue={publisherName} />
-            
-                <label>טלפון ראשי<b>*</b></label>
-                <div className="phone-number-wrapper">
-                    <input type="tel" maxLength="7" defaultValue={userDataState.user.phoneNumber.substring(3)} onChange={(e) => { setTelNum(e.target.value); setIsPublisherValid(false); }}></input>
+                <div className="desktop-contact-container">
+                    <div className="input-contact-container">
+                        <label>שם איש קשר<b>*</b></label>
+                        <input type="text" onChange={(e) => { setPublisherName(e.target.value); }} defaultValue={userDataState.user.firstName + " " + userDataState.user.lastName}></input>
+                        <PublishInputErrMsg errMsg={publisherNameErrMsg} setErrMsg={setPublisherNameErrMsg} inputValue={publisherName} />
+                    </div>
 
-                    <select defaultValue={userDataState.user.phoneNumber.substring(0, 3)} onChange={(e) => { setStartTelNum(e.target.value); }}>
-                        <option value="050">050</option>
-                        <option value="051">051</option>
-                        <option value="052">052</option>
-                        <option value="053">053</option>
-                        <option value="054">054</option>
-                        <option value="055">055</option>
-                        <option value="058">058</option>
-                    </select>
-                </div>
-                <PublishInputErrMsg errMsg={telNumErrMsg} setErrMsg={setTelNumErrMsg} inputValue={telNum} />
-
-                { isPublisherValid ?
-                    <button type="button" className="contact-button valid-contact-button" onClick={validateContact}>
-                        <FontAwesomeIcon className="contact-icon" icon={faCheck} />
-                        המספר אומת
-                    </button>
-                    :
-                    <button type="button" className="contact-button invalid-contact-button" onClick={validateContact}>
-                        <FontAwesomeIcon className="contact-icon" icon={faCheck} />
-                        אימות מספר טלפון
-                    </button>
-                }
-                <PublishInputErrMsg errMsg={isPublisherValidErrMsg} setErrMsg={setIsPublisherValidErrMsg} inputValue={isPublisherValid} />
-
-                { isNewContactInputOpen ?
-                    <>
-                    <div className="new-contact-info-container">
-                        <label>איש קשר נוסף</label>
-                        <input type="text" onChange={(e) => { setNewContactName(e.target.value); }}></input>
-
-                        <label>טלפון נוסף</label>
+                    <div className="input-contact-container">
+                        <label>טלפון ראשי<b>*</b></label>
                         <div className="phone-number-wrapper">
-                            <input type="tel" maxLength="8" onChange={(e) => { setNewContactTelNum(e.target.value); setIsNewContactValid(false); }}></input>
-                            <select onChange={(e) => { setNewContactStartTelNum(e.target.value); setNewContactTelNumErrMsg(''); setIsNewContactValid(false); }}>
+                            <input type="tel" maxLength="7" defaultValue={userDataState.user.phoneNumber.substring(3)} onChange={(e) => { setTelNum(e.target.value); setIsPublisherValid(false); }}></input>
+
+                            <select defaultValue={userDataState.user.phoneNumber.substring(0, 3)} onChange={(e) => { setStartTelNum(e.target.value); }}>
                                 <option value="050">050</option>
                                 <option value="051">051</option>
                                 <option value="052">052</option>
@@ -165,23 +137,65 @@ function ContactDetails(props) {
                                 <option value="054">054</option>
                                 <option value="055">055</option>
                                 <option value="058">058</option>
-                                <option value="02">02</option>
-                                <option value="03">03</option>
-                                <option value="04">04</option>
-                                <option value="08">08</option>
-                                <option value="09">09</option>
-                                <option value="077">077</option>
-                                <option value="073">073</option>
-                                <option value="077">077</option>
-                                <option value="073">073</option>
-                                <option value="072">072</option>
-                                <option value="074">074</option>
-                                <option value="076">076</option>
-                                <option value="078">078</option>
-                                <option value="079">079</option>
                             </select>
                         </div>
-                        <PublishInputErrMsg errMsg={newContactTelNumErrMsg} setErrMsg={setNewContactTelNumErrMsg} inputValue={newContactTelNum} />
+                        <PublishInputErrMsg errMsg={telNumErrMsg} setErrMsg={setTelNumErrMsg} inputValue={telNum} />
+                    </div>
+
+                    <div className="desktop-validate-btn-container">
+                        { isPublisherValid ?
+                            <button type="button" className="contact-button valid-contact-button" onClick={validateContact}>
+                                <FontAwesomeIcon className="contact-icon" icon={faCheck} />
+                                המספר אומת
+                            </button>
+                            :
+                            <button type="button" className="contact-button invalid-contact-button" onClick={validateContact}>
+                                <FontAwesomeIcon className="contact-icon" icon={faCheck} />
+                                אימות מספר טלפון
+                            </button>
+                        }
+                        <PublishInputErrMsg errMsg={isPublisherValidErrMsg} setErrMsg={setIsPublisherValidErrMsg} inputValue={isPublisherValid} />
+                    </div>
+                </div>
+
+                { isNewContactInputOpen ?
+                    <>
+                    <div className="desktop-contact-container new-contact-info-container">
+                        <div className="input-contact-container">
+                            <label>איש קשר נוסף</label>
+                            <input type="text" onChange={(e) => { setNewContactName(e.target.value); }}></input>
+                        </div>
+
+                        <div className="input-contact-container">
+                            <label>טלפון נוסף</label>
+                            <div className="phone-number-wrapper">
+                                <input type="tel" maxLength="8" onChange={(e) => { setNewContactTelNum(e.target.value); setIsNewContactValid(false); }}></input>
+                                <select onChange={(e) => { setNewContactStartTelNum(e.target.value); setNewContactTelNumErrMsg(''); setIsNewContactValid(false); }}>
+                                    <option value="050">050</option>
+                                    <option value="051">051</option>
+                                    <option value="052">052</option>
+                                    <option value="053">053</option>
+                                    <option value="054">054</option>
+                                    <option value="055">055</option>
+                                    <option value="058">058</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="077">077</option>
+                                    <option value="073">073</option>
+                                    <option value="077">077</option>
+                                    <option value="073">073</option>
+                                    <option value="072">072</option>
+                                    <option value="074">074</option>
+                                    <option value="076">076</option>
+                                    <option value="078">078</option>
+                                    <option value="079">079</option>
+                                </select>
+                            </div>
+                            <PublishInputErrMsg errMsg={newContactTelNumErrMsg} setErrMsg={setNewContactTelNumErrMsg} inputValue={newContactTelNum} />
+                        </div>
 
                         <div className="new-contact-footer">
                             { isNewContactValid ?
@@ -201,7 +215,10 @@ function ContactDetails(props) {
                                 <span>ביטול</span>
                             </div>
                         </div>
-                        <PublishInputErrMsg errMsg={isNewContactValidErrMsg} setErrMsg={setIsNewContactValidErrMsg} inputValue={isNewContactValid} />
+
+                        <div className="contact-validate-err">
+                            <PublishInputErrMsg errMsg={isNewContactValidErrMsg} setErrMsg={setIsNewContactValidErrMsg} inputValue={isNewContactValid} />
+                        </div>
                     </div>
                     </>
                     :

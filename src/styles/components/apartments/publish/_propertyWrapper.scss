@@ -22,3 +22,11 @@
         margin-left: 5px;
     }
 }
+
+@media (min-width: 880px) {
+    .publish-properties-container {
+        .publish-property-option {
+            width: 140px;
+        }
+    }
+}

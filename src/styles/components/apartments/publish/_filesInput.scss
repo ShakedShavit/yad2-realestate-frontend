@@ -135,3 +135,15 @@
         }
     }
 }
+
+@media (min-width: 880px) {
+    .top-file-container {
+        margin: 0;
+        .input-container {
+            height: 192px;
+            .chose-file-container {
+                margin: 0;
+            }
+        }
+    }
+}

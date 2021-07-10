@@ -34,3 +34,13 @@
         }
     }
 }
+
+@media (min-width: 880px) {
+    .publish-page-content {
+        form {
+            input, select {
+                width: 33%;
+            }
+        }
+    }
+}

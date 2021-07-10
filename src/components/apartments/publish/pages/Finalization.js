@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import Notification from '../../../main/Notification';
 import Loader from '../../../main/Loader';
 import { resetAction } from '../../../../actions/apartmentPublishActions';
+import freePlatImg from '../../../../images/rocketShip_Free.png';
 
 function Finalization(props) {
     const { userDataState } = useContext(LoginContext);
@@ -59,22 +60,26 @@ function Finalization(props) {
 
             <span className="second-headline">באיזה מסלול לפרסם את המודעה? זה הרגע לבלוט מעל כולם</span>
 
-            <div className="publish-plan-card">
-                <h2>בסיסי</h2>
+            <section className="plans-container">
+                <div className="publish-plan-card">
+                    <h2>בסיסי</h2>
 
-                <div className="plan-description-container">
-                    <div>
-                        <FontAwesomeIcon className="icon" icon={faCheck} />
-                        <span>מודעה רגילה בצבע אפור</span>
-                    </div>
-                    <div>
-                        <FontAwesomeIcon className="icon" icon={faTimes} />
-                        <span>הקפצה אוטומטית לחסכון בזמן</span>
-                    </div>
+                    <img src={freePlatImg} alt={'rocket-ship-free'}></img>
+
+                        <div className="plan-description-container">
+                            <div>
+                                <FontAwesomeIcon className="icon" icon={faCheck} />
+                                <span>מודעה רגילה בצבע אפור</span>
+                            </div>
+                            <div>
+                                <FontAwesomeIcon className="icon" icon={faTimes} />
+                                <span>הקפצה אוטומטית לחסכון בזמן</span>
+                            </div>
+                        </div>
+
+                        <button onClick={publishApartmentOnClick}>{isLoading ? <Loader /> : <span>חינם<span className="desktop-btn-text"> / 120 ימים</span></span>}</button>
                 </div>
-
-                <button onClick={publishApartmentOnClick}>{isLoading ? <Loader /> : "חינם"}</button>
-            </div>
+            </section>
         </div>
         }
 

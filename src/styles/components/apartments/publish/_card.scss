@@ -8,6 +8,7 @@
     font-size: 17px;
     margin-bottom: 12px;
     overflow: hidden;
+    margin: 0 auto 15px auto;
 
     .page-title {
         margin-right: 10px;
@@ -41,8 +42,8 @@
         margin: 20px 0;
 
         h2 {
-            font-weight: 600;
-            font-size: 21px;
+            font-weight: 400;
+            font-size: 22px;
             margin: 0;
         }
     }
@@ -56,7 +57,6 @@
 .finished-page {
     box-shadow: 0 2px 4px 0 rgba(12,0,51,.1);
     color: #acacac;
-    margin-right: .5%;
     font-weight: 300;
     position: relative;
 

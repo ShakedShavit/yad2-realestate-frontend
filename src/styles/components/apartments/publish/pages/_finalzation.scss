@@ -1,4 +1,11 @@
 .finalization-page-content {
+    img {
+        display: none;
+    }
+    .desktop-btn-text {
+        display: none;
+    }
+
     * {
         line-height: 1.2rem;
     }
@@ -76,6 +83,32 @@
             .loader {
                 color: rgb(218, 218, 218) !important;
             }
+        }
+    }
+}
+
+@media (min-width: 880px) {
+    .finalization-page-content {
+        margin: auto;
+
+        img {
+            display: block;
+        }
+        .desktop-btn-text {
+            display: inline;
+            font-weight: 400;
+            font-size: 13px;
+        }
+
+        .plans-container {
+            display: flex;
+            justify-content: center;
+        }
+        .publish-plan-card {
+            text-align: center;
+            height: 343px;
+            width: 238px;
+            border-radius: 6px;
         }
     }
 }

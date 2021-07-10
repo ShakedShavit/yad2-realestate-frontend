@@ -1,11 +1,19 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrashAlt, faPlus, faVideo } from '@fortawesome/free-solid-svg-icons';
 
 function FileInput({ isImage, isMainImage }) {
     const [chosenFile, setChosenFile] = useState('');
+    const [containerClassName, setContainerClassName] = useState('');
     const [isShown, setIsShown] = useState(true);
     const fileRef = useRef(null);
+
+    useEffect(() => {
+        let className = 'file-input-container';
+        if (isMainImage) className += ' main-file-input__container';
+        if (isMainImage || !isImage) className += ' top-file-container';
+        setContainerClassName(className);
+    }, [isMainImage, isImage]);
 
     const removeFileOnClick = () => {
         setChosenFile('');
@@ -14,7 +22,7 @@ function FileInput({ isImage, isMainImage }) {
 
     return (
         <div
-            className={isMainImage ? "file-input-container main-file-input__container" : "file-input-container"}
+            className={containerClassName}
             onMouseEnter={() => setIsShown(false)}
             onMouseLeave={() => setIsShown(true)}
         >

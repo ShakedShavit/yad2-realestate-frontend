@@ -28,4 +28,26 @@
         font-weight: 600;
 
     }
+
+    .continue-text-mobile {
+        display: block;
+    }
+    .continue-text-desktop {
+        display: none;
+    }
+}
+
+@media (min-width: 880px) {
+    .publish-card-footer {
+        >button {
+            width: 155px;
+        }
+
+        .continue-text-mobile {
+            display: none;
+        }
+        .continue-text-desktop {
+            display: block;
+        }
+    }
 }
