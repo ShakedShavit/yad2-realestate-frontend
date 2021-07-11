@@ -128,7 +128,7 @@ function LoginPage(props) {
     
     return (
         <>
-        <form className="login-from">
+        <form className="login-form">
             <div className="form-body">
                 <label>כתובת מייל</label>
                 <input className={emailInputClassName} name="email" type="email" onBlur={emailInputOnChange} onChange={emailInputOnChange} placeholder="your@mail.com"></input>

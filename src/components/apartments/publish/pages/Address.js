@@ -92,7 +92,7 @@ function Address(props) {
     useEffect(() => {
         props.setTitle('כתובת הנכס');
 
-        axios.get('citiesArray.json', {
+        axios.get(`${process.env.REACT_APP_ROOT_URL}locations/cities`, {
             headers : { 
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
@@ -107,14 +107,15 @@ function Address(props) {
         setStreetErrMsg('');
         if (!chosenCity) return setAllStreetsListState([]);
 
-        axios.get('streetsGraph.json', {
+        axios.get(`${process.env.REACT_APP_ROOT_URL}locations/streets-graph?city=${chosenCity}`, {
             headers : { 
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
                 }
             })
             .then((response) => {
-                const newOptions = response.data[chosenCity] || [];
+                console.log(response.data);
+                const newOptions = response.data || [];
                 allStreetsListRef.current = newOptions;
                 setAllStreetsListState(newOptions);
             })

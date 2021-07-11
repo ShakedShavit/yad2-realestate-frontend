@@ -6,6 +6,10 @@
     justify-content: space-between;
     margin-bottom: 15px;
 
+    .logo-img {
+        display: none;
+    }
+
     .welcome-text-container {
         >h1 {
             font-size: 1.75rem;
@@ -26,5 +30,31 @@
 
     >img {
         max-width: 45%;
+    }
+}
+
+@media (min-width: 880px) {
+    .welcome-banner {
+        width: 285px;
+        padding: 30px;
+        flex-direction: column;
+        margin: 0;
+
+        .logo-img {
+            display: block;
+        }
+
+        .welcome-text-container {
+            >h1 {
+                font-size: 2.5rem;
+            }
+            >h4 {
+                font-size: 1.3rem;
+            }
+        }
+
+        >img {
+            max-width: 100%;
+        }
     }
 }

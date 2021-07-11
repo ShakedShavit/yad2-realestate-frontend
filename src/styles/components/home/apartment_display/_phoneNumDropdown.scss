@@ -1,0 +1,28 @@
+.phone-number-dropdown {
+    position: absolute;
+    top: 35px;
+    right: 0;
+    background-color: #fff;
+    z-index: 100;
+    width: 180px;
+    padding: 12px 17px;
+    box-shadow: 0 3px 5px 0 rgba(0,0,0,.2),0 1px 18px 0 rgba(0,0,0,.12),0 6px 10px 0 rgba(0,0,0,.14);
+
+    span {
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+
+    .phone-num {
+        padding: 10px 5px;
+        width: 100%;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .divider-line {
+        width: 100%;
+        margin: 10px 0;
+    }
+}

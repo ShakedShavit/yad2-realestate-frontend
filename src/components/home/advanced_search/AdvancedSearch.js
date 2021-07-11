@@ -63,10 +63,10 @@ function AdvancedSearch({ dispatchSearchParamsData }) {
     const maxPriceRef = useRef(null);
 
     useEffect(() => {
-        axios.get('../../allLocals.json', {
+        axios.get(`${process.env.REACT_APP_ROOT_URL}locations/cities`, {
             headers : { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 }
             })
             .then((response) => {
@@ -149,7 +149,7 @@ function AdvancedSearch({ dispatchSearchParamsData }) {
         if (chosenLocation) {
             let response;
             try {
-                response = await axios.get('../../citiesArray.json', {
+                response = await axios.get(`${process.env.REACT_APP_ROOT_URL}locations/cities`, {
                     headers : { 
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
@@ -198,6 +198,9 @@ function AdvancedSearch({ dispatchSearchParamsData }) {
         // Description
         if (!!freeSearchVal) newQueryParams.description = freeSearchVal;
 
+        setAreAdvancedFeaturesOpen(false);
+        setIsBasicSearchOpen(false);
+
         dispatchSearchParamsData(newSearchParamsAction(newQueryParams));
     }
 
@@ -213,6 +216,7 @@ function AdvancedSearch({ dispatchSearchParamsData }) {
         
             { isBasicSearchOpen &&
                 <form onSubmit={searchOnSubmit}>
+                    <div className="sdf">
                     <label>חפשו עיר או רחוב </label>
      
                     <AutoCompleteInput
@@ -290,6 +294,7 @@ function AdvancedSearch({ dispatchSearchParamsData }) {
                         minRef={minPriceRef}
                         maxRef={maxPriceRef}
                     />
+                    </div>
                     
                     <ExpandButton
                         isExpanded={areAdvancedFeaturesOpen}

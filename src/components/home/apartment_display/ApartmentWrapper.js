@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import imagePlaceholder from '../../../images/image-placeholder-icon.png';
 import MainFile from './MainFile';
 import commaNumber from 'comma-number';
 import ApartmentExpanded from './ApartmentExpanded';
 import FilesModal from './FilesModal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPhone } from '@fortawesome/free-solid-svg-icons';
+import PhoneNumDropdown from './PhoneNumDropdown';
+import { isMobile } from 'react-device-detect';
+import MobileExpandedApartment from './MobileExpandedApartment';
 
 function ApartmentWrapper({ details, files }) {
     const [isExpanded, setIsExpended] = useState(false);
     const [displayFile, setDisplayFile] = useState(null);
     const [isDisplayFilesModalOpen, setIsDisplayFilesModalOpen] = useState(false);
+    const [isPhoneNumDropdownOpen, setIsPhoneNumDropdownOpen] = useState(false);
 
     const apartmentTypesHebrew = [
         "דירה",
@@ -32,13 +37,6 @@ function ApartmentWrapper({ details, files }) {
         "חניה",
         "כללי"
     ];
-    const apartmentConditionsHebrew = [
-        "חדש מקבלן (לא גרו בו בכלל)",
-        "חדש (נכס בן עד 5 שנים)",
-        "משופץ (שופץ ב5 השנים האחרונות)",
-        "במצב שמור (במצב טוב, לא שופץ)",
-        "דרוש שיפוץ (זקוק לעבודת שיפוץ)"
-    ];
     const apartmentTypesEn = [
         'apartment',
         'garden-apartment',
@@ -60,13 +58,6 @@ function ApartmentWrapper({ details, files }) {
         'parking',
         'general'
     ];
-    const apartmentConditionEn = [
-        'brand-new',
-        'new',
-        'renovated',
-        'good',
-        'in-need-of-renovation'
-    ];
 
     useEffect(() => {
         console.log(details)
@@ -84,7 +75,18 @@ function ApartmentWrapper({ details, files }) {
 
     return (
         <>
-        <div onClick={expandOnClick} className="apartment-wrapper">
+        { isExpanded && isMobile ?
+        <MobileExpandedApartment
+            files={files}
+            details={details}
+            displayFile={displayFile}
+            isDisplayFilesModalOpen={isDisplayFilesModalOpen}
+            setIsDisplayFilesModalOpen={setIsDisplayFilesModalOpen}
+            setIsExpended={setIsExpended}
+        />
+        :
+        <>
+        <div onClick={expandOnClick} className={isExpanded ? "apartment-wrapper apartment-wrapper-expanded" : "apartment-wrapper"}>
             {
                 !!displayFile ?
                 <MainFile
@@ -101,8 +103,8 @@ function ApartmentWrapper({ details, files }) {
 
             <div className="details-wrapper-closed">
                 <div className="info-rows">
-                    <span><b>{commaNumber(details.price)} ₪</b></span>
-                    <span>{(details.location.streetName || details.location.town) + " " + details.location.houseNum}</span>
+                    <span className="mobile-price"><b>{commaNumber(details.price)} ₪</b></span>
+                    <span className="desktop-local-headline">{(details.location.streetName || details.location.town) + " " + details.location.houseNum}</span>
                     <span>{apartmentTypesHebrew[apartmentTypesEn.indexOf(details.type)] + ", " + details.location.town}</span>
                 </div>
 
@@ -122,6 +124,29 @@ function ApartmentWrapper({ details, files }) {
                         <span>מ"ר</span>
                     </div>
                 </div>
+
+                <div className="desktop-divide-line divide-line"></div>
+
+                <div className="phone-num-btn-and-price">
+                    <div className="desktop-price">
+                        <span>{commaNumber(details.price)} ₪</span>
+                        <span className="link-span details-span desktop-details-span">לחצו לפרטים</span>
+                    </div>
+
+                    { isExpanded &&
+                        <div className="phone-num-btn">
+                            <button onClick={(e) => { e.stopPropagation(); setIsPhoneNumDropdownOpen(!isPhoneNumDropdownOpen); }}>
+                                <FontAwesomeIcon className="icon" icon={faPhone} />
+                                <span>הצגת מספר טלפון</span>
+                            </button>
+                            { isPhoneNumDropdownOpen &&
+                                <PhoneNumDropdown
+                                    publishers={details.publishers}
+                                />
+                            }
+                        </div>
+                    }
+                </div>
             </div>
         </div>
 
@@ -136,6 +161,8 @@ function ApartmentWrapper({ details, files }) {
                 files={files}
                 setIsDisplayFilesModalOpen={setIsDisplayFilesModalOpen}
             />
+        }
+        </>
         }
         </>
     );

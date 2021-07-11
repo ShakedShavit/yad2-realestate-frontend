@@ -53,7 +53,8 @@ function AdvancedFeatures({
 
             <DividerLine />
 
-            <section>
+            <section className="num-inputs-section">
+                <div>
                 <label>קומה</label>
                 <NumSelections
                     minRef={minFloorsRef}
@@ -68,7 +69,9 @@ function AdvancedFeatures({
                     setMaxOptions={setMaxFloorsOptions}
                     initOptions={initFloorsNumOptions}
                 />
-
+                </div>
+                
+                <div>
                 <label>גודל דירה (במ"ר)</label>
                 <NumRangeInputs
                     minRef={minSizeRef}
@@ -76,6 +79,7 @@ function AdvancedFeatures({
                     setMinVal={setMinSizeVal}
                     setMaxVal={setMaxSizeVal}
                 />
+                </div>
             </section>
 
             <DividerLine />

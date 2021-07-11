@@ -70,7 +70,7 @@ function ApartmentExpanded({ details }) {
     return (
         <div className="apartment-expanded-container">
             <div className="desc-container">
-                <h4>תיאור הנכס</h4>
+                {details.properties.description.length > 0 ? <h4>תיאור הנכס</h4> : <br></br>}
 
                 <p className={(isFullDescOpen || details.properties.description.length === 0) ? "opened" : "closed"}>
                     {details.properties.description}

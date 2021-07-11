@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { newApartmentsAction } from '../../actions/apartmentsActions';
-import { fetchApartmentsFromDB } from '../../server/api/apartment';
+import React from 'react';
 import Loader from '../main/Loader';
 import ApartmentWrapper from './apartment_display/ApartmentWrapper';
 

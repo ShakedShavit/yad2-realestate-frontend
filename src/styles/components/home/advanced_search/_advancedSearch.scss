@@ -1,6 +1,8 @@
 .advanced-search {
     background-color: #fff;
     width: 100%;
+    max-width: 695px;
+    margin: auto;
     box-shadow: 0 2px 6px 0 rgba(0,0,0,.1);
     padding: 20px;
     border-radius: 4px;
@@ -35,6 +37,7 @@
 
         label {
             margin: 10px 0 5px 0;
+            display: block;
         }
 
         input, .div-input {
@@ -66,6 +69,7 @@
         .select-container {
             position: absolute;
             right: 0;
+            z-index: 50;
             top: calc(100% + 1px);
             background-color: #fff;
             box-shadow: 0 2px 6px 0 rgba(0,0,0,.1);
@@ -112,5 +116,19 @@
         &:hover {
             cursor: pointer;
         }
+    }
+}
+
+@media (min-width: 880px) {
+    .advanced-search {
+        >form {
+            .sdf {
+                margin: auto;
+            }
+
+            .div-input, input {
+                width: 100%;
+            }
+        }   
     }
 }

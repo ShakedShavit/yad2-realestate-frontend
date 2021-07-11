@@ -42,3 +42,14 @@
         transform: scale(1);
     }
 }
+
+@media (min-width: 880px) {
+    .modal-wrapper {
+        .modal {
+            width: 740px;
+            height: auto;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+        }
+    }
+}

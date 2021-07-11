@@ -17,3 +17,8 @@ export const newApartmentsAction = (newApartments = []) => ({
     newApartments,
     newApartmentIds: getNewApartmentIds(newApartments)
 });
+
+export const sortApartmentsAction = (sortedApartments) => ({
+    type: "SORT_APARTMENTS",
+    sortedApartments
+});

@@ -1,7 +1,9 @@
 .apartment-expanded-container {
     width: 100%;
+    max-width: 695px;
     padding: 5px 15px 10px 10px;
     background-color: #fff;
+    margin: 0 auto 10px auto;
 
     .desc-container {
         position: relative;
@@ -68,5 +70,11 @@
         flex-direction: row;
         flex-wrap: wrap;
         row-gap: 20px;
+    }
+}
+
+@media (min-width: 880px) {
+    .apartment-expanded-container {
+        border: 1px solid rgba(0,0,0,.1);
     }
 }

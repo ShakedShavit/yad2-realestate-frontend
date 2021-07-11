@@ -138,7 +138,7 @@ function SignupSecondPage(props) {
 
     return (
         <>
-        <form onSubmit={signupOnSubmit} className="login-from second-signup-form">
+        <form onSubmit={signupOnSubmit} className="login-form second-signup-form">
             <div className="form-body">
                 <label>שם פרטי</label>
                 <input name="first-name" type="text" placeholder="הקלד שם פרטי" className={firstNameClassName} onChange={firstNameOnChange} onBlur={firstNameOnChange}></input>

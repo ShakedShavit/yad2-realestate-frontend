@@ -14,3 +14,11 @@
         background-color: #ccc;
     }
 }
+
+@media (min-width: 880px) {
+    .num-range-inputs__container {
+        input {
+            max-width: 20%;
+        }
+    }
+}

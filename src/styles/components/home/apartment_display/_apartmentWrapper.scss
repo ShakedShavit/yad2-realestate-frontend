@@ -1,7 +1,8 @@
 .apartment-wrapper {
     max-height: 110px;
-    margin-top: 5px;
+    margin: 5px auto 0 auto;
     width: 100%;
+    max-width: 695px;
     cursor: pointer;
     border-radius: 2px 0 0 2px;
     background-color: #fdf9c5;
@@ -14,6 +15,15 @@
 
     &:hover {
         box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+        .details-span {
+            opacity: 1;
+        }
+    }
+
+    .details-span {
+        opacity: 0;
+        transition: opacity 0.5s;
+        font-size: 12px;
     }
 
     .image-small {
@@ -30,11 +40,19 @@
         img {
             max-height: 100%;
             border-radius: 3px;
+            transition: transform 0.5s;
         }
     }
 
     .details-wrapper-closed {
         width: 100%;
+
+        .desktop-price {
+            display: none;
+        }
+        .desktop-divide-line {
+            display: none;
+        }
 
         .info-rows {
             display: flex;
@@ -63,7 +81,7 @@
             height: 37px;
             width: 100%;
             justify-content: space-between;
-            padding: 0 30px;
+            padding: 0 40px;
 
             >div {
                 display: flex;
@@ -80,6 +98,151 @@
                         color: rgba(0,0,0,.5);
                         font-size: 12px;
                     }
+                }
+            }
+        }
+
+        .phone-num-btn {
+            position: relative;
+            top: 10px;
+            left: calc(-100% + 205px);
+            z-index: 50;
+
+            button {
+                display: flex;
+                flex-direction: row;
+                column-gap: 5px;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                background-color: #0fca80;
+                border-radius: 2px;
+                height: 35px;
+                width: 180px;
+                font-size: 14px;
+            }
+        }
+    }
+    &:hover {
+        img {
+            transform: scale(1.1);
+        }
+    }
+}
+
+.apartment-wrapper-expanded {
+    &:hover {
+        .details-span {
+            opacity: 0;
+        }
+    }
+}
+
+@media (min-width: 880px) {
+    .apartment-wrapper {
+        border: 1px solid rgba(0,0,0,.1);
+        box-shadow: none;
+        margin: 2px auto 0 auto;
+        height: 85px;
+
+        .image-small {
+            height: 100%;
+            width: 100%;
+
+            img {
+                border-radius: 3px;
+                min-height: 100%;
+                min-width: 100%;
+            }
+        }
+
+        .details-wrapper-closed {
+            display: flex;
+            flex-direction: row;
+
+            .mobile-price {
+                display: none;
+            }
+            .mobile-details-span {
+                display: none;
+            }
+
+            .info-rows {
+                width: 215px;
+                justify-content: center;
+
+                .desktop-local-headline {
+                    font-size: 16px;
+                }
+            }
+            
+            .info-columns {
+                align-items: center;
+                height: 100%;
+                justify-content: space-between;
+                padding: 0 10px;
+                max-width: 186px;
+                span {
+                    font-size: 16px !important;
+                }
+            }
+
+            .divide-line {
+                width: 1px;
+                height: 100%;
+            }
+
+            .desktop-price {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                justify-content: center;
+                padding: 0 5px 0 0;
+                width: 140px;
+                row-gap: 5px;
+            }
+
+            .desktop-divide-line {
+                display: block;
+            }
+        }
+    }
+
+    .apartment-wrapper-expanded {
+        height: 138px;
+
+        .details-wrapper-closed {
+            flex-direction: column;
+            flex-wrap: wrap;
+            justify-content: space-between;
+    
+            .info-rows {
+                height: 55%;
+            }
+            .info-columns {
+                height: 45%;
+            }
+
+            .divide-line {
+                display: none;
+            }
+
+            .phone-num-btn-and-price {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: flex-end;
+                padding: 15px;
+
+                .desktop-price {
+                    height: auto;
+                }
+                .phone-num-btn {
+                    position: relative;
+                    top: 0;
+                    left: 0;
                 }
             }
         }

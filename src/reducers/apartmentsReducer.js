@@ -14,6 +14,10 @@ const apartmentsReducer = (apartmentsData, action) => {
             return {
                 apartments: [...action.newApartments], apartmentIds: [...action.newApartmentIds]
             };
+        case "SORT_APARTMENTS":
+            return {
+                apartments: [...action.sortedApartments], apartmentIds: [...apartmentsData.apartmentIds ]
+            };
         default:
             return {
                 ...apartmentsData

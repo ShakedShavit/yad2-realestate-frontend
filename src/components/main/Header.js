@@ -1,10 +1,12 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import yad2Logo from '../../images/yad2-logo.png';
+import yad2LogoOrange from '../../images/Yad2_logo_white2.svg';
 import Navbar from './Navbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faPlus} from '@fortawesome/free-solid-svg-icons';
 import { LoginContext } from '../../context/loginContext';
+import { isMobile } from 'react-device-detect';
 
 function Header({ setIsLoginModalOpen, setIsGoToPublish = () => {} }) {
     const { userDataState } = useContext(LoginContext);
@@ -15,6 +17,11 @@ function Header({ setIsLoginModalOpen, setIsGoToPublish = () => {} }) {
 
 
     const history = useHistory();
+
+    useEffect(() => {
+        if (isMobile && !headerClassList.includes("mobile-header")) setHeaderClassList(headerClassList + " mobile-header");
+        if (!isMobile && headerClassList.includes("mobile-header")) setHeaderClassList(headerClassList);
+    }, [isMobile, headerClassList]);
 
     // const onWindowScroll = () => {
     //     let newPosY = window.pageYOffset;
@@ -51,20 +58,23 @@ function Header({ setIsLoginModalOpen, setIsGoToPublish = () => {} }) {
                     <div></div>
                 </div>
 
-                <div className="logo-wrapper"><img src={yad2Logo} alt="yad2-logo" onClick={() => { history.push('/') }} /></div>
+                <div className="logo-wrapper"><img src={isMobile ? yad2LogoOrange : yad2Logo} alt="yad2-logo" onClick={() => { history.push('/') }} /></div>
                 
-                {/* {
-                    (history.length > 1 && !isNavbarOpen) ?
-                    <button className="header__go-back-button" onClick={() => { history.goBack() }}>&#x276F;</button> :
+                {
+                    (!isNavbarOpen) ?
+                    <button className="header__go-back-button" onClick={() => { history.push('/') }}>&#x276F;</button> :
                     <button className="header__go-back-button"></button>
-                }                 */}
-                <div onClick={publishNewApartmentOnClick}>
-                    <div className="publish-ad__link">
-                        <FontAwesomeIcon icon={faPlus} />
-                        &nbsp;
-                        <span>פרסום מודעה חדשה</span>
+                }                
+
+                { !isMobile &&
+                    <div onClick={publishNewApartmentOnClick}>
+                        <div className="publish-ad__link">
+                            <FontAwesomeIcon icon={faPlus} />
+                            &nbsp;
+                            <span>פרסום מודעה חדשה</span>
+                        </div>
                     </div>
-                </div>
+                }
             </div>
 
             {/* <div className="header-bottom-spacer"></div> */}

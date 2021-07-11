@@ -47,16 +47,16 @@
         }
     }
 
-    // .header__go-back-button {
-    //     width: 34px;
-    //     height: 100%;
-    //     font-size: 1.3rem;
-    //     line-height: 1.75rem;
-    //     font-weight: 400;
-    //     color: white;
-    //     background: transparent;
-    //     display: block;
-    // }
+    .header__go-back-button {
+        width: 34px;
+        height: 100%;
+        font-size: 1.3rem;
+        line-height: 1.75rem;
+        font-weight: 400;
+        color: white;
+        background: transparent;
+        display: block;
+    }
 }
 // .header-hidden {
 //     transform: translateY(-45px);
@@ -78,3 +78,22 @@
 //     background-color: #f9f9f9;
 //     padding: 10px 0;
 // }
+
+.mobile-header {
+    background-color: #ff7100;
+    height: 45px;
+    border-bottom: none;
+    padding: 0 10px;
+
+    .logo-wrapper {
+        >img {
+            height: 25px;
+        }
+    }
+
+    .navbar-toggle-container {
+        >div {
+            background: white;
+        }
+    }
+}

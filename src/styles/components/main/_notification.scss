@@ -2,7 +2,7 @@
     position: fixed;
     z-index: 2000;
     top: 20px;
-    right: 2.5%;
+    right: max(2.5%, calc((100% - 636px) / 2));
     width: 95%;
     max-width: 636px;
     min-height: 50px;

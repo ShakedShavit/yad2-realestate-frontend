@@ -12,6 +12,7 @@ import Modal from '../main/Modal';
 import Notification from '../main/Notification';
 import AdvancedSearch from './advanced_search/AdvancedSearch';
 import ApartmentsList from './ApartmentsList';
+import SortApartments from './sorting_search/SortApartments';
 
 function HomePage() {
     const [apartmentsState, dispatchApartmentsData] = useReducer(apartmentsReducer, initialApartmentsState);
@@ -20,6 +21,7 @@ function HomePage() {
     const [searchParamsState, dispatchSearchParamsData] = useReducer(searchParamsReducer, cookiesSearchQueryParamsData || initialSearchParamsState);
 
     const [isLoadingNewApartment, setIsLoadingNewApartments] = useState(false);
+    const [isSortingDropdownOpen, setIsSortingDropdownOpen] = useState(false);
 
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [isGoToPublish, setIsGoToPublish] = useState(false);
@@ -33,6 +35,7 @@ function HomePage() {
 
     useEffect(() => {
         saveSearchParamsOnCookie(searchParamsState);
+        console.log(apartmentsState.apartments);
     }, [searchParamsState]);
 
     useEffect(() => {
@@ -81,6 +84,7 @@ function HomePage() {
             className={isLoginModalOpen ? "home-page no-scroll" : "home-page"}
             ref={homePageRef}
             onScroll={pageOnScroll}
+            onClick={() => { setIsSortingDropdownOpen(false); }}
         >
             <Header setIsLoginModalOpen={setIsLoginModalOpen} setIsGoToPublish={setIsGoToPublish} />
             
@@ -89,37 +93,39 @@ function HomePage() {
                     <div className="login-page">
                         <WelcomeBanner isSignup={isSignup} />
 
-                        <div className="header-login">
-                            <h3>{ isSignup ? "הרשמה" : "התחברות" }</h3>
-                            <p>{ isSignup ? "הזן את הפרטים כדי להירשם" : "הזן את הפרטים כדי להתחבר" }</p>
-                        </div>
+                        <div className="login-main-content">
+                            <div className="header-login">
+                                <h3>{ isSignup ? "הרשמה" : "התחברות" }</h3>
+                                <p>{ isSignup ? "הזן את הפרטים כדי להירשם" : "הזן את הפרטים כדי להתחבר" }</p>
+                            </div>
 
-                        {
-                        !isSignupSecondPage ?
-                        <LoginPage
-                            isSignup={isSignup}
-                            setIsSignup={setIsSignup}
-                            setIsLoginModalOpen={setIsLoginModalOpen}
-                            setIsSignupSecondPage={setIsSignupSecondPage}
-                            emailVal={emailVal}
-                            setEmailVal={setEmailVal}
-                            passwordVal={passwordVal}
-                            setPasswordVal={setPasswordVal}
-                            setIsLoginNotification={setIsLoginNotification}
-                            isGoToPublish={isGoToPublish}
-                        />
-                        :
-                        <SignupSecondPage
-                            setIsLoginModalOpen={setIsLoginModalOpen}
-                            setIsSignupSecondPage={setIsSignupSecondPage}
-                            emailVal={emailVal}
-                            setEmailVal={setEmailVal}
-                            passwordVal={passwordVal}
-                            setPasswordVal={setPasswordVal}
-                            setIsLoginNotification={setIsLoginNotification}
-                            isGoToPublish={isGoToPublish}
-                        />
-                        }
+                            {
+                            !isSignupSecondPage ?
+                            <LoginPage
+                                isSignup={isSignup}
+                                setIsSignup={setIsSignup}
+                                setIsLoginModalOpen={setIsLoginModalOpen}
+                                setIsSignupSecondPage={setIsSignupSecondPage}
+                                emailVal={emailVal}
+                                setEmailVal={setEmailVal}
+                                passwordVal={passwordVal}
+                                setPasswordVal={setPasswordVal}
+                                setIsLoginNotification={setIsLoginNotification}
+                                isGoToPublish={isGoToPublish}
+                            />
+                            :
+                            <SignupSecondPage
+                                setIsLoginModalOpen={setIsLoginModalOpen}
+                                setIsSignupSecondPage={setIsSignupSecondPage}
+                                emailVal={emailVal}
+                                setEmailVal={setEmailVal}
+                                passwordVal={passwordVal}
+                                setPasswordVal={setPasswordVal}
+                                setIsLoginNotification={setIsLoginNotification}
+                                isGoToPublish={isGoToPublish}
+                            />
+                            }
+                        </div>
                     </div>
                 </Modal>
             }
@@ -138,6 +144,13 @@ function HomePage() {
                 <span>נדל״ן למכירה </span>
                 <span>{`מציג ${apartmentsState.apartments.length} מודעות`}</span>
             </div>
+
+            <SortApartments
+                isSortingDropdownOpen={isSortingDropdownOpen}
+                setIsSortingDropdownOpen={setIsSortingDropdownOpen}
+                apartmentsState={apartmentsState}
+                dispatchApartmentsData={dispatchApartmentsData}
+            />
 
             <ApartmentsList
                 isLoadingNewApartment={isLoadingNewApartment}

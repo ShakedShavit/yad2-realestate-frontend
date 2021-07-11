@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import Header from '../../apartments/publish/Header';
-import PublishPageCard from './publishPageCard';
+import PublishPageCard from './PublishPageCard';
 import Address from './pages/Address';
 import Properties from './pages/Properties';
 import PaymentAndDates from './pages/PaymentAndDates';
