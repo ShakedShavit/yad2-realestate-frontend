@@ -1,3 +1,5 @@
+import { faImage } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import { sortApartmentsAction } from '../../../actions/apartmentsActions';
 import ExpandArrow from '../advanced_search/ExpandArrow';
@@ -58,6 +60,14 @@ function SortApartments({
                     />
                 }
             </div>
+            
+            {/* <div className="only-with-image-query-container">
+                <label>הצג מודעות</label>
+                <div>
+                    <FontAwesomeIcon className="icon" icon={faImage} />
+                    <span>עם תמונה</span>
+                </div>
+            </div> */}
         </div>
     );
 }

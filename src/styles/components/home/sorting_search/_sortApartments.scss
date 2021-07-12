@@ -10,6 +10,7 @@
 
     .select-and-input-container {
         position: relative;
+        margin-left: 20px;
     }
 
     .sorting-query-input {
@@ -27,4 +28,15 @@
             cursor: pointer;
         }
     }
+
+    // .only-with-image-query-container {
+    //     margin-right: 10px;
+    //     display: flex;
+    //     flex-direction: row;
+    //     column-gap: 5px;
+
+    //     .icon {
+    //         margin-right: 10px;
+    //     }
+    // }
 }

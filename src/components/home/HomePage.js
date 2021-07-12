@@ -45,7 +45,7 @@ function HomePage() {
     // When search query params change, fetch new apartments and remove the old ones
     useEffect(() => {
          // fetch apartments
-         fetchApartmentsFromDB(searchParamsState, apartmentsState.apartmentIds || [])
+         fetchApartmentsFromDB(searchParamsState, [])
          .then((newApartments) => {
              console.log(searchParamsState, newApartments);
              dispatchApartmentsData(newApartmentsAction(newApartments));

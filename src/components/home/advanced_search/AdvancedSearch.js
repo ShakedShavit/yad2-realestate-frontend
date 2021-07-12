@@ -176,13 +176,14 @@ function AdvancedSearch({ dispatchSearchParamsData }) {
         }
 
         // Types
-        newQueryParams.types = [];
+        const types = [];
         for (let i = 0; i < chosenApartmentTypes.length; i++)
-            newQueryParams.types.push(apartmentTypesEn[apartmentTypes.indexOf(chosenApartmentTypes[i])]);
+            types.push(apartmentTypesEn[apartmentTypes.indexOf(chosenApartmentTypes[i])]);
         for (let i = 0; i < chosenHouseTypes.length; i++)
-            newQueryParams.types.push(houseTypesEn[houseTypes.indexOf(chosenHouseTypes[i])]);
+            types.push(houseTypesEn[houseTypes.indexOf(chosenHouseTypes[i])]);
         for (let i = 0; i < chosenExtraTypes.length; i++)
-            newQueryParams.types.push(extraTypesEn[extraTypes.indexOf(chosenExtraTypes[i])]);
+            types.push(extraTypesEn[extraTypes.indexOf(chosenExtraTypes[i])]);
+        if (types.length !== 0) newQueryParams.types = [...types];
 
         // Number of rooms
         addRangeQueryToObject(newQueryParams, 'numberOfRooms', minRoomsVal, maxRoomsVal);
@@ -326,6 +327,7 @@ function AdvancedSearch({ dispatchSearchParamsData }) {
                         iconClassName={""}
                         icon={faSearch}
                         text={"חיפוש"}
+                        type={"submit"}
                     />
                     
                     <span className="reset-search-btn" onClick={resetSearchOnClick}>נקה</span>
