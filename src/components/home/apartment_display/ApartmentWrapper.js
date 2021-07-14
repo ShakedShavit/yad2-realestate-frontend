@@ -60,7 +60,6 @@ function ApartmentWrapper({ details, files }) {
     ];
 
     useEffect(() => {
-        console.log(details)
         if (files.length === 0) return;
         for (let file of files) {
             if (file.type.includes('video')) continue;

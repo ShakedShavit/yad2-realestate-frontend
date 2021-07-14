@@ -18,11 +18,6 @@ function EntryDateInput({
         setMinDate(`${date.getFullYear()}-${month}-${day}`);
     }, []);
 
-    useEffect(() => {
-        console.log(minDate);
-
-    }, [minDate])
-
     return (
         <div className="entry-date-inputs__container">
             <input

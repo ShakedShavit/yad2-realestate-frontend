@@ -216,121 +216,129 @@ function AdvancedSearch({ dispatchSearchParamsData }) {
             />
         
             { isBasicSearchOpen &&
-                <form onSubmit={searchOnSubmit}>
-                    <div className="sdf">
-                    <label>חפשו עיר או רחוב </label>
-     
-                    <AutoCompleteInput
-                        allOptionsListRef={locationRef}
-                        setChosenOption={setChosenLocation}
-                        chosenOption={chosenLocation}
-                        isDisabled={false}
-                        placeHolder={"לדוגמה: הרצליה"}
-                    />
+                <form onSubmit={searchOnSubmit} className={ areAdvancedFeaturesOpen ? "" : "basic-search-form" }>
+                    <div className="form-inputs-container">
+                        <div className="label-input-container">
+                            <label>חפשו עיר או רחוב </label>
+            
+                            <AutoCompleteInput
+                                allOptionsListRef={locationRef}
+                                setChosenOption={setChosenLocation}
+                                chosenOption={chosenLocation}
+                                isDisabled={false}
+                                placeHolder={"לדוגמה: הרצליה"}
+                            />
+                        </div>
 
-                    <label>סוג נכס </label>
-                    <div className="div-input" onClick={(e) => {  e.stopPropagation(); setIsTypeSelectOpen(!isTypeSelectOpen); }}>
-                        <input className="fake-input" ref={typeRef} placeholder="בחרו סוגי נכסים" />
-                        
-                        <ExpandArrow isExpanded={isTypeSelectOpen} />
+                        <div className="label-input-container">
+                            <label>סוג נכס </label>
+                            <div className="div-input" onClick={(e) => {  e.stopPropagation(); setIsTypeSelectOpen(!isTypeSelectOpen); }}>
+                                <input className="fake-input" ref={typeRef} placeholder="בחרו סוגי נכסים" />
+                                
+                                <ExpandArrow isExpanded={isTypeSelectOpen} />
 
-                        { isTypeSelectOpen &&
-                            <div
-                                className="select-container types-select-container"
-                                onClick={(e) => {  e.stopPropagation(); }}
-                            >
-                                <Select
-                                    options={apartmentTypes}
-                                    chosenOptions={chosenApartmentTypes}
-                                    setChosenOptions={setChosenApartmentTypes}
-                                    value={"דירות"}
-                                />
-                                <Select
-                                    options={houseTypes}
-                                    chosenOptions={chosenHouseTypes}
-                                    setChosenOptions={setChosenHouseTypes}
-                                    value={"בתים"}
-                                />
-                                <Select
-                                    options={extraTypes}
-                                    chosenOptions={chosenExtraTypes}
-                                    setChosenOptions={setChosenExtraTypes}
-                                    value={"סוגים נוספים"}
-                                />
+                                { isTypeSelectOpen &&
+                                    <div
+                                        className="select-container types-select-container"
+                                        onClick={(e) => {  e.stopPropagation(); }}
+                                    >
+                                        <Select
+                                            options={apartmentTypes}
+                                            chosenOptions={chosenApartmentTypes}
+                                            setChosenOptions={setChosenApartmentTypes}
+                                            value={"דירות"}
+                                        />
+                                        <Select
+                                            options={houseTypes}
+                                            chosenOptions={chosenHouseTypes}
+                                            setChosenOptions={setChosenHouseTypes}
+                                            value={"בתים"}
+                                        />
+                                        <Select
+                                            options={extraTypes}
+                                            chosenOptions={chosenExtraTypes}
+                                            setChosenOptions={setChosenExtraTypes}
+                                            value={"סוגים נוספים"}
+                                        />
 
-                                <div className="types-select-footer">
-                                    <span className="link-span" onClick={() => { setIsTypeSelectOpen(false); }}>בחירה</span>
-                                </div>
+                                        <div className="types-select-footer">
+                                            <span className="link-span" onClick={() => { setIsTypeSelectOpen(false); }}>בחירה</span>
+                                        </div>
+                                    </div>
+                                }
                             </div>
-                        }
-                    </div>
+                        </div>
 
-                    <label>חדרים</label>
-                    <div className="div-input" onClick={(e) => {  e.stopPropagation(); setIsRoomNumSelectOpen(!isRoomNumSelectOpen); }}>
-                        <input className="fake-input" ref={roomsNumRef} placeholder="חדרים" />
-                        
-                        <ExpandArrow isExpanded={isRoomNumSelectOpen} />
+                        <div className="label-input-container">
+                            <label>חדרים</label>
+                            <div className="div-input" onClick={(e) => {  e.stopPropagation(); setIsRoomNumSelectOpen(!isRoomNumSelectOpen); }}>
+                                <input className="fake-input" ref={roomsNumRef} placeholder="חדרים" />
+                                
+                                <ExpandArrow isExpanded={isRoomNumSelectOpen} />
 
-                        { isRoomNumSelectOpen &&
-                            <div className="select-container">
-                            <NumSelections
-                                minRef={minRoomsNumRef}
-                                maxRef={maxRoomsNumRef}
-                                minVal={minRoomsVal}
-                                maxVal={maxRoomsVal}
-                                setMinVal={setMinRoomsVal}
-                                setMaxVal={setMaxRoomsVal}
-                                minOptions={minRoomsOptions}
-                                setMinOptions={setMinRoomsOptions}
-                                maxOptions={maxRoomsOptions}
-                                setMaxOptions={setMaxRoomsOptions}
-                                initOptions={initRoomsNumOptions}
+                                { isRoomNumSelectOpen &&
+                                    <div className="select-container">
+                                    <NumSelections
+                                        minRef={minRoomsNumRef}
+                                        maxRef={maxRoomsNumRef}
+                                        minVal={minRoomsVal}
+                                        maxVal={maxRoomsVal}
+                                        setMinVal={setMinRoomsVal}
+                                        setMaxVal={setMaxRoomsVal}
+                                        minOptions={minRoomsOptions}
+                                        setMinOptions={setMinRoomsOptions}
+                                        maxOptions={maxRoomsOptions}
+                                        setMaxOptions={setMaxRoomsOptions}
+                                        initOptions={initRoomsNumOptions}
+                                    />
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div className="label-input-container">
+                            <label>מחיר</label>
+                            <NumRangeInputs
+                                minRef={minPriceRef}
+                                maxRef={maxPriceRef}
                             />
                             </div>
-                        }
-                    </div>
-
-                    <label>מחיר</label>
-                    <NumRangeInputs
-                        minRef={minPriceRef}
-                        maxRef={maxPriceRef}
-                    />
-                    </div>
+                        </div>
                     
-                    <ExpandButton
-                        isExpanded={areAdvancedFeaturesOpen}
-                        setIsExpand={setAreAdvancedFeaturesOpen}
-                        text={extraFeaturesBtnTxt}
-                        chosenFeaturesCounter={chosenFeaturesCounter}
-                    />
-                    { areAdvancedFeaturesOpen && 
-                        <AdvancedFeatures
-                            properties={properties}
-                            chosenProperties={chosenProperties}
-                            setChosenProperties={setChosenProperties}
-                            minFloorsVal={minFloorsVal}
-                            setMinFloorsVal={setMinFloorsVal}
-                            maxFloorsVal={maxFloorsVal}
-                            setMaxFloorsVal={setMaxFloorsVal}
-                            setMinSizeVal={setMinSizeVal}
-                            setMaxSizeVal={setMaxSizeVal}
-                            isEntranceImmediate={isEntranceImmediate}
-                            setIsEntranceImmediate={setIsEntranceImmediate}
-                            setEntranceDate={setEntranceDate}
-                            setFreeSearchVal={setFreeSearchVal}
+                        <ExpandButton
+                            isExpanded={areAdvancedFeaturesOpen}
+                            setIsExpand={setAreAdvancedFeaturesOpen}
+                            text={extraFeaturesBtnTxt}
+                            chosenFeaturesCounter={chosenFeaturesCounter}
                         />
-                    }
+                        { areAdvancedFeaturesOpen && 
+                            <AdvancedFeatures
+                                properties={properties}
+                                chosenProperties={chosenProperties}
+                                setChosenProperties={setChosenProperties}
+                                minFloorsVal={minFloorsVal}
+                                setMinFloorsVal={setMinFloorsVal}
+                                maxFloorsVal={maxFloorsVal}
+                                setMaxFloorsVal={setMaxFloorsVal}
+                                setMinSizeVal={setMinSizeVal}
+                                setMaxSizeVal={setMaxSizeVal}
+                                isEntranceImmediate={isEntranceImmediate}
+                                setIsEntranceImmediate={setIsEntranceImmediate}
+                                setEntranceDate={setEntranceDate}
+                                setFreeSearchVal={setFreeSearchVal}
+                            />
+                        }
 
-                    <IconAndTextBtn
-                        onCLickFunc={searchOnSubmit}
-                        btnClassName={"search-btn"}
-                        iconClassName={""}
-                        icon={faSearch}
-                        text={"חיפוש"}
-                        type={"submit"}
-                    />
-                    
-                    <span className="reset-search-btn" onClick={resetSearchOnClick}>נקה</span>
+                        <IconAndTextBtn
+                            onCLickFunc={searchOnSubmit}
+                            btnClassName={"search-btn"}
+                            iconClassName={""}
+                            icon={faSearch}
+                            text={"חיפוש"}
+                            type={"submit"}
+                        />
+                        
+                        { areAdvancedFeaturesOpen && <span className="reset-search-btn" onClick={resetSearchOnClick}>נקה</span> }
                 </form>
             }
         </div>

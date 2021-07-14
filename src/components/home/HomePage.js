@@ -35,7 +35,6 @@ function HomePage() {
 
     useEffect(() => {
         saveSearchParamsOnCookie(searchParamsState);
-        console.log(apartmentsState.apartments);
     }, [searchParamsState]);
 
     useEffect(() => {

@@ -121,9 +121,49 @@
 
 @media (min-width: 880px) {
     .advanced-search {
+        max-width: 960px;
+        flex-direction: row;
+
+        .form-inputs-container {
+            column-gap: 10px;
+            height: 100%;
+            >div {
+                height: 100%;
+                width: 100%;
+                label {
+                    margin: 0 0 5px 0;
+                }
+                input {
+                    max-width: 100%;
+                }
+
+                .div-input {
+                    min-width: auto;
+                }
+            }
+        }
+        
+        .basic-search-form {
+            width: 100%;
+            flex-direction: row;
+            column-gap: 10px;
+            height: 61px;
+
+            .icon-and-text-btn {
+                padding: 11px 5px;
+                margin: 0;
+                height: calc(100% - 16px);
+                align-self: flex-end;
+            }
+            .search-btn {
+                min-width: 97px;
+            }
+        }
+
         >form {
-            .sdf {
-                margin: auto;
+            .form-inputs-container {
+                display: flex;
+                flex-direction: row;
             }
 
             .div-input, input {

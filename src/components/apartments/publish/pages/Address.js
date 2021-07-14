@@ -114,7 +114,6 @@ function Address(props) {
                 }
             })
             .then((response) => {
-                console.log(response.data);
                 const newOptions = response.data || [];
                 allStreetsListRef.current = newOptions;
                 setAllStreetsListState(newOptions);

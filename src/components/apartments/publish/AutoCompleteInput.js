@@ -24,7 +24,6 @@ function AutoCompleteInput({ allOptionsListRef, setChosenOption, chosenOption, i
         if (inputLen < 2) return setOptionsList([]);;
         
         let possibleOptions = [];
-        console.log(allOptionsListRef);
         if (!!allOptionsListRef.current) allOptionsListRef.current.forEach((option) => {
             if (option.substring(0, inputLen) === inputVal) possibleOptions.push(option);
         });
