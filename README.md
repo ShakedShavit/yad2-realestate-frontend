@@ -15,6 +15,7 @@ A replica of Yad2 website, realestate section, it includes:
 ### Technologies
 
 -   React
+-   React Router
 -   Sass
 
 ### Screenshots
