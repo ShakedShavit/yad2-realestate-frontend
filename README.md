@@ -4,7 +4,13 @@
 
 A replica of Yad2 website, realestate section, it includes:
 
--   Scroll tracking
+-   User management system (singup, login, authentication, authorization)
+-   Presentation of apartments from DB (using infinite scrolling of the apartments, to poll more data from the DB when you reach the end of the page)
+-   Publishing new apartments (by users)
+-   Uploading images of apartments to s3
+-   Streaming images of apartments to website from s3
+-   Advanced search of apartments (query)
+-   Responsiveness
 
 ### Technologies
 
